@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The China Academy — Ten Navigation Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=Inter:wght@400;500;600;700&amp;family=Libre+Baskerville:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#f4f0e8;
+    --paper-deep:#e8e1d4;
+    --ink:#172238;
+    --navy:#102641;
+    --charcoal:#30302f;
+    --muted:#697181;
+    --gold:#b69663;
+    --red:#9b332b;
+    --line:rgba(23,34,56,.2);
+    --serif:"EB Garamond",Georgia,serif;
+    --display:"Libre Baskerville","EB Garamond",Georgia,serif;
+    --sans:"Inter","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--paper-deep)}
+  body{margin:0;color:var(--ink);background:var(--paper-deep);font-family:var(--sans)}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit}
+  .page-head{max-width:1440px;margin:0 auto;padding:72px 34px 44px;display:grid;grid-template-columns:1fr .75fr;gap:60px;align-items:end}
+  .eyebrow{color:var(--red);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+  .page-head h1{max-width:15ch;margin:16px 0 0;font:700 clamp(44px,5vw,74px)/1 var(--display);letter-spacing:-.04em}
+  .page-head p{max-width:52ch;margin:0;color:#485467;font:400 20px/1.5 var(--serif)}
+  .concepts{max-width:1440px;margin:0 auto;padding:0 34px 100px;display:grid;gap:26px}
+  .concept{background:var(--paper);border:1px solid rgba(23,34,56,.15)}
+  .concept-head{display:grid;grid-template-columns:70px minmax(0,1fr) minmax(240px,.7fr);gap:20px;align-items:end;padding:25px 28px 22px;border-bottom:1px solid var(--line)}
+  .concept-no{color:var(--gold);font:400 25px/1 var(--display)}
+  .concept h2{margin:0;font:700 25px/1.1 var(--display);letter-spacing:-.025em}
+  .concept-head p{margin:0;color:var(--muted);font-size:12px;line-height:1.45}
+  .tag{display:inline-block;margin-left:9px;color:var(--red);font:700 8px/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;vertical-align:middle}
+  .demo-scroll{overflow-x:auto}
+  .nav-demo{min-width:820px;background:#fff}
+  .brand-unit{display:inline-flex;align-items:center;gap:10px;white-space:nowrap}
+  .brand-unit img{width:39px;height:35px;object-fit:contain}
+  .brand-unit span{font:500 23px/1 var(--serif);letter-spacing:-.02em}
+  .utility{font-size:9px;letter-spacing:.13em;text-transform:uppercase}
+  .links{display:flex;align-items:center;gap:27px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+  .support-link{color:var(--gold);border-bottom:1px solid currentColor;padding-bottom:3px}
+
+  .nav-01 .brandbar{height:82px;padding:0 36px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:var(--charcoal);color:#fff}
+  .nav-01 .brandbar .brand-unit{color:var(--gold)}
+  .nav-01 .brandbar .right{text-align:right}
+  .nav-01 nav{height:48px;padding:0 36px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+  .nav-01 .active{color:var(--red)}
+
+  .nav-02 nav{height:78px;padding:0 34px;display:grid;grid-template-columns:auto 1fr auto;gap:34px;align-items:center;border-top:5px solid var(--gold);border-bottom:1px solid var(--line)}
+  .nav-02 .links{justify-content:center;gap:24px}
+  .nav-02 .actions{display:flex;align-items:center;gap:18px}
+  .nav-02 button{border:1px solid var(--ink);background:transparent;padding:10px 13px;font-size:9px;letter-spacing:.11em;text-transform:uppercase}
+
+  .nav-03 .upper{height:38px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#dfe6ef}
+  .nav-03 .main{height:74px;padding:0 32px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid var(--line)}
+  .nav-03 .main .links:first-child{justify-content:flex-end}
+  .nav-03 .main .links:last-child{justify-content:flex-start}
+  .nav-03 .brand-unit{padding:0 34px;color:var(--gold)}
+
+  .nav-04{background:var(--navy);color:#fff}
+  .nav-04 .issue-row{height:104px;padding:0 36px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+  .nav-04 .brand-unit{color:var(--gold)}
+  .nav-04 .issue{border-left:1px solid rgba(255,255,255,.2);padding-left:24px}
+  .nav-04 .issue small{display:block;color:#bfc9d5;font-size:8px;letter-spacing:.18em;text-transform:uppercase}
+  .nav-04 .issue strong{display:block;margin-top:7px;font:500 20px/1 var(--serif)}
+  .nav-04 .right{text-align:right}
+  .nav-04 nav{height:44px;padding:0 36px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.18)}
+  .nav-04 .links{gap:32px}
+
+  .nav-05 .mast{height:78px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;background:var(--charcoal);color:#fff}
+  .nav-05 .brand-unit{color:var(--gold)}
+  .nav-05 .primary{height:47px;padding:0 34px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+  .nav-05 .formats{height:34px;padding:0 34px;display:flex;align-items:center;justify-content:center;gap:35px;background:var(--paper);color:var(--muted);font:500 9px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+  .nav-05 .formats::before{content:"Formats";color:var(--red);font-weight:700}
+
+  .nav-06 .compact{height:78px;padding:0 34px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:40px;background:var(--navy);color:#fff}
+  .nav-06 .brand-unit{color:var(--gold)}
+  .nav-06 .links{justify-content:center}
+  .nav-06 button{border:1px solid var(--gold);background:transparent;color:var(--gold);padding:11px 14px;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+  .nav-06 .mega{padding:25px 34px 29px;display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:30px;background:#fff;border-bottom:1px solid var(--line)}
+  .nav-06 .mega-intro{font:500 20px/1.25 var(--serif);color:var(--navy)}
+  .nav-06 .mega strong{display:block;margin-bottom:10px;color:var(--red);font-size:9px;letter-spacing:.13em;text-transform:uppercase}
+  .nav-06 .mega a{display:block;padding:4px 0;font-size:11px;color:#4a5668}
+
+  .nav-07 .journal{height:88px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;background:#fff}
+  .nav-07 .brand-unit span{font-size:29px}
+  .nav-07 nav{padding:0 34px;display:flex;align-items:flex-end;gap:5px;background:#fff;border-bottom:1px solid var(--ink)}
+  .nav-07 nav a{padding:14px 20px 13px;border:1px solid var(--line);border-bottom:0;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+  .nav-07 nav a.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  .nav-08 .mast{height:105px;display:grid;place-items:center;background:var(--charcoal);color:var(--gold)}
+  .nav-08 .brand-unit span{font-size:34px}
+  .nav-08 .ribbon{height:48px;padding:0 28px;display:grid;grid-template-columns:auto 1fr auto;gap:30px;align-items:center;background:var(--gold);color:#252524}
+  .nav-08 .ribbon strong{font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+  .nav-08 .links{justify-content:center}
+  .nav-08 .ribbon .utility{font-weight:700}
+
+  .nav-09{display:grid;grid-template-columns:235px 1fr;min-height:292px}
+  .nav-09 aside{padding:25px 24px;background:var(--navy);color:#fff}
+  .nav-09 .brand-unit{color:var(--gold);align-items:flex-start}
+  .nav-09 .brand-unit span{white-space:normal;font-size:21px}
+  .nav-09 aside nav{margin-top:27px;display:grid}
+  .nav-09 aside nav a{padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+  .nav-09 aside .utility{margin-top:24px;color:#aab7c7}
+  .nav-09 .stage{background:linear-gradient(130deg,#e8e3d8,#fff);padding:24px 30px}
+  .nav-09 .stage-top{display:flex;justify-content:space-between;color:var(--muted)}
+  .nav-09 .stage h3{max-width:13ch;margin:50px 0 0;font:700 34px/1.04 var(--display);letter-spacing:-.03em}
+
+  .nav-10{padding:24px;background:#dcd5c8}
+  .nav-10 .compare{display:grid;grid-template-columns:1fr 250px;gap:22px;align-items:start}
+  .nav-10 .desktop{background:#fff;border-top:4px solid var(--gold)}
+  .nav-10 .desktop .top{height:70px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+  .nav-10 .desktop nav{height:42px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#fff}
+  .nav-10 .desktop .links{gap:20px}
+  .nav-10 .mobile{background:#fff;border-top:4px solid var(--gold)}
+  .nav-10 .mobile .top{height:62px;padding:0 16px;display:flex;align-items:center;justify-content:space-between}
+  .nav-10 .mobile .brand-unit img{width:30px;height:28px}
+  .nav-10 .mobile .brand-unit span{font-size:17px}
+  .nav-10 .mobile button{border:0;background:transparent;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .nav-10 .mobile .mobile-links{padding:13px 16px 17px;display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid var(--line);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+
+  footer{max-width:1440px;margin:0 auto;padding:0 34px 55px;color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+  @media(max-width:760px){
+    .page-head{grid-template-columns:1fr;padding-top:46px;gap:25px}
+    .concept-head{grid-template-columns:46px 1fr}
+    .concept-head p{grid-column:2}
+  }
+</style>
+</head>
+<body>
+<header class="page-head">
+  <div><div class="eyebrow">The China Academy · Navigation Study</div><h1>Ten ways into the publication.</h1></div>
+  <p>Each proposal keeps the original logo and deep-gold identity, but changes how readers understand sections, formats and the current issue.</p>
+</header>
+
+<main class="concepts">
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">01</div><h2>Centered Index</h2><p>Refines the existing structure: brand above, one calm editorial index below.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-01"><div class="brandbar"><div class="utility">Search ⌕</div><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><div class="utility right"><a class="support-link" href="#">Support Us</a> &nbsp; Sign In</div></div><nav aria-label="Concept 1"><div class="links"><a class="active" href="#">Trending</a><a href="#">Thinkers Forum</a><a href="#">China Currents</a><a href="#">Global Arena</a><a href="#">Video</a><a href="#">About</a></div></nav></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">02</div><h2>Single Editorial Bar <span class="tag">Best balance</span></h2><p>One compact row reduces vertical weight without hiding core sections.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-02"><nav aria-label="Concept 2"><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><div class="links"><a href="#">Latest</a><a href="#">Thinkers</a><a href="#">China</a><a href="#">World</a><a href="#">Video</a></div><div class="actions"><span class="utility">Search</span><button type="button">Support Us</button></div></nav></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">03</div><h2>Split Desk</h2><p>The centered mark becomes a hinge between news-led and ideas-led sections.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-03"><div class="upper"><span class="utility">Independent perspectives on China</span><span class="utility">EN · 中文 &nbsp; Search &nbsp; Sign In</span></div><div class="main"><div class="links"><a href="#">Latest</a><a href="#">China Currents</a><a href="#">Global Arena</a></div><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><div class="links"><a href="#">Thinkers</a><a href="#">Video</a><a href="#">Archive</a></div></div></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">04</div><h2>Issue First</h2><p>Turns the homepage into an edition: the current theme gets equal billing with the brand.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-04"><div class="issue-row"><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><div class="issue"><small>Current issue · August 2026</small><strong>Technology, ownership and the public bargain</strong></div><div class="utility right">Search &nbsp; Archive &nbsp; <span class="support-link">Support</span></div></div><nav aria-label="Concept 4"><div class="links"><a href="#">Cover Story</a><a href="#">Essays</a><a href="#">Interviews</a><a href="#">Video</a></div><span class="utility">Browse all issues →</span></nav></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">05</div><h2>Two-Level Taxonomy</h2><p>Separates subject areas from formats, making a growing archive easier to scan.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-05"><div class="mast"><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><div class="utility">Search &nbsp; Newsletter &nbsp; Sign In &nbsp; <span class="support-link">Support Us</span></div></div><nav class="primary" aria-label="Concept 5 primary"><div class="links"><a href="#">China Currents</a><a href="#">Political Economy</a><a href="#">Technology</a><a href="#">Global Order</a><a href="#">Culture</a></div></nav><nav class="formats" aria-label="Concept 5 formats"><a href="#">Essays</a><a href="#">Interviews</a><a href="#">Explainers</a><a href="#">Video</a><a href="#">Archive</a></nav></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">06</div><h2>Minimal + Sections Menu <span class="tag">Best for growth</span></h2><p>Keeps only high-frequency routes visible; the open panel shows how the complete index feels.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-06"><div class="compact"><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><div class="links"><a href="#">Latest</a><a href="#">Thinkers Forum</a><a href="#">Video</a><a href="#">Newsletter</a></div><button type="button">All Sections +</button></div><div class="mega"><div class="mega-intro">China in full—across systems, history and everyday life.</div><div><strong>Ideas</strong><a href="#">Thinkers Forum</a><a href="#">Political Economy</a><a href="#">History</a></div><div><strong>China</strong><a href="#">China Currents</a><a href="#">Technology</a><a href="#">Culture &amp; Society</a></div><div><strong>World</strong><a href="#">Global Arena</a><a href="#">China &amp; the US</a><a href="#">Global South</a></div></div></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">07</div><h2>Journal Tabs</h2><p>Gives sections the tactile clarity of a print journal or research index.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-07"><div class="journal"><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><div class="utility">Independent perspectives on China &nbsp; · &nbsp; Search &nbsp; Sign In</div></div><nav aria-label="Concept 7"><a class="active" href="#">Latest</a><a href="#">Thinkers Forum</a><a href="#">China Currents</a><a href="#">Global Arena</a><a href="#">Video</a><a href="#">Archive</a></nav></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">08</div><h2>Gold Topic Ribbon</h2><p>Makes the gold identity functional: the category rail becomes the strongest navigational signal.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-08"><div class="mast"><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a></div><nav class="ribbon" aria-label="Concept 8"><strong>Explore</strong><div class="links"><a href="#">Power</a><a href="#">Development</a><a href="#">Technology</a><a href="#">Society</a><a href="#">History</a><a href="#">World</a></div><span class="utility">Search ⌕</span></nav></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">09</div><h2>Vertical Index</h2><p>A more distinctive magazine identity; best if the cover story should own the full upper viewport.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-09"><aside><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><nav aria-label="Concept 9"><a href="#">Latest</a><a href="#">Thinkers Forum</a><a href="#">China Currents</a><a href="#">Global Arena</a><a href="#">Video</a><a href="#">Archive</a></nav><div class="utility">Search &nbsp; · &nbsp; Sign In</div></aside><div class="stage"><div class="stage-top"><span class="utility">Cover Story · Infrastructure</span><span class="utility">August 2026</span></div><h3>Americans Hate Data Centers. Do the Chinese?</h3></div></div></div>
+  </section>
+
+  <section class="concept">
+    <header class="concept-head"><div class="concept-no">10</div><h2>Adaptive Priority Nav</h2><p>Desktop shows a full hierarchy; mobile keeps only brand, search and a compact two-column index.</p></header>
+    <div class="demo-scroll"><div class="nav-demo nav-10"><div class="compare"><div class="desktop"><div class="top"><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><span class="utility">Search &nbsp; Sign In &nbsp; <span class="support-link">Support</span></span></div><nav aria-label="Concept 10 desktop"><div class="links"><a href="#">Latest</a><a href="#">Thinkers</a><a href="#">China</a><a href="#">World</a><a href="#">Video</a></div><span class="utility">More +</span></nav></div><div class="mobile"><div class="top"><a class="brand-unit" href="#"><img src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a><button type="button">Menu +</button></div><nav class="mobile-links" aria-label="Concept 10 mobile"><a href="#">Latest</a><a href="#">Thinkers</a><a href="#">China</a><a href="#">World</a><a href="#">Video</a><a href="#">Archive</a></nav></div></div></div></div>
+  </section>
+</main>
+<footer>Typography: Libre Baskerville · EB Garamond · Inter &nbsp;&nbsp; Brand color: #b69663</footer>
+</body>
+</html>
