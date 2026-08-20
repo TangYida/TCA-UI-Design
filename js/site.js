@@ -163,6 +163,66 @@ d.querySelectorAll('[data-words]').forEach(item => {
   if (output) output.textContent = `${minutes} min read`;
 });
 
+const coverFitQuery = matchMedia('(min-width: 931px)');
+const coverFitItems = [...d.querySelectorAll('.recommendation-cover, .home-feature')].map(cover => ({
+  heading: cover.querySelector('.cover-heading'),
+  media: cover.querySelector('.cover-figure, .home-feature-media'),
+  title: cover.querySelector('.cover-heading h1, .cover-heading h2'),
+  deck: cover.querySelector('.cover-deck, .home-feature-deck'),
+  footer: cover.querySelector('.cover-footer')
+})).filter(item => Object.values(item).every(Boolean));
+
+const resetCoverFit = item => {
+  item.deck.style.removeProperty('font-size');
+  item.deck.style.removeProperty('line-height');
+  item.footer.style.removeProperty('margin-top');
+};
+
+const fitCover = item => {
+  resetCoverFit(item);
+  if (!coverFitQuery.matches) return;
+
+  const titleSize = parseFloat(getComputedStyle(item.title).fontSize);
+  if (!Number.isFinite(titleSize)) return;
+  const minimumSize = titleSize * .5;
+  let deckSize = titleSize * .6;
+  let gap = 16;
+  item.deck.style.fontSize = `${deckSize}px`;
+  item.deck.style.lineHeight = '1.42';
+  item.footer.style.marginTop = `${gap}px`;
+
+  const targetBottom = () => item.media.getBoundingClientRect().bottom;
+  const footerBottom = () => item.footer.getBoundingClientRect().bottom;
+  let overflow = footerBottom() - targetBottom();
+  while (overflow > .5 && deckSize > minimumSize) {
+    deckSize = Math.max(minimumSize, deckSize - .5);
+    item.deck.style.fontSize = `${deckSize}px`;
+    overflow = footerBottom() - targetBottom();
+  }
+
+  if (overflow > .5) {
+    gap = Math.max(0, gap - overflow);
+    item.footer.style.marginTop = `${gap}px`;
+  }
+
+  const remaining = targetBottom() - footerBottom();
+  if (remaining > .5) item.footer.style.marginTop = `${gap + remaining}px`;
+};
+
+let coverFitFrame = 0;
+const fitAllCovers = () => {
+  cancelAnimationFrame(coverFitFrame);
+  coverFitFrame = requestAnimationFrame(() => coverFitItems.forEach(fitCover));
+};
+if (coverFitItems.length) {
+  addEventListener('resize', fitAllCovers, { passive: true });
+  addEventListener('load', fitAllCovers, { once: true });
+  coverFitQuery.addEventListener?.('change', fitAllCovers);
+  d.fonts?.ready.then(fitAllCovers);
+  coverFitItems.forEach(item => item.media.querySelector('img')?.addEventListener('load', fitAllCovers, { once: true }));
+  fitAllCovers();
+}
+
 const setupGalleryDots = gallery => {
   const items = [...gallery.children].filter(item => item.matches('.recommendation-slide, .gallery-card'));
   if (items.length < 2) return;

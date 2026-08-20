@@ -26,7 +26,7 @@
 
 | # | 源网址 | 对应文件 | 本轮重新设计 |
 |---|---|---|---|
-| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | 无标题的两屏主要推荐画廊 + Trending / Thinkers Forum / Premium / Video；主推荐为左图右文，栏目封面为左文右图；文字列内依次为标签、标题、导语和导航，两列设硬边界防止互相覆盖 |
+| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | 无标题的两屏主要推荐画廊 + Trending / Thinkers Forum / Premium / Video；桌面封面图为 `1:1`，主推荐左图右文、栏目封面左文右图；导语先在标题字号 `60%→50%` 范围内自适应，再调整标题/导语间距以贴齐图片底边；约 `930px` 后切换为 `16:9` 单栏 |
 | 2a | https://thechinaacademy.org/trending/ | `Sections/trending.html` | 主题筛选、主推报道、编辑型三列列表 |
 | 2b | https://thechinaacademy.org/thinkersforum/ | `Sections/thinkers-forum.html` | 深色思想论坛开场、长论述主推、议题卡片 |
 | 3 | https://thechinaacademy.org/video/ | `Sections/video.html` | 系列筛选、时长标签、主视频与节目卡片 |
@@ -55,7 +55,7 @@
 - `js/site.js` 生成双层桌面导航：功能栏为 Support Us、About Us、搜索和演示登录；标题栏为 Home、Trending、Thinkers Forum、品牌、Video、Premium、HSK。
 - Video 与 Premium 使用共享下拉菜单；移动端将两层导航合并为带展开动画的完整菜单，二级项目按两行横向滑动。功能栏使用 `120px/48px` 隐藏/恢复缓冲阈值，避免高度变化引发抖动。
 - 所有非首页页面由共享脚本追加六个紧凑的相关内容入口，并同时压缩页面留白和卡片间距，以提高信息密度；在 WordPress 阶段应改为按栏目、标签和用户状态查询的真实数据。
-- 桌面封面文章图片采用 `4:3`，普通文章图片采用 `16:9`；移动端封面统一回落为 `16:9`，封面标题和导语不得被截断或隐藏。
+- 桌面封面文章图片采用 `1:1`，普通文章图片采用 `16:9`。封面双栏文字随可用宽度缩小；当半宽封面将小于普通卡片的 `390px` 目标宽度时，以约 `930px` 为切换阈值。移动端封面回落为 `16:9`，标题与图片左沿及导航按钮右沿对齐。
 - 文章标题标签链接到 `Utility/search.html?tag=...`；静态搜索页由 `site.js` 读取参数，正式 WordPress 实现应映射到 taxonomy archive 或带 taxonomy 查询的 `search.php`。
 - 演示登录只写入当前浏览器会话；正式 WordPress 合并时须替换为 WordPress/WooCommerce 登录状态和账户链接。
 
