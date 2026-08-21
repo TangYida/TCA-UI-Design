@@ -39,7 +39,7 @@ Design/
 ├── About/                # About、Support、贡献者与作者
 ├── Utility/              # 搜索与个人中心
 ├── css/                  # tokens.css + site.css + 实际页面母版 masters.css
-├── js/                   # 双层/移动导航、页脚、弹窗、阅读时长、子页内容密度
-├── assets/fonts/         # 可本地部署的 EB Garamond / Libre Baskerville
+├── js/                   # 双层/移动导航、页脚、弹窗、阅读时长、画廊与封面防溢出
+├── assets/fonts/         # 可本地部署的 EB Garamond / Libre Baskerville / Roboto
 └── references/           # 早期衬线、导航与文章排版研究
 ```

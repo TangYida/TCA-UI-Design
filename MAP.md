@@ -1,6 +1,6 @@
 # 关键页面映射
 
-更新日期：2026-08-20
+更新日期：2026-08-21
 
 ## 维护规则
 
@@ -26,7 +26,7 @@
 
 | # | 源网址 | 对应文件 | 本轮重新设计 |
 |---|---|---|---|
-| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | 无标题的两屏主要推荐画廊 + Trending / Thinkers Forum / Premium / Video；桌面封面图为 `1:1`，主推荐左图右文、栏目封面左文右图；导语先在标题字号 `60%→50%` 范围内自适应，再调整标题/导语间距以贴齐图片底边；约 `930px` 后切换为 `16:9` 单栏 |
+| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | 主要推荐画廊 + Trending / Thinkers Forum / Premium / Video；桌面主推荐左图右标题并把 `30px` lede 放在双栏下方，栏目封面左文右图；栏目封面标题基准增大 `1/3`，其 lede 默认固定 `20px` 并仅在防重叠时缩小；`930px` 后切换为 `16:9` 单栏；`580px` 以下把 Most-read 移为第三屏，圆点绝对锁定在第一张封面高度之后，不再由其他画廊页或外边距撑开 |
 | 2a | https://thechinaacademy.org/trending/ | `Sections/trending.html` | 主题筛选、主推报道、编辑型三列列表 |
 | 2b | https://thechinaacademy.org/thinkersforum/ | `Sections/thinkers-forum.html` | 深色思想论坛开场、长论述主推、议题卡片 |
 | 3 | https://thechinaacademy.org/video/ | `Sections/video.html` | 系列筛选、时长标签、主视频与节目卡片 |
@@ -53,10 +53,12 @@
 ### 本轮全站共享行为
 
 - `js/site.js` 生成双层桌面导航：功能栏为 Support Us、About Us、搜索和演示登录；标题栏为 Home、Trending、Thinkers Forum、品牌、Video、Premium、HSK。
-- Video 与 Premium 使用共享下拉菜单；移动端将两层导航合并为带展开动画的完整菜单，二级项目按两行横向滑动。功能栏使用 `120px/48px` 隐藏/恢复缓冲阈值，避免高度变化引发抖动。
+- Video 与 Premium 使用共享下拉菜单；移动端将两层导航合并为带展开动画的完整菜单。Home、Trending、Thinkers Forum、Video、Premium、HSK 和功能入口的一级行盒均固定为 `48px`；一级菜单容器取消上下内边距，避免首尾项目产生额外视觉高度。二级项目按两行横向滑动。
+- 全站内容最大宽度由 `tokens.css` 的 `--max:1600px` 控制；界面无衬线统一为本地 Roboto 可变字体。`masters.css` 的最终排版护栏把所有文本行高限制在 `1.2–1.5`。
 - 所有非首页页面由共享脚本追加六个紧凑的相关内容入口，并同时压缩页面留白和卡片间距，以提高信息密度；在 WordPress 阶段应改为按栏目、标签和用户状态查询的真实数据。
-- 桌面封面文章图片采用 `1:1`，普通文章图片采用 `16:9`。封面双栏文字随可用宽度缩小；当半宽封面将小于普通卡片的 `390px` 目标宽度时，以约 `930px` 为切换阈值。移动端封面回落为 `16:9`，标题与图片左沿及导航按钮右沿对齐。
-- 文章标题标签链接到 `Utility/search.html?tag=...`；静态搜索页由 `site.js` 读取参数，正式 WordPress 实现应映射到 taxonomy archive 或带 taxonomy 查询的 `search.php`。
+- 桌面封面文章图片采用 `1:1`，普通文章图片采用 `16:9`。主推荐标题动态缩放且不超过 `80px`，主推荐 lede 固定为 `30px`；栏目封面标题基准比上一版增大 `1/3`，栏目封面 lede 默认固定为 `20px`，仅在无法保留至少一行标题行距时向下缩小。当半宽封面低于安全宽度时，以约 `930px` 为切换阈值，移动端封面回落为 `16:9`。
+- 主题标签链接到 `Utility/search.html?tag=...`，悬浮时切换为 `MORE >>`；静态搜索页由 `site.js` 读取参数，正式 WordPress 实现应映射到 taxonomy archive 或带 taxonomy 查询的 `search.php`。
+- 首页图片全部改为非链接容器，只有标题和 lede 可进入文章。共享 `.lede-row` 把 `xx min` 圆角标签内联在导语末尾，方框高度为一字高，内部字号为 lede 的一半；鼠标进入文字或方框都会触发整个 lede 的换色反馈。阅读时长仍按英文词数除以 `220` 后向上取整。
 - 演示登录只写入当前浏览器会话；正式 WordPress 合并时须替换为 WordPress/WooCommerce 登录状态和账户链接。
 
 当前源站可见技术基线：Aardvark 主题、Elementor/Elementor Pro、WooCommerce、WooCommerce Memberships、订阅功能、Sensei LMS 与 Give。最终采用“现有主题子主题”还是“自建主题”，须在取得服务器代码与后台导出后决定。

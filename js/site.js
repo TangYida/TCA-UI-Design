@@ -156,82 +156,106 @@ d.querySelectorAll('.card .kicker, .feature-copy .kicker, .result .kicker').forE
   tag.addEventListener('keydown', openTag);
 });
 
+const prepareThemeTag = tag => {
+  if (!tag.classList.contains('theme-tag')) tag.classList.add('theme-tag');
+  if (!tag.querySelector(':scope > span')) {
+    const label = tag.textContent.trim();
+    tag.textContent = '';
+    const span = d.createElement('span');
+    span.textContent = label;
+    tag.append(span);
+  }
+};
+d.querySelectorAll('.theme-tag, .article-tags a.article-tag, .article-hero > a.eyebrow').forEach(prepareThemeTag);
+
 d.querySelectorAll('[data-words]').forEach(item => {
   const words = Number(item.dataset.words) || 0;
   const minutes = Math.max(1, Math.ceil(words / 220));
   const output = item.querySelector('[data-read-time]');
-  if (output) output.textContent = `${minutes} min read`;
+  if (output) output.innerHTML = `<span>${minutes} min</span>`;
 });
 
-const coverFitQuery = matchMedia('(min-width: 931px)');
-const coverFitItems = [...d.querySelectorAll('.recommendation-cover, .home-feature')].map(cover => ({
-  heading: cover.querySelector('.cover-heading'),
-  media: cover.querySelector('.cover-figure, .home-feature-media'),
-  title: cover.querySelector('.cover-heading h1, .cover-heading h2'),
-  deck: cover.querySelector('.cover-deck, .home-feature-deck'),
-  footer: cover.querySelector('.cover-footer')
-})).filter(item => Object.values(item).every(Boolean));
+const desktopCovers = matchMedia('(min-width: 931px)');
+const fitCoverTypography = () => {
+  const mainHeading = d.querySelector('.main-cover-heading');
+  const mainTitle = mainHeading?.querySelector('h1');
+  if (mainTitle) mainTitle.style.removeProperty('font-size');
+  d.querySelectorAll('.home-feature .cover-heading').forEach(heading => {
+    heading.querySelector('h2')?.style.removeProperty('font-size');
+    heading.querySelector('.lede-row')?.style.removeProperty('font-size');
+  });
+  if (!desktopCovers.matches) return;
 
-const resetCoverFit = item => {
-  item.deck.style.removeProperty('font-size');
-  item.deck.style.removeProperty('line-height');
-  item.footer.style.removeProperty('margin-top');
-};
-
-const fitCover = item => {
-  resetCoverFit(item);
-  if (!coverFitQuery.matches) return;
-
-  const titleSize = parseFloat(getComputedStyle(item.title).fontSize);
-  if (!Number.isFinite(titleSize)) return;
-  const minimumSize = titleSize * .5;
-  let deckSize = titleSize * .6;
-  let gap = 16;
-  item.deck.style.fontSize = `${deckSize}px`;
-  item.deck.style.lineHeight = '1.42';
-  item.footer.style.marginTop = `${gap}px`;
-
-  const targetBottom = () => item.media.getBoundingClientRect().bottom;
-  const footerBottom = () => item.footer.getBoundingClientRect().bottom;
-  let overflow = footerBottom() - targetBottom();
-  while (overflow > .5 && deckSize > minimumSize) {
-    deckSize = Math.max(minimumSize, deckSize - .5);
-    item.deck.style.fontSize = `${deckSize}px`;
-    overflow = footerBottom() - targetBottom();
+  if (mainHeading && mainTitle) {
+    let size = 80;
+    mainTitle.style.fontSize = `${size}px`;
+    while (mainHeading.scrollHeight > mainHeading.clientHeight + 1 && size > 34) {
+      size -= 1;
+      mainTitle.style.fontSize = `${size}px`;
+    }
   }
 
-  if (overflow > .5) {
-    gap = Math.max(0, gap - overflow);
-    item.footer.style.marginTop = `${gap}px`;
-  }
-
-  const remaining = targetBottom() - footerBottom();
-  if (remaining > .5) item.footer.style.marginTop = `${gap + remaining}px`;
+  d.querySelectorAll('.home-feature .cover-heading').forEach(heading => {
+    const title = heading.querySelector('h2');
+    const lede = heading.querySelector('.lede-row');
+    if (!title || !lede) return;
+    let titleSize = parseFloat(getComputedStyle(title).fontSize);
+    let ledeSize = 20;
+    lede.style.fontSize = '20px';
+    while (heading.scrollHeight > heading.clientHeight + 1 && (ledeSize > 12 || titleSize > 22)) {
+      if (ledeSize > 12) ledeSize -= .5;
+      else titleSize -= .5;
+      title.style.fontSize = `${titleSize}px`;
+      lede.style.fontSize = `${ledeSize}px`;
+    }
+  });
 };
 
 let coverFitFrame = 0;
-const fitAllCovers = () => {
+const requestCoverFit = () => {
   cancelAnimationFrame(coverFitFrame);
-  coverFitFrame = requestAnimationFrame(() => coverFitItems.forEach(fitCover));
+  coverFitFrame = requestAnimationFrame(fitCoverTypography);
 };
-if (coverFitItems.length) {
-  addEventListener('resize', fitAllCovers, { passive: true });
-  addEventListener('load', fitAllCovers, { once: true });
-  coverFitQuery.addEventListener?.('change', fitAllCovers);
-  d.fonts?.ready.then(fitAllCovers);
-  coverFitItems.forEach(item => item.media.querySelector('img')?.addEventListener('load', fitAllCovers, { once: true }));
-  fitAllCovers();
+if (d.querySelector('.recommendation-cover, .home-feature')) {
+  addEventListener('resize', requestCoverFit, { passive: true });
+  addEventListener('load', requestCoverFit, { once: true });
+  desktopCovers.addEventListener?.('change', requestCoverFit);
+  d.fonts?.ready.then(requestCoverFit);
+  requestCoverFit();
 }
 
+const compactRecommendation = matchMedia('(max-width: 580px)');
+const recommendationBoard = d.querySelector('.recommendation-board');
+const mostRead = recommendationBoard?.querySelector('.most-read-column');
+const mostReadMarker = mostRead ? d.createComment('most-read-desktop-position') : null;
+const mostReadSlide = mostRead ? d.createElement('section') : null;
+if (mostRead && mostReadMarker && mostReadSlide) {
+  recommendationBoard.insertBefore(mostReadMarker, mostRead);
+  mostReadSlide.className = 'recommendation-slide recommendation-most-read';
+  mostReadSlide.setAttribute('aria-label', 'Most-read of the Month');
+}
+const updateRecommendationStructure = () => {
+  if (!recommendationBoard || !mostRead || !mostReadMarker || !mostReadSlide) return;
+  if (compactRecommendation.matches) {
+    if (!mostReadSlide.isConnected) recommendationBoard.insertAdjacentElement('afterend', mostReadSlide);
+    if (mostRead.parentElement !== mostReadSlide) mostReadSlide.append(mostRead);
+  } else {
+    if (mostRead.parentElement !== recommendationBoard) recommendationBoard.insertBefore(mostRead, mostReadMarker.nextSibling);
+    mostReadSlide.remove();
+  }
+  dispatchEvent(new CustomEvent('gallerystructurechange'));
+};
+updateRecommendationStructure();
+compactRecommendation.addEventListener?.('change', updateRecommendationStructure);
+
 const setupGalleryDots = gallery => {
-  const items = [...gallery.children].filter(item => item.matches('.recommendation-slide, .gallery-card'));
-  if (items.length < 2) return;
   let dots = gallery.nextElementSibling?.classList.contains('gallery-dots') ? gallery.nextElementSibling : null;
   let ticking = false;
+  let items = [];
   const itemLeft = item => item.offsetLeft - gallery.offsetLeft;
   const updateActive = () => {
     ticking = false;
-    if (!dots || dots.hidden) return;
+    if (!dots || dots.hidden || !items.length) return;
     let active = 0;
     let distance = Infinity;
     items.forEach((item, index) => {
@@ -245,7 +269,25 @@ const setupGalleryDots = gallery => {
       else button.removeAttribute('aria-current');
     });
   };
+  const syncRecommendationHeight = () => {
+    if (!gallery.classList.contains('recommendation-gallery')) return;
+    const zone = gallery.closest('.featured-zone');
+    if (!compactRecommendation.matches) {
+      gallery.style.removeProperty('height');
+      zone?.style.removeProperty('height');
+      return;
+    }
+    const cover = gallery.querySelector('.recommendation-cover');
+    if (!cover || !dots || dots.hidden) return;
+    const coverHeight = Math.ceil(cover.getBoundingClientRect().height);
+    const dotsHeight = Math.ceil(dots.getBoundingClientRect().height);
+    gallery.style.height = `${coverHeight}px`;
+    if (zone) zone.style.height = `${coverHeight + dotsHeight}px`;
+  };
   const render = () => {
+    items = [...gallery.children].filter(item => item.matches('.recommendation-slide, .gallery-card'));
+    if (items.length < 2) { if (dots) dots.hidden = true; return; }
+    if (dots && dots.children.length !== items.length) { dots.remove(); dots = null; }
     const overflow = gallery.scrollWidth > gallery.clientWidth + 2;
     if (!overflow) { if (dots) dots.hidden = true; return; }
     if (!dots) {
@@ -258,11 +300,15 @@ const setupGalleryDots = gallery => {
     }
     dots.hidden = false;
     updateActive();
+    syncRecommendationHeight();
   };
   gallery.addEventListener('scroll', () => {
     if (!ticking) { ticking = true; requestAnimationFrame(updateActive); }
   }, { passive: true });
   addEventListener('resize', render, { passive: true });
+  addEventListener('load', render, { once: true });
+  addEventListener('gallerystructurechange', render);
+  d.fonts?.ready.then(render);
   requestAnimationFrame(render);
 };
 d.querySelectorAll('.recommendation-gallery, .story-gallery').forEach(setupGalleryDots);
