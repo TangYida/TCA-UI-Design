@@ -31,15 +31,17 @@ Design/
 ├── REDESIGN.md           # 视觉、组件和交互决策
 ├── MAP.md                # 源网址 → 设计文件的唯一映射
 ├── TODO.md               # 当前进度与开发交接清单
-├── Homepage/             # 首页
-├── Sections/             # 一级栏目与 Video 列表
-├── Articles/             # 三种文章页与 Premium Talk 详情
-├── Premium/              # 会员、Intelligence、Talks
-├── Courses/              # 课程列表、课程详情、HSK
-├── About/                # About、Support、贡献者与作者
+├── Homepage/             # 首页 + Premium Member
+├── Article Sections/     # Trending、Thinkers Forum、Premium Intelligence
+├── Articles/             # 观点文章 + 科技文章
+├── Video Sections/       # Video 列表 + Premium Talks 列表
+├── Videos/               # 视频文章、Premium Talk 详情、课程详情
+├── About/                # Courses、HSK、About、Support、贡献者与作者
 ├── Utility/              # 搜索与个人中心
 ├── css/                  # tokens.css + site.css + 实际页面母版 masters.css
 ├── js/                   # 双层/移动导航、页脚、弹窗、阅读时长、画廊与封面防溢出
 ├── assets/fonts/         # 可本地部署的 EB Garamond / Libre Baskerville / Roboto
 └── references/           # 早期衬线、导航与文章排版研究
 ```
+
+当前有效设计文件共 **21 个 HTML 页面**。原需求清单虽然编号至 18，但第 2 项包含 2 个一级菜单页、第 4 项包含 3 种文章页，因此是 18 个编号组、21 个实际网址；本目录按实际页面计数，不删除被合并编号的页面。

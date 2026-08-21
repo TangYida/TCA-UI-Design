@@ -12,13 +12,15 @@
 4. 实现状态：`拟定`、`已确认`、`已接入`、`已验收`。
 5. 本页顶部的更新日期，并在 `TODO.md` 更新相关任务状态。
 
+页面数量口径：下表保留原来的 18 个编号组，但 `2a/2b` 与 `4a/4b/4c` 分别代表独立网址，因此当前共有 **21 个 HTML 页面**，不是 18 个。
+
 ### 母版与样式继承规则
 
 母版现在是实际存在、会被浏览器加载的样式层，不是只写在文档里的抽象特征。每个页面依次加载：
 
 1. `css/tokens.css`：颜色、字体、间距和阅读宽度等设计变量。
 2. `css/site.css`：导航、页脚、按钮、基础卡片、弹窗等全站组件。
-3. `css/masters.css`：页面家族母版；`.master-home` 管理首页封面、栏目封面、画廊和悬浮导语，`.master-article` 管理文章标题区、作者、正文和图片渲染。
+3. `css/masters.css`：页面家族母版；`.master-home` 管理首页封面、栏目封面、画廊和悬浮导语，`.master-member` 管理会员主张与三组普通内容卡片，`.master-article` 管理文章标题区、作者、正文和图片渲染。
 
 具有全局性的调整必须写入上述共享层。例如，文章正文图片的宽度、灰度/彩色模式和图注统一在 `masters.css` 的 `.master-article .wp-source-content` 规则中修改；不得只在某篇文章里复制一份样式。仅属于单页内容差异的结构或标签可以留在 HTML。若确需单页覆盖，必须在此处记录原因和作用范围。
 
@@ -26,21 +28,21 @@
 
 | # | 源网址 | 对应文件 | 本轮重新设计 |
 |---|---|---|---|
-| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | 主要推荐画廊 + Trending / Thinkers Forum / Premium / Video；桌面主推荐左图右标题并把 `30px` lede 放在双栏下方，栏目封面左文右图；栏目封面标题基准增大 `1/3`，其 lede 默认固定 `20px` 并仅在防重叠时缩小；`930px` 后切换为 `16:9` 单栏；`580px` 以下把 Most-read 移为第三屏，圆点绝对锁定在第一张封面高度之后，不再由其他画廊页或外边距撑开 |
-| 2a | https://thechinaacademy.org/trending/ | `Sections/trending.html` | 主题筛选、主推报道、编辑型三列列表 |
-| 2b | https://thechinaacademy.org/thinkersforum/ | `Sections/thinkers-forum.html` | 深色思想论坛开场、长论述主推、议题卡片 |
-| 3 | https://thechinaacademy.org/video/ | `Sections/video.html` | 系列筛选、时长标签、主视频与节目卡片 |
-| 4a | https://thechinaacademy.org/after-the-earthquake-why-reconstruction-is-the-real-challenge-for-the-global-south/ | `Articles/video-article.html` | 大播放器、章节/文字稿结构、可切换观看与阅读 |
+| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** 主要推荐画廊 + Trending / Thinkers Forum / Premium / Video；桌面主推荐左图右标题并把 `30px` lede 放在双栏下方；非推荐栏目封面左文右图，主题标签、标题和 `20px` lede 组成连续文字组，标题与 lede 间隔一倍 lede 行距，整体相对右侧方图垂直居中；Most-read 整栏与推荐画廊同高，内部列表滚动；`930px` 后切换为 `16:9` 单栏 |
+| 2a | https://thechinaacademy.org/trending/ | `Article Sections/trending.html` | 主题筛选、主推报道、编辑型三列列表 |
+| 2b | https://thechinaacademy.org/thinkersforum/ | `Article Sections/thinkers-forum.html` | 深色思想论坛开场、长论述主推、议题卡片 |
+| 3 | https://thechinaacademy.org/video/ | `Video Sections/video.html` | 系列筛选、时长标签、主视频与节目卡片 |
+| 4a | https://thechinaacademy.org/after-the-earthquake-why-reconstruction-is-the-real-challenge-for-the-global-south/ | `Videos/video-article.html` | 大播放器、章节/文字稿结构、可切换观看与阅读 |
 | 4b | https://thechinaacademy.org/how-mao-zedong-led-china-to-break-though-the-us-blockade/ | `Articles/opinion-article.html` | 继承 `.master-article`；载入源文完整正文、作者、图片/图注和相关推荐；正文图片等于正文栏宽并自适应高度，封面图与标题区顶部对齐 |
 | 4c | https://thechinaacademy.org/from-tiktok-to-rednote-the-dialectical-transition-into-opposites/ | `Articles/technology-article.html` | 继承同一 `.master-article`；载入源文完整正文、作者、图片/图注和相关推荐；共享正文等宽图片及标题/封面顶部对齐规则 |
-| 5 | https://thechinaacademy.org/premium-member/ | `Premium/member.html` | 三档会员方案、权益对照、编辑价值说明 |
-| 6 | https://thechinaacademy.org/courses-2/ | `Courses/index.html` | 学习路径首页、课程筛选、清楚的课时信息 |
-| 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Courses/lesson.html` | 主课程播放器、目标、课纲与进度侧栏 |
+| 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块；Intelligence、Courses、Talks 各使用一篇“左侧连续文字组、右侧方图”的非推荐栏目封面文章，标题与 lede 间隔一倍 lede 行距，后接三张 `16:9` 普通卡片；删除页面底部重复总结与会员 CTA |
+| 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 学习路径首页、课程筛选、清楚的课时信息 |
+| 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 主课程播放器、目标、课纲与进度侧栏 |
 | 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 大搜索框、类型计数、统一结果结构 |
-| 9 | https://thechinaacademy.org/premium-intelligence/ | `Premium/intelligence.html` | Research Desk 定位、主题筛选、简报层级 |
-| 10 | https://thechinaacademy.org/premium-talks/ | `Premium/talks.html` | 议题化浏览、主谈话、会员状态和系列卡片 |
-| 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Articles/premium-talk-detail.html` | 视觉简报式详情、章节、预览与付费边界 |
-| 12 | https://thechinaacademy.org/hsk-certified-courses/ | `Courses/hsk.html` | 按 HSK 能力阶段组织的语言学习路径 |
+| 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | Research Desk 定位、主题筛选、简报层级 |
+| 10 | https://thechinaacademy.org/premium-talks/ | `Video Sections/premium-talks.html` | 议题化浏览、主谈话、会员状态和系列卡片 |
+| 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 视觉简报式详情、章节、预览与付费边界 |
+| 12 | https://thechinaacademy.org/hsk-certified-courses/ | `About/hsk.html` | 按 HSK 能力阶段组织的语言学习路径 |
 | 13 | https://thechinaacademy.org/about-us/ | `About/about.html` | 使命声明、工作方法和明确组织入口 |
 | 14 | https://thechinaacademy.org/support-us/ | `About/support.html` | 支持影响说明、一次性/持续/机构三类路径 |
 | 15 | https://thechinaacademy.org/contributors-2/ | `About/contributors.html` | 专业领域筛选、统一人物卡片 |
@@ -56,9 +58,9 @@
 - Video 与 Premium 使用共享下拉菜单；移动端将两层导航合并为带展开动画的完整菜单。Home、Trending、Thinkers Forum、Video、Premium、HSK 和功能入口的一级行盒均固定为 `48px`；一级菜单容器取消上下内边距，避免首尾项目产生额外视觉高度。二级项目按两行横向滑动。
 - 全站内容最大宽度由 `tokens.css` 的 `--max:1600px` 控制；界面无衬线统一为本地 Roboto 可变字体。`masters.css` 的最终排版护栏把所有文本行高限制在 `1.2–1.5`。
 - 所有非首页页面由共享脚本追加六个紧凑的相关内容入口，并同时压缩页面留白和卡片间距，以提高信息密度；在 WordPress 阶段应改为按栏目、标签和用户状态查询的真实数据。
-- 桌面封面文章图片采用 `1:1`，普通文章图片采用 `16:9`。主推荐标题动态缩放且不超过 `80px`，主推荐 lede 固定为 `30px`；栏目封面标题基准比上一版增大 `1/3`，栏目封面 lede 默认固定为 `20px`，仅在无法保留至少一行标题行距时向下缩小。当半宽封面低于安全宽度时，以约 `930px` 为切换阈值，移动端封面回落为 `16:9`。
+- 桌面封面文章图片采用 `1:1`，普通文章图片采用 `16:9`。主推荐标题动态缩放且不超过 `80px`，主推荐 lede 固定为 `30px`；非推荐栏目封面的主题标签、标题和默认 `20px` lede 连续排列、整体垂直居中，标题与 lede 之间固定一倍 lede 行距。仅在发生溢出时依次缩小 lede 与标题；约 `930px` 后移动端封面回落为 `16:9`。
 - 主题标签链接到 `Utility/search.html?tag=...`，悬浮时切换为 `MORE >>`；静态搜索页由 `site.js` 读取参数，正式 WordPress 实现应映射到 taxonomy archive 或带 taxonomy 查询的 `search.php`。
-- 首页图片全部改为非链接容器，只有标题和 lede 可进入文章。共享 `.lede-row` 把 `xx min` 圆角标签内联在导语末尾，方框高度为一字高，内部字号为 lede 的一半；鼠标进入文字或方框都会触发整个 lede 的换色反馈。阅读时长仍按英文词数除以 `220` 后向上取整。
+- 首页图片全部改为非链接容器，只有标题和 lede 可进入文章。共享 `.lede-row` 把 `xx min read` 圆角标签内联在导语末尾，方框高度为一字高，内部字号为 lede 的一半；鼠标进入文字或方框都会触发整个 lede 的换色反馈。阅读时长仍按英文词数除以 `220` 后向上取整。
 - 演示登录只写入当前浏览器会话；正式 WordPress 合并时须替换为 WordPress/WooCommerce 登录状态和账户链接。
 
 当前源站可见技术基线：Aardvark 主题、Elementor/Elementor Pro、WooCommerce、WooCommerce Memberships、订阅功能、Sensei LMS 与 Give。最终采用“现有主题子主题”还是“自建主题”，须在取得服务器代码与后台导出后决定。
@@ -111,6 +113,7 @@ flowchart TD
   DS[全站设计系统<br/>tokens.css + site.css + site.js]
   DS --> M[实际母版样式<br/>masters.css]
   M --> H[出版首页母版<br/>.master-home]
+  M --> PM[会员聚合母版<br/>.master-member]
   M --> L[栏目/列表母版]
   M --> A[文章/详情母版<br/>.master-article]
   M --> S[服务/账户母版]
@@ -123,7 +126,7 @@ flowchart TD
   A --> Tech[科技文章]
   A --> VideoArticle[视频文章]
   VideoArticle --> PremiumTalk[Premium Talk 详情]
-  S --> Member[Premium Member]
+  PM --> Member[Premium Member]
   S --> Courses[课程列表 / HSK]
   Courses --> Lesson[课程详情]
   S --> Search[搜索]

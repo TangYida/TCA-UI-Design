@@ -7,16 +7,16 @@ const videoLinks = [
   'Threshold', 'Overlap', 'TOP PICKS', 'Roughly Chinese', 'China On the Ground', 'The Unfiltered'
 ];
 const premiumLinks = [
-  ['Courses', '../Courses/index.html'],
-  ['Intelligence', '../Premium/intelligence.html'],
-  ['Talks', '../Premium/talks.html']
+  ['Courses', '../About/premium-courses.html'],
+  ['Intelligence', '../Article%20Sections/premium-intelligence.html'],
+  ['Talks', '../Video%20Sections/premium-talks.html']
 ];
 const nav = (label, href, key) => `<a ${page === key ? 'aria-current="page"' : ''} href="${href}">${label}</a>`;
 const dropdown = (label, items, className = '') => `<div class="nav-dropdown ${className}">
   <button class="nav-drop-trigger" type="button" aria-expanded="false">${label}<span aria-hidden="true">⌄</span></button>
   <div class="nav-drop-panel">${items.map(item => Array.isArray(item)
     ? `<a href="${item[1]}">${item[0]}</a>`
-    : `<a href="../Sections/video.html">${item}</a>`).join('')}</div>
+    : `<a href="../Video%20Sections/video.html">${item}</a>`).join('')}</div>
 </div>`;
 
 if (header) {
@@ -36,14 +36,14 @@ if (header) {
     </div>
     <div class="titlebar">
       <div class="shell titlebar-inner">
-        <nav class="title-nav title-nav-left">${nav('Home', '../Homepage/index.html', 'home')}${nav('Trending', '../Sections/trending.html', 'trending')}${nav('Thinkers Forum', '../Sections/thinkers-forum.html', 'thinkers')}</nav>
+        <nav class="title-nav title-nav-left">${nav('Home', '../Homepage/index.html', 'home')}${nav('Trending', '../Article%20Sections/trending.html', 'trending')}${nav('Thinkers Forum', '../Article%20Sections/thinkers-forum.html', 'thinkers')}</nav>
         <a class="brand" href="../Homepage/index.html"><img class="brand-logo" src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span>The China Academy</span></a>
-        <nav class="title-nav title-nav-right">${dropdown('Video', videoLinks, 'video-dropdown')}${dropdown('Premium', premiumLinks, 'premium-dropdown')}${nav('HSK', '../Courses/hsk.html', 'courses')}</nav>
+        <nav class="title-nav title-nav-right">${dropdown('Video', videoLinks, 'video-dropdown')}${dropdown('Premium', premiumLinks, 'premium-dropdown')}${nav('HSK', '../About/hsk.html', 'courses')}</nav>
         <button class="menu-button" type="button" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span></button>
       </div>
       <div class="mobile-drawer" data-mobile-drawer>
-        <nav class="mobile-primary">${nav('Home', '../Homepage/index.html', 'home')}${nav('Trending', '../Sections/trending.html', 'trending')}${nav('Thinkers Forum', '../Sections/thinkers-forum.html', 'thinkers')}${nav('HSK', '../Courses/hsk.html', 'courses')}</nav>
-        <div class="mobile-group"><button type="button" data-mobile-submenu aria-expanded="false">Video <span>＋</span></button><div class="mobile-submenu">${videoLinks.map(x => `<a href="../Sections/video.html">${x}</a>`).join('')}</div></div>
+        <nav class="mobile-primary">${nav('Home', '../Homepage/index.html', 'home')}${nav('Trending', '../Article%20Sections/trending.html', 'trending')}${nav('Thinkers Forum', '../Article%20Sections/thinkers-forum.html', 'thinkers')}${nav('HSK', '../About/hsk.html', 'courses')}</nav>
+        <div class="mobile-group"><button type="button" data-mobile-submenu aria-expanded="false">Video <span>＋</span></button><div class="mobile-submenu">${videoLinks.map(x => `<a href="../Video%20Sections/video.html">${x}</a>`).join('')}</div></div>
         <div class="mobile-group"><button type="button" data-mobile-submenu aria-expanded="false">Premium <span>＋</span></button><div class="mobile-submenu">${premiumLinks.map(x => `<a href="${x[1]}">${x[0]}</a>`).join('')}</div></div>
         <nav class="mobile-utility"><a href="../About/support.html">Support Us</a><a href="../About/about.html">About Us</a><a href="../Utility/search.html">Search</a><button type="button" data-signin>SIGN IN</button></nav>
       </div>
@@ -94,7 +94,7 @@ if (header) {
 const footer = d.querySelector('[data-site-footer]');
 if (footer) {
   footer.className = 'site-footer';
-  footer.innerHTML = `<div class="shell"><div class="footer-grid"><div><div class="footer-brand">The China Academy</div><p class="serif muted">A fuller view of China through reporting, ideas, video and learning.</p></div><div><div class="footer-title">Explore</div><div class="footer-links"><a href="../Sections/trending.html">Trending</a><a href="../Sections/video.html">Video</a><a href="../Courses/index.html">Courses</a></div></div><div><div class="footer-title">Organization</div><div class="footer-links"><a href="../About/about.html">About Us</a><a href="../About/contributors.html">Contributors</a><a href="../About/support.html">Support Us</a></div></div></div><div class="copyright">© 2026 The China Academy · Redesign prototype · Images remain hosted by the source website.</div></div>`;
+  footer.innerHTML = `<div class="shell"><div class="footer-grid"><div><div class="footer-brand">The China Academy</div><p class="serif muted">A fuller view of China through reporting, ideas, video and learning.</p></div><div><div class="footer-title">Explore</div><div class="footer-links"><a href="../Article%20Sections/trending.html">Trending</a><a href="../Video%20Sections/video.html">Video</a><a href="../About/premium-courses.html">Courses</a></div></div><div><div class="footer-title">Organization</div><div class="footer-links"><a href="../About/about.html">About Us</a><a href="../About/contributors.html">Contributors</a><a href="../About/support.html">Support Us</a></div></div></div><div class="copyright">© 2026 The China Academy · Redesign prototype · Images remain hosted by the source website.</div></div>`;
 }
 
 if (!d.querySelector('#signup-dialog')) d.body.insertAdjacentHTML('beforeend', `<dialog class="signup-dialog" id="signup-dialog"><div class="signup-panel"><div class="signup-copy"><button class="signup-close" data-close aria-label="Close">×</button><h2>Stay Updated with On-the-Ground Information, Discussions, and Expert Analysis on All Things China and China-Related</h2><p><em>Access exclusive courses, newsletters, webinars, and reports.</em></p><button class="signup-try" type="button">Try Free</button></div></div></dialog>`);
@@ -114,13 +114,13 @@ if (dialog) {
 const discovery = [
   ['History · 28 min', 'How Mao Zedong Shattered the U.S. Trade Blockade', 'How production, barter and diplomacy opened routes around containment.', '../Articles/opinion-article.html'],
   ['Technology · 4 min', 'From TikTok to Rednote', 'A platform ban turns into an unexpected digital migration.', '../Articles/technology-article.html'],
-  ['Global Arena · 61 min', 'After the Earthquake', 'Why reconstruction is the real challenge for the Global South.', '../Articles/video-article.html'],
-  ['Premium Talks · 24 min', 'How China Builds the World’s Tallest Bridge', 'Engineering capacity from geology to institutional coordination.', '../Articles/premium-talk-detail.html'],
-  ['Course · 6 lessons', 'Making the World Anew', 'Bandung, de-dependency and China’s development path.', '../Courses/lesson.html'],
-  ['Research · 10 min', 'What China’s Platform Shift Reveals', 'Observed migration, market implications and policy inference.', '../Premium/intelligence.html']
+  ['Global Arena · 61 min', 'After the Earthquake', 'Why reconstruction is the real challenge for the Global South.', '../Videos/video-article.html'],
+  ['Premium Talks · 24 min', 'How China Builds the World’s Tallest Bridge', 'Engineering capacity from geology to institutional coordination.', '../Videos/premium-talk-detail.html'],
+  ['Course · 6 lessons', 'Making the World Anew', 'Bandung, de-dependency and China’s development path.', '../Videos/lesson.html'],
+  ['Research · 10 min', 'What China’s Platform Shift Reveals', 'Observed migration, market implications and policy inference.', '../Article%20Sections/premium-intelligence.html']
 ];
 const main = d.querySelector('main');
-if (main && !d.body.classList.contains('master-home')) {
+if (main && !d.body.classList.contains('master-home') && !d.body.classList.contains('master-member')) {
   main.insertAdjacentHTML('beforeend', `<section class="density-feed shell"><header><div class="kicker">Continue exploring</div><h2 class="display">More context, in less space.</h2></header><div class="density-grid">${discovery.map(([meta, title, copy, href]) => `<article class="density-item"><div class="kicker">${meta}</div><h3><a href="${href}">${title}</a></h3><p>${copy}</p><a class="density-arrow" href="${href}" aria-label="Open ${title}">→</a></article>`).join('')}</div></section>`);
 }
 
@@ -172,7 +172,7 @@ d.querySelectorAll('[data-words]').forEach(item => {
   const words = Number(item.dataset.words) || 0;
   const minutes = Math.max(1, Math.ceil(words / 220));
   const output = item.querySelector('[data-read-time]');
-  if (output) output.innerHTML = `<span>${minutes} min</span>`;
+  if (output) output.innerHTML = `<span>${minutes} min read</span>`;
 });
 
 const desktopCovers = matchMedia('(min-width: 931px)');
@@ -272,14 +272,15 @@ const setupGalleryDots = gallery => {
   const syncRecommendationHeight = () => {
     if (!gallery.classList.contains('recommendation-gallery')) return;
     const zone = gallery.closest('.featured-zone');
+    const cover = gallery.querySelector('.recommendation-cover');
+    if (!cover) return;
+    const coverHeight = Math.ceil(cover.getBoundingClientRect().height);
     if (!compactRecommendation.matches) {
-      gallery.style.removeProperty('height');
+      gallery.style.height = `${coverHeight}px`;
       zone?.style.removeProperty('height');
       return;
     }
-    const cover = gallery.querySelector('.recommendation-cover');
-    if (!cover || !dots || dots.hidden) return;
-    const coverHeight = Math.ceil(cover.getBoundingClientRect().height);
+    if (!dots || dots.hidden) return;
     const dotsHeight = Math.ceil(dots.getBoundingClientRect().height);
     gallery.style.height = `${coverHeight}px`;
     if (zone) zone.style.height = `${coverHeight + dotsHeight}px`;
