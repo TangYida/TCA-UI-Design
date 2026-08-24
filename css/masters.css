@@ -183,7 +183,7 @@
 .section-card h2,.section-card h3{margin:13px 0 9px;font:700 clamp(22px,2vw,32px)/1.2 var(--display);letter-spacing:-.03em}
 .section-card h2 a:hover,.section-card h3 a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.14em}
 .section-card-lede{margin:0;color:var(--muted);font-size:18px}.section-card-lede .read-time-pill{color:var(--blue)}
-.editor-picks{display:grid;grid-template-columns:minmax(180px,.32fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);margin:clamp(34px,5vw,68px) 0;padding:clamp(28px,4vw,58px);border:1px solid #e6d9c4;background:#f6efe2}
+.editor-picks{display:grid;grid-template-columns:minmax(180px,.32fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);margin:clamp(34px,5vw,68px) 0;padding:clamp(28px,4vw,58px);border:1px solid #e6d9c4;background: rgb(250, 247, 240);}
 .editor-picks-head{align-self:start}.editor-picks-head span{display:block;color:var(--red);font:700 10px/1.2 var(--sans);letter-spacing:.13em;text-transform:uppercase}
 .editor-picks-head h2{margin:12px 0 0;color:var(--gold);font:italic 600 clamp(30px,3.2vw,48px)/1.2 var(--serif)}
 .editor-pick-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid rgba(23,34,56,.2)}
