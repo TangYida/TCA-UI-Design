@@ -11,7 +11,7 @@
 - [x] 图片继续使用源站 URL；资产目录只保留字体。EB Garamond、Libre Baskerville 和 Roboto 均已本地加载并记录来源。
 - [x] 完成桌面双层导航、移动端全屏覆盖菜单、Video/Premium 二级菜单、演示登录、搜索展开和注册弹窗。
 - [x] 观点、科技、视频和 Premium Talk 文章的主题标签可进入标签搜索；观点与科技文章已载入源站正文、作者、正文图片/图注和相关推荐。
-- [x] 文章母版中的正文图片与正文栏同宽、`height:auto`；桌面文章封面与标题顶部对齐。
+- [x] 文章母版中的正文图片按固有宽度渲染：不足正文栏一半时提升到 `50%`，介于一半与整栏之间时保留固有宽度，超出正文栏时限制到 `100%`，并始终使用 `height:auto`；桌面文章封面与标题顶部对齐。
 
 ## 已完成：2026-08-21 首页与全局 UI
 
@@ -60,14 +60,18 @@
 
 - [x] 文章桌面／移动断点统一为 `900px`。两个关键文章文件分别展示头图版（`Articles/article-featured-image.html`）和文字版（`Articles/article-text.html`）；另增 `Articles/article-news.html` 作为新闻模板演示，因此不改变原 21 个关键网址的映射口径。
 - [x] 头图版固定为页面内容宽度和 `16:9`；藏青半透明蒙版始终覆盖浅红色无框主题标签、日期、同宽标题和作者区。标题从最大 `80px` 开始按实际换行与剩余高度逐级缩小，标签—标题、标题—作者的间距同步固定为一倍标题行距。作者可排一至两行，头像、姓名和最多两行简介始终呈现；图下 lede 与正文同字号、同宽。
-- [x] 文字版把标签／日期、标题、作者和 lede 居中；新闻版参考 Chang’e-6 简报，以日期和标题居中的轻标题区进入新闻正文。
+- [x] 文字版把标签／日期、标题、作者和 lede 居中，并以文字基线对齐主题标签与日期；新闻版参考 Chang’e-6 简报，以日期和标题居中的轻标题区进入新闻正文。
 - [x] 非新闻正文保留中间阅读栏；左侧目录用红色标出当前章节，右侧拆为 Continue Exploring 与 Related Reading，每条推荐增加一行小导语，两侧均设置视口内独立滚动。正文末尾 Editor 精简为右对齐的一行灰色小字。
 - [x] 新闻版保留左侧简报目录和右侧推荐，移动端把新闻目录变为横向可滚动入口。
 - [x] 分享入口直接接在文末，不使用分割线；X、Facebook、LinkedIn、Reddit、Email 改为圆形图标。Comments 标题缩小，保留 Latest／Popular、顶、踩和回复。
 - [x] 作者悬浮改为头像增加半透明藏青蒙版、姓名出现下划线；Contact the Author 弹窗使用藏青色，Learn more 接在作者简介段末，Email／Message 使用深藏青搜索框式输入。`×`、背景点击和 Escape 均不受必填验证影响；输入草稿自动写入 30 天 cookie，并为本地文件演示保留浏览器存储回退。
 - [x] 桌面端只使用正文右栏的 Continue Exploring／Related Reading，删除评论后的旧 Related Reading 与自动追加内容流；`900px` 以下把同一组推荐从评论前移动到评论后，页面中始终只有一组推荐。
 - [x] `900px` 以下评论／分享区取消 `.shell` 的二次内边距，宽度与正文统一为“视口减去左右各一个全局 gutter”。
-- [x] 本轮文章模板复核：活动目录中的旧模板文件名／引用为 0，三种模板统一命名为 `article-featured-image.html`、`article-news.html`、`article-text.html`；文章 lede 的时长标签取消悬浮换色。`site.js` 语法、三份 CSS 大括号、23 份演示 HTML 的本地引用和重复 ID 均通过静态检查。
+- [x] 文章正文图片统一保留原始彩色，不再使用灰度滤镜；图片与普通段落维持正文的 `1.15em` 节奏。正式大章节 `h2` 使用粗体，标题最大文本宽度由 `19ch` 提升一半至 `28.5ch`，并在原段落间距之外增加一倍章节标题行距；“1. Purchased…”／“2. Replaced…”一类编号小节 `h3` 使用 `400` 常规字重。Newsletter 条目标题使用高优先级例外，避免被章节间距撑开。
+- [x] 三种文章模板共用同一个首字下沉规则：优先使用 `initial-letter: 3 3` 让首字占三行并与右侧首段自动对齐，回退字号为 `3.65em`，行高仍遵守 `1.2` 禁区；分享区与正文之间的布局留白由 `110px` 减半为 `55px`。
+- [x] 三种文章左栏第一项统一为当前文章完整标题，并链接至 `#article-top` 返回标题区；新闻版日期改为灰色，三则新闻标题上下节奏统一，第一则 Chang’e-6 新闻补回完整标题。
+- [x] 主题标签和作者均回收到共享母版：文字版 `.article-tag` 与首页 `.theme-tag` 共用无框红字及 `MORE >>` 动效；文字版作者卡整体保持居中，但头像、姓名和简介复用头图版交互，姓名与简介在卡内左对齐。
+- [x] 本轮文章模板复核：活动目录中的旧模板文件名／引用为 0，三种模板统一命名为 `article-featured-image.html`、`article-news.html`、`article-text.html`；文章 lede 的时长标签取消悬浮换色。`site.js` 语法、三份 CSS 大括号、25 份当前演示 HTML 的本地引用和重复 ID 均通过静态检查。
 
 ## 已完成：Article Section 母版（2026-08-24）
 
@@ -84,10 +88,16 @@
 - [x] 全站非视频语境中的 “Opinion” 已替代旧 “Thinkers Forum” 标签；源网址与现有文件路径继续保持 `thinkersforum`／`thinkers-forum.html`，VIDEO 下拉菜单、Video 列表标签和首页 Video 栏目中的同名节目仍保留 “Thinkers Forum”。
 - [x] 视频 lede 时长使用显式视频分钟数并显示为 `xx min watch`；文章仍显示 `xx min read`。
 - [x] 功能栏搜索恢复普通浅色，只有 Sign In 使用金色；演示登录同时开启注册状态并停止注册提醒。
-- [x] 功能栏滚动状态改为 `72/96/160px` 分离阈值，并累计至少 `18px` 的有效滚动方向后才切换，消除端点附近抽搐；深滚动时标题栏保持紧凑。
+- [x] 保留功能栏收回与标题栏／品牌缩小动效，并让两者只受同一个 `utilityHidden` 状态控制；状态机继续忽略小于 `3px` 的噪声、向下累计 `30px`／向上累计 `36px`、切换后锁定 `560ms`。Header 增加 `overflow-anchor:none`，锁定期仍持续刷新滚动基准，避免动画造成的高度变化被误判成用户反向滚动，消除功能栏反复跳出／收回。
 - [x] 桌面和移动导航中的 HSK 入口替换为外链 Not Just Travel；HSK 页面文件仍保留在 `About/hsk.html`，供课程落地页和 WordPress 映射使用。
-- [x] 未注册会话首次显示蓝底双入口弹窗；Premium Member 与 Free Registration 使用蓝底圆角描边入口，入口标题为金色斜体。关闭后出现无关闭按钮的 36px 高会员横幅，横幅增加轻微底部阴影；页脚进入视口时迁入 The China Academy／Explore／Organization 三栏上方居中。
-- [x] 主推荐画廊加入播放／暂停按钮和 10 秒自动轮播；暂停按钮改为与非激活圆点相同的 `10px` 灰色圆点，当前页圆点继续显示扇形计时进度。
+- [x] 首页未注册状态不再等待或读取“已看过提醒”标记：页面打开即弹出贴底窗口；关闭后才以向上滑入和淡入动效显示与功能栏同为 `36px` 的贴底横幅。窗口、横幅、功能栏和 Footer 均使用 `--ink`，横幅 `Follow along` 为 `20px`，其中 “The China Academy” 明确继承同一字号。
+- [x] 注册窗口保留以下不可缩写的两组按钮内容：`Premium Member` — “Gain access to exclusive courses, interviews, and reports on the pivotal driving forces behind China’s evolution.”；`Free Registration` — “Stay Updated with On-the-Ground Information, Discussions, and Expert Analysis on All Things China and China-Related.”。链接分别固定到 `Homepage/premium-member.html` 与 `Utility/setting.html?mode=register`。
+- [x] 注册窗口桌面端两个按钮共享同一 Grid 行并拉伸到等高，移动端使用两个等分 `1fr` 行；说明正文改为正体。三列布局的理论最小临界点约为 `847px`，因此在 `601–860px` 保护区内隐藏 “Follow along…” 文本、只保留两个等宽入口，并在右侧预留 `42px` 给关闭按钮，防止按钮覆盖与窗口内容截断。窗口标题中的 “The China Academy” 禁止内部换行；贴底横幅的说明、品牌和按钮统一使用本地 Roboto，品牌与周围文字同字号。
+- [x] 推翻“并入 Footer”：贴底窗口和横幅不再迁移 DOM。Footer 进入视口时，两者以 `translateY(100%+)` 向下收回并禁用交互；从 Footer 上滑离开后，当前显示状态沿同一路径重新弹出。
+- [x] 主推荐画廊保持 10 秒自动轮播；控制器删除字符字形与圆形背景，使用 `::before` 绘制居中的 CSS 双竖线／三角形，并在与导航圆点相同的 `10px × 10px` 行盒中以绝对定位对齐；四周 margin 明确归零，当前页圆点继续显示扇形计时进度。
+- [x] 桌面 Video／Premium 下拉菜单支持点击页面其他区域关闭；打开一个下拉菜单时同步关闭另一个，并更新 `aria-expanded`。
+- [x] 所有当前页面的 viewport 启用 `viewport-fit=cover`；iPhone 刘海／安全区默认跟随白色 Header，打开移动全屏菜单时由共享脚本同步切换为藏青色。
+- [x] 全站 Footer 删除 “A fuller view…” 宣传句，品牌区加入源站官方图标；内容重组为 About、Follow Us、More 三栏。Contact Us 使用 `mailto:hello@thechinaacademy.org`；YouTube／Twitter／TikTok 平台名与 About Us 共用 `1rem` 衬线字体，各账号使用 Roboto、严格一行一个，首个账号与平台名按基线对齐；所有入口列表取消额外行间 `gap`，相邻入口只保留字体自身的一倍行高。More 下收纳 Terms of Use、Privacy Policy、Cookie Policy。
 - [x] 首页所有可见 “The China Academy” 品牌文字统一使用 Libre Baskerville。
 - [x] 移动全屏菜单从带滤镜的粘性 Header 内移到页面根层，使用独立 `100dvh` 滚动容器；打开时固定顶部导航并仅锁定背景页面，修复菜单消失和无法滑动。
 

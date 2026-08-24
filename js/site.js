@@ -1,6 +1,19 @@
 const d = document;
 const page = d.body.dataset.page || '';
 const header = d.querySelector('[data-site-header]');
+const viewportMeta = d.querySelector('meta[name="viewport"]');
+if (viewportMeta && !viewportMeta.content.includes('viewport-fit=cover')) viewportMeta.content += ',viewport-fit=cover';
+let themeColorMeta = d.querySelector('meta[name="theme-color"]');
+if (!themeColorMeta) {
+  themeColorMeta = d.createElement('meta');
+  themeColorMeta.name = 'theme-color';
+  d.head.append(themeColorMeta);
+}
+const setBrowserChrome = dark => {
+  themeColorMeta.content = dark ? '#13243e' : '#ffffff';
+  d.documentElement.classList.toggle('safe-area-dark', dark);
+};
+setBrowserChrome(false);
 const betaMode = new URLSearchParams(location.search).get('demo') === 'beta-4x3';
 if (betaMode) d.body.classList.add('beta-home');
 
@@ -60,6 +73,7 @@ if (header) {
     menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
     mobileDrawer.setAttribute('aria-hidden', String(!open));
     d.documentElement.classList.toggle('mobile-menu-open', open);
+    setBrowserChrome(open);
     if (!open) mobileDrawer.querySelectorAll('.mobile-group.open').forEach(group => {
       group.classList.remove('open');
       const button = group.querySelector('[data-mobile-submenu]');
@@ -86,11 +100,23 @@ if (header) {
     if (event.shiftKey && d.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && d.activeElement === last) { event.preventDefault(); first.focus(); }
   });
-  header.querySelectorAll('.nav-drop-trigger').forEach(button => button.addEventListener('click', () => {
+  const desktopDropdowns = [...header.querySelectorAll('.nav-dropdown')];
+  const closeDesktopDropdowns = except => desktopDropdowns.forEach(item => {
+    if (item === except) return;
+    item.classList.remove('open');
+    item.querySelector('.nav-drop-trigger')?.setAttribute('aria-expanded', 'false');
+  });
+  header.querySelectorAll('.nav-drop-trigger').forEach(button => button.addEventListener('click', event => {
+    event.stopPropagation();
     const item = button.closest('.nav-dropdown');
-    const open = item.classList.toggle('open');
+    const open = !item.classList.contains('open');
+    closeDesktopDropdowns(item);
+    item.classList.toggle('open', open);
     button.setAttribute('aria-expanded', String(open));
   }));
+  d.addEventListener('pointerdown', event => {
+    if (!event.target.closest('.nav-dropdown')) closeDesktopDropdowns();
+  });
   mobileDrawer.querySelectorAll('[data-mobile-submenu]').forEach(button => button.addEventListener('click', () => {
     const group = button.closest('.mobile-group');
     const open = group.classList.toggle('open');
@@ -118,79 +144,130 @@ if (header) {
   }));
   renderSignin();
 
-  let utilityHidden = scrollY > 160;
-  let compactHeader = scrollY > 160;
-  let scrollAnchor = scrollY;
+  let utilityHidden = scrollY > 128;
+  let previousY = Math.max(0, scrollY);
+  let direction = 0;
+  let directionalTravel = 0;
+  let headerLockedUntil = 0;
   let headerFrame = 0;
+  const renderHeaderState = () => {
+    header.classList.toggle('utility-hidden', utilityHidden);
+    header.classList.toggle('header-compact', utilityHidden);
+  };
   const updateUtility = () => {
     headerFrame = 0;
     const y = Math.max(0, scrollY);
-    if (y <= 72) {
+    const delta = y - previousY;
+    previousY = y;
+    if (header.classList.contains('open')) return;
+    if (y <= 64) {
       utilityHidden = false;
-      compactHeader = false;
-      scrollAnchor = y;
-    } else {
-      if (!compactHeader && y >= 160) compactHeader = true;
-      else if (compactHeader && y <= 96) compactHeader = false;
-      if (y >= 160 && y - scrollAnchor >= 18) {
-        utilityHidden = true;
-        scrollAnchor = y;
-      } else if (scrollAnchor - y >= 18) {
-        utilityHidden = false;
-        scrollAnchor = y;
-      }
+      direction = 0;
+      directionalTravel = 0;
+      renderHeaderState();
+      return;
     }
-    header.classList.toggle('utility-hidden', utilityHidden);
-    header.classList.toggle('header-compact', compactHeader);
+    if (Math.abs(delta) < 3) return;
+    const nextDirection = delta > 0 ? 1 : -1;
+    if (nextDirection !== direction) {
+      direction = nextDirection;
+      directionalTravel = 0;
+    }
+    directionalTravel += Math.abs(delta);
+    if (performance.now() < headerLockedUntil) return;
+    const shouldHide = direction > 0 && y >= 128 && directionalTravel >= 30;
+    const shouldShow = direction < 0 && directionalTravel >= 36;
+    if (!shouldHide && !shouldShow) return;
+    const nextHidden = shouldHide;
+    if (nextHidden === utilityHidden) {
+      directionalTravel = 0;
+      return;
+    }
+    utilityHidden = nextHidden;
+    directionalTravel = 0;
+    headerLockedUntil = performance.now() + 560;
+    renderHeaderState();
   };
   addEventListener('scroll', () => {
     if (!headerFrame) headerFrame = requestAnimationFrame(updateUtility);
   }, { passive: true });
-  updateUtility();
+  renderHeaderState();
 }
 
 const footer = d.querySelector('[data-site-footer]');
 if (footer) {
   footer.className = 'site-footer';
-  footer.innerHTML = `<div class="shell"><div class="footer-grid"><div><div class="footer-brand brand-name">The China Academy</div><p class="serif muted">A fuller view of China through reporting, ideas, video and learning.</p></div><div><div class="footer-title">Explore</div><div class="footer-links"><a href="../Article%20Sections/trending.html">Trending</a><a href="../Video%20Sections/video.html">Video</a><a href="../About/premium-courses.html">Courses</a></div></div><div><div class="footer-title">Organization</div><div class="footer-links"><a href="../About/about.html">About Us</a><a href="../About/contributors.html">Contributors</a><a href="../About/support.html">Support Us</a></div></div></div><div class="copyright">© 2026 <span class="brand-name">The China Academy</span> · Redesign prototype · Images remain hosted by the source website.</div></div>`;
+  footer.innerHTML = `<div class="shell"><div class="footer-mast"><a class="footer-brand" href="../Homepage/index.html"><img class="footer-logo" src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span class="brand-name">The China Academy</span></a></div><div class="footer-grid"><section class="footer-column"><div class="footer-title">About</div><div class="footer-links"><a href="https://thechinaacademy.org/about-us/">About Us</a><a href="mailto:hello@thechinaacademy.org">Contact Us</a><a href="https://thechinaacademy.org/contributors-2/">Contributors</a><a href="https://thechinaacademy.org/support-us/">Cooperation</a></div></section><section class="footer-column footer-follow"><div class="footer-title">Follow Us</div><div class="footer-socials"><div class="footer-social-group"><div class="footer-platform">YouTube</div><div class="footer-social-links"><a href="https://www.youtube.com/@guanvideo" target="_blank" rel="noreferrer">观视频工作室 Guan Video</a><a href="https://www.youtube.com/@wavemedia4433" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.youtube.com/@thinkersforum4149" target="_blank" rel="noreferrer">ThinkersForum</a><a href="https://www.youtube.com/@TechSignal2023" target="_blank" rel="noreferrer">TechSignal</a></div></div><div class="footer-social-group"><div class="footer-platform">Twitter</div><div class="footer-social-links"><a href="https://x.com/ChinaAcademyORG" target="_blank" rel="noreferrer">The China Academy</a></div></div><div class="footer-social-group"><div class="footer-platform">TikTok</div><div class="footer-social-links"><a href="https://www.tiktok.com/@chinacontentcenter" target="_blank" rel="noreferrer">ChinaContentCenter</a><a href="https://www.tiktok.com/@wavemedia2022" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.tiktok.com/@thinkersforumcn" target="_blank" rel="noreferrer">ThinkersForum</a></div></div></div></section><nav class="footer-column footer-legal" aria-label="More"><div class="footer-title">More</div><div class="footer-links"><a href="https://thechinaacademy.org/terms-of-use/">Terms of Use</a><a href="https://thechinaacademy.org/privacy-policy-2/">Privacy Policy</a><a href="https://thechinaacademy.org/cookies-policy/">Cookie Policy</a></div></nav></div><div class="copyright">© 2026 <span class="brand-name">The China Academy</span> · Redesign prototype · Images remain hosted by the source website.</div></div>`;
 }
 
-if (!d.querySelector('#signup-dialog')) d.body.insertAdjacentHTML('beforeend', `<dialog class="signup-dialog" id="signup-dialog"><div class="signup-panel"><div class="signup-copy"><button class="signup-close" data-close aria-label="Close">×</button><div class="signup-choice-list"><a class="signup-choice" href="../Homepage/premium-member.html"><strong>Premium Member</strong><em>Gain access to exclusive courses, interviews, and reports on the pivotal driving forces behind China’s evolution.</em></a><a class="signup-choice" href="../Utility/setting.html?mode=register"><strong>Free Registration</strong><em>Stay Updated with On-the-Ground Information, Discussions, and Expert Analysis on All Things China and China-Related.</em></a></div></div></div></dialog><aside class="signup-banner" data-signup-banner hidden><span>Follow along with <span class="brand-name">The China Academy</span>!</span><a href="../Homepage/premium-member.html">Become a Member</a></aside>`);
+if (!d.querySelector('#signup-dialog')) d.body.insertAdjacentHTML('beforeend', `<aside class="signup-dialog" id="signup-dialog" role="dialog" aria-modal="false" aria-label="Follow The China Academy" hidden><div class="signup-panel"><div class="signup-copy"><p class="signup-sheet-message">Follow along with <span class="brand-name">The China Academy</span></p><a class="signup-choice" href="../Homepage/premium-member.html"><strong>Premium Member</strong><em>Gain access to exclusive courses, interviews, and reports on the pivotal driving forces behind China’s evolution.</em></a><a class="signup-choice" href="../Utility/setting.html?mode=register"><strong>Free Registration</strong><em>Stay Updated with On-the-Ground Information, Discussions, and Expert Analysis on All Things China and China-Related.</em></a><button class="signup-close" data-close type="button" aria-label="Close">×</button></div></div></aside><aside class="signup-banner" data-signup-banner hidden><span>Follow along with <span class="brand-name">The China Academy</span></span><button type="button" data-expand-signup>Become a Member</button></aside>`);
 const dialog = d.querySelector('#signup-dialog');
 if (dialog) {
   const banner = d.querySelector('[data-signup-banner]');
-  const bannerMarker = banner ? d.createComment('signup-banner-fixed-position') : null;
-  if (banner && bannerMarker) banner.before(bannerMarker);
   const registrationActive = () => {
     try { return sessionStorage.getItem('tca-registration-active') === '1'; } catch { return false; }
   };
-  const showBanner = () => { if (banner && !registrationActive()) banner.hidden = false; };
-  const hideSignup = () => {
-    if (dialog.open) dialog.close();
-    if (banner) banner.hidden = true;
+  let closeTimer = 0;
+  let bannerFrame = 0;
+  const sheetOpen = () => dialog.classList.contains('is-open');
+  const cancelBannerReveal = () => {
+    cancelAnimationFrame(bannerFrame);
+    bannerFrame = 0;
   };
-  d.querySelectorAll('[data-open-signup]').forEach(x => x.addEventListener('click', () => dialog.showModal()));
-  dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
-  dialog.addEventListener('close', showBanner);
-  if (banner && bannerMarker && footer) {
-    const footerShell = footer.querySelector('.shell');
-    const dockBanner = docked => {
-      banner.classList.toggle('is-footer-banner', docked);
-      if (docked) footerShell.prepend(banner);
-      else bannerMarker.after(banner);
+  const showBanner = () => {
+    if (!banner || registrationActive()) return;
+    cancelBannerReveal();
+    banner.classList.remove('is-visible');
+    banner.hidden = false;
+    banner.getBoundingClientRect();
+    bannerFrame = requestAnimationFrame(() => {
+      if (!banner.hidden && !registrationActive()) banner.classList.add('is-visible');
+      bannerFrame = 0;
+    });
+  };
+  const openSheet = () => {
+    clearTimeout(closeTimer);
+    if (banner) {
+      cancelBannerReveal();
+      banner.classList.remove('is-visible');
+      banner.hidden = true;
+    }
+    dialog.hidden = false;
+    requestAnimationFrame(() => dialog.classList.add('is-open'));
+  };
+  const closeSheet = (restoreBanner = true) => {
+    if (dialog.hidden) { if (restoreBanner) showBanner(); return; }
+    dialog.classList.remove('is-open');
+    closeTimer = setTimeout(() => {
+      dialog.hidden = true;
+      if (restoreBanner) showBanner();
+    }, 360);
+  };
+  const hideSignup = () => {
+    closeSheet(false);
+    if (banner) {
+      cancelBannerReveal();
+      banner.classList.remove('is-visible');
+      banner.hidden = true;
+    }
+  };
+  d.querySelectorAll('[data-open-signup]').forEach(x => x.addEventListener('click', openSheet));
+  banner?.querySelector('[data-expand-signup]')?.addEventListener('click', openSheet);
+  dialog.querySelector('[data-close]').addEventListener('click', () => closeSheet());
+  d.addEventListener('keydown', event => { if (event.key === 'Escape' && sheetOpen()) closeSheet(); });
+  if (banner && footer) {
+    const setFooterAway = away => {
+      dialog.classList.toggle('footer-away', away);
+      banner.classList.toggle('footer-away', away);
     };
-    const footerObserver = new IntersectionObserver(entries => dockBanner(entries.some(entry => entry.isIntersecting)), { threshold: 0 });
+    const footerObserver = new IntersectionObserver(entries => setFooterAway(entries.some(entry => entry.isIntersecting)), { threshold: 0, rootMargin: '0px 0px 1px' });
     footerObserver.observe(footer);
   }
   addEventListener('registrationchange', hideSignup);
-  let seen = false;
-  try { seen = sessionStorage.getItem('tca-signup-seen') === '1'; } catch {}
-  if (!registrationActive() && !seen) setTimeout(() => {
-    if (!dialog.open) dialog.showModal();
-    try { sessionStorage.setItem('tca-signup-seen', '1'); } catch {}
-  }, 1300);
-  else if (!registrationActive()) showBanner();
+  if (!registrationActive()) {
+    if (d.body.classList.contains('master-home')) requestAnimationFrame(openSheet);
+    else showBanner();
+  }
 }
 
 const discovery = [
@@ -328,6 +405,11 @@ const articleLayout = d.querySelector('.master-article .article-layout');
 if (articleLayout) {
   const articleBody = articleLayout.querySelector('.article-body');
   let leftRail = articleLayout.querySelector(':scope > .article-rail');
+  const articleHero = d.querySelector('.master-article .article-hero');
+  const articleTitle = articleHero?.querySelector('h1')?.textContent.trim() || d.title.replace(/ — The China Academy$/, '');
+  if (articleHero) articleHero.id = 'article-top';
+  const railTitle = leftRail?.querySelector('.side-title');
+  if (railTitle) railTitle.innerHTML = `<a class="article-title-return" href="#article-top">${articleTitle}</a>`;
   const headings = [...articleBody.querySelectorAll('h2[id], h3[id], .news-item[id]')];
   if (leftRail && !leftRail.classList.contains('news-rail') && headings.length) {
     leftRail.classList.add('article-toc');
@@ -562,7 +644,7 @@ const setupGalleryDots = gallery => {
       dots = d.createElement('div');
       dots.className = 'gallery-dots';
       dots.setAttribute('aria-label', 'Gallery position');
-      dots.innerHTML = `${autoEnabled ? `<button class="gallery-toggle" type="button" aria-label="${paused ? 'Play' : 'Pause'} gallery" aria-pressed="${paused}">${paused ? '▶' : 'Ⅱ'}</button>` : ''}${items.map((_, index) => `<button class="gallery-dot" type="button" aria-label="Go to gallery item ${index + 1}"></button>`).join('')}`;
+      dots.innerHTML = `${autoEnabled ? `<button class="gallery-toggle" type="button" aria-label="${paused ? 'Play' : 'Pause'} gallery" aria-pressed="${paused}"></button>` : ''}${items.map((_, index) => `<button class="gallery-dot" type="button" aria-label="Go to gallery item ${index + 1}"></button>`).join('')}`;
       gallery.insertAdjacentElement('afterend', dots);
       dots.querySelectorAll('.gallery-dot').forEach((button, index) => button.addEventListener('click', () => {
         activeIndex = index;
@@ -571,7 +653,6 @@ const setupGalleryDots = gallery => {
       }));
       dots.querySelector('.gallery-toggle')?.addEventListener('click', event => {
         paused = !paused;
-        event.currentTarget.textContent = paused ? '▶' : 'Ⅱ';
         event.currentTarget.setAttribute('aria-label', `${paused ? 'Play' : 'Pause'} gallery`);
         event.currentTarget.setAttribute('aria-pressed', String(paused));
         autoStart = performance.now();

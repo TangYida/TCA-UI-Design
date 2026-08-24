@@ -14,7 +14,7 @@
   --sans:"Roboto",Arial,sans-serif;
   --max:1600px;--reading:76ch;--gutter:clamp(20px,4vw,64px)
 }
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--paper);font-family:var(--sans)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--white)}html.safe-area-dark{background:var(--blue)}body{min-height:100dvh;margin:0;color:var(--ink);background:var(--paper);font-family:var(--sans)}
 a{color:inherit;text-decoration:none}img{display:block;width:100%;height:100%;object-fit:cover}button,input,select{font:inherit}
 .shell{width:min(var(--max),calc(100% - 2*var(--gutter)));margin-inline:auto}.serif{font-family:var(--serif)}
 .eyebrow,.kicker{font-size:.68rem;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--red)}
