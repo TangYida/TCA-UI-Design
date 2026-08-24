@@ -1,6 +1,6 @@
 # 关键页面映射
 
-更新日期：2026-08-21
+更新日期：2026-08-24
 
 ## 维护规则
 
@@ -28,18 +28,18 @@
 
 | # | 源网址 | 对应文件 | 本轮重新设计 |
 |---|---|---|---|
-| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** 主要推荐画廊 + Trending / Thinkers Forum / Premium / Video；桌面主推荐左图右标题并把 `30px` lede 放在双栏下方；非推荐栏目封面左文右图，主题标签、标题和 `20px` lede 组成连续文字组，标题与 lede 间隔一倍 lede 行距，整体相对右侧方图垂直居中；Most-read 整栏与推荐画廊同高，内部列表滚动；`930px` 后切换为 `16:9` 单栏 |
-| 2a | https://thechinaacademy.org/trending/ | `Article Sections/trending.html` | 主题筛选、主推报道、编辑型三列列表 |
-| 2b | https://thechinaacademy.org/thinkersforum/ | `Article Sections/thinkers-forum.html` | 深色思想论坛开场、长论述主推、议题卡片 |
+| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** 主要推荐画廊 + Trending / Opinion / Premium / Video；视频媒体固定 `16:9` 且图片中央不显示播放按钮，改由红色主题标签前的小型红色播放三角表达视频属性；主推荐保持 10 秒自动轮播；蓝底双入口注册弹窗使用圆角描边和金色斜体标题，36px 会员横幅带轻微底部阴影并在页底迁入 Footer |
+| 2a | https://thechinaacademy.org/trending/ | `Article Sections/trending.html` | 继承 `.master-section`：低留白金色斜体标题（无右侧横线）、横向主题条、首行无上边界的三列卡片；lede 恢复 `xx min read/watch`，首行后插入每条带图片的米白色 `Editor's Picks`，`LOAD MORE` 展开后续卡片 |
+| 2b | https://thechinaacademy.org/thinkersforum/ | `Article Sections/thinkers-forum.html` | 页面展示名为 Opinion，保留源网址和文件路径；继承 `.master-section`，并在首行后以带图片的米白色 `Editor's Picks` 呈现源站 China–Japan 示例内容 |
 | 3 | https://thechinaacademy.org/video/ | `Video Sections/video.html` | 系列筛选、时长标签、主视频与节目卡片 |
 | 4a | https://thechinaacademy.org/after-the-earthquake-why-reconstruction-is-the-real-challenge-for-the-global-south/ | `Videos/video-article.html` | 大播放器、章节/文字稿结构、可切换观看与阅读 |
-| 4b | https://thechinaacademy.org/how-mao-zedong-led-china-to-break-though-the-us-blockade/ | `Articles/opinion-article.html` | 继承 `.master-article`；载入源文完整正文、作者、图片/图注和相关推荐；正文图片等于正文栏宽并自适应高度，封面图与标题区顶部对齐 |
-| 4c | https://thechinaacademy.org/from-tiktok-to-rednote-the-dialectical-transition-into-opposites/ | `Articles/technology-article.html` | 继承同一 `.master-article`；载入源文完整正文、作者、图片/图注和相关推荐；共享正文等宽图片及标题/封面顶部对齐规则 |
-| 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块；Intelligence、Courses、Talks 各使用一篇“左侧连续文字组、右侧方图”的非推荐栏目封面文章，标题与 lede 间隔一倍 lede 行距，后接三张 `16:9` 普通卡片；删除页面底部重复总结与会员 CTA |
+| 4b | https://thechinaacademy.org/how-mao-zedong-led-china-to-break-though-the-us-blockade/ | `Articles/article-featured-image.html` | 头图固定为页面内容宽和 `16:9`；标题以 `80px` 为上限按换行和可用高度自适应，标签—标题—作者之间各固定一倍标题行距。藏青蒙版保留浅红无框标签、日期和完整作者信息；图下 lede 与正文同字号且时长标签不变色。移动评论区与正文同宽；作者弹窗支持无内容关闭、cookie 草稿、段内 Learn more 和深藏青输入框 |
+| 4c | https://thechinaacademy.org/from-tiktok-to-rednote-the-dialectical-transition-into-opposites/ | `Articles/article-text.html` | 文字文章变体：标签／日期、标题、作者与 lede 居中；正文继承与头图版相同的目录、双组推荐、Editor、分享、评论和作者联系弹窗 |
+| 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块，权益说明取消字符宽度上限并填满右侧文字列直至卡片右内边距；会员按钮默认蓝底白字、悬浮或键盘聚焦时切换为金底白字；Intelligence、Courses、Talks 各使用一篇“左侧连续文字组、右侧方图”的非推荐栏目封面文章，后接三张 `16:9` 普通卡片 |
 | 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 学习路径首页、课程筛选、清楚的课时信息 |
 | 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 主课程播放器、目标、课纲与进度侧栏 |
 | 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 大搜索框、类型计数、统一结果结构 |
-| 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | Research Desk 定位、主题筛选、简报层级 |
+| 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | 继承 `.master-section`：横向 Intelligence 主题条、带 Premium 状态的分割线卡片看板及 `LOAD MORE`；不插入 Editor's Picks |
 | 10 | https://thechinaacademy.org/premium-talks/ | `Video Sections/premium-talks.html` | 议题化浏览、主谈话、会员状态和系列卡片 |
 | 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 视觉简报式详情、章节、预览与付费边界 |
 | 12 | https://thechinaacademy.org/hsk-certified-courses/ | `About/hsk.html` | 按 HSK 能力阶段组织的语言学习路径 |
@@ -50,18 +50,29 @@
 | 17 | https://thechinaacademy.org/column_aleksandr-dugin/ | `About/author.html` | 按内容类型筛选的作者时间线 |
 | 18 | https://thechinaacademy.org/setting/ | `Utility/setting.html` | 账户导航、资料表单、会员/收藏/课程入口 |
 
+### 非关键网址模板与实验入口
+
+| 用途 | 文件 | 作用范围 |
+|---|---|---|
+| 新闻文章模板 | `Articles/article-news.html` | 参考 Chang’e-6 源页：日期／标题居中、左侧简报导航、正文、带导语的右侧推荐、一行 Editor、圆形分享与评论；这是模板演示，不计入 21 个关键网址 |
+| 首页 Beta | `Beta Demo/homepage.html` | 加载 `Homepage/index.html?demo=beta-4x3`；桌面非视频封面切换为 `4:3`、视频保持 `16:9`，普通文章画廊使用两行和 `246px` 卡片（较原版缩小四分之一），不影响正式首页 |
+
 ## WordPress 实现映射
 
 ### 本轮全站共享行为
 
-- `js/site.js` 生成双层桌面导航：功能栏为 Support Us、About Us、搜索和演示登录；标题栏为 Home、Trending、Thinkers Forum、品牌、Video、Premium、HSK。
-- Video 与 Premium 使用共享下拉菜单；移动端将两层导航合并为带展开动画的完整菜单。Home、Trending、Thinkers Forum、Video、Premium、HSK 和功能入口的一级行盒均固定为 `48px`；一级菜单容器取消上下内边距，避免首尾项目产生额外视觉高度。二级项目按两行横向滑动。
+- `js/site.js` 生成双层桌面导航：功能栏为 Support Us、About Us、普通浅色搜索和金色演示登录；标题栏为 Home、Trending、Opinion、品牌、Video、Premium、Not Just Travel。HSK 页面仍保留，但不再占用主导航入口。
+- Video 与 Premium 使用共享下拉菜单；移动端菜单脱离带滤镜的粘性 Header，挂载到页面根层成为独立 `100dvh` 滚动容器，打开时只锁定背景页面，品牌和关闭按钮固定在顶部。Home、Trending、Opinion、Video、Premium、Not Just Travel 和功能入口的一级行盒均固定为 `48px`；Video/Premium 二级项目保留展开动画并按两行横向滑动，`Escape`、菜单链接或返回桌面断点均可关闭菜单。
 - 全站内容最大宽度由 `tokens.css` 的 `--max:1600px` 控制；界面无衬线统一为本地 Roboto 可变字体。`masters.css` 的最终排版护栏把所有文本行高限制在 `1.2–1.5`。
-- 所有非首页页面由共享脚本追加六个紧凑的相关内容入口，并同时压缩页面留白和卡片间距，以提高信息密度；在 WordPress 阶段应改为按栏目、标签和用户状态查询的真实数据。
-- 桌面封面文章图片采用 `1:1`，普通文章图片采用 `16:9`。主推荐标题动态缩放且不超过 `80px`，主推荐 lede 固定为 `30px`；非推荐栏目封面的主题标签、标题和默认 `20px` lede 连续排列、整体垂直居中，标题与 lede 之间固定一倍 lede 行距。仅在发生溢出时依次缩小 lede 与标题；约 `930px` 后移动端封面回落为 `16:9`。
+- 除文章母版与 Article Section 母版外的非首页页面由共享脚本追加六个紧凑内容入口；Article Section 使用自身卡片看板，文章页只使用自身的 Continue Exploring／Related Reading，禁止重复追加内容流。
+- 桌面非视频封面文章图片采用 `1:1`，视频封面和全部普通文章图片采用 `16:9`。主推荐标题动态缩放且不超过 `80px`，主推荐 lede 固定为 `30px`；非推荐栏目封面的主题标签、标题和默认 `20px` lede 连续排列、整体垂直居中，标题与 lede 之间固定一倍 lede 行距。仅在发生溢出时依次缩小 lede 与标题；约 `930px` 后移动端封面回落为 `16:9`。
 - 主题标签链接到 `Utility/search.html?tag=...`，悬浮时切换为 `MORE >>`；静态搜索页由 `site.js` 读取参数，正式 WordPress 实现应映射到 taxonomy archive 或带 taxonomy 查询的 `search.php`。
 - 首页图片全部改为非链接容器，只有标题和 lede 可进入文章。共享 `.lede-row` 把 `xx min read` 圆角标签内联在导语末尾，方框高度为一字高，内部字号为 lede 的一半；鼠标进入文字或方框都会触发整个 lede 的换色反馈。阅读时长仍按英文词数除以 `220` 后向上取整。
-- 演示登录只写入当前浏览器会话；正式 WordPress 合并时须替换为 WordPress/WooCommerce 登录状态和账户链接。
+- 深滚动区内标题栏和品牌图标保持紧凑；功能栏使用分离的进入／退出阈值和 `18px` 方向缓冲，下滑隐藏、上滑恢复而不在端点抽搐。演示登录同时写入当前浏览器会话的注册状态；正式 WordPress 合并时须替换为 WordPress/WooCommerce 登录状态和账户链接。
+- 未注册会话首次打开蓝底双入口注册提醒；两个入口保持蓝底、圆角描边和金色斜体标题。关闭后改为无关闭入口且与功能栏同高、带轻微底部阴影的会员横幅，到达页底时移入 Footer 三栏上方。正式实现应由真实登录／注册 cookie 或 WordPress 用户状态驱动。
+- `.master-article` 现在有头图、文字、新闻三种标题区变体；三者共用带小导语的 Continue Exploring／Related Reading、一行灰色 Editor、圆形分享、评论和藏青作者联系弹窗。作者联系草稿写入 30 天 cookie；桌面推荐固定在正文右栏，`900px` 以下把同一推荐组件移动到评论之后，并让评论区与正文使用同一内容宽度。
+- `.master-section` 统一 Trending、Opinion 与 Premium Intelligence：低上留白的金色斜体栏目标题不接右侧横线，taxonomy 条单行横向滚动；首行取消顶部横线，卡片看板在三列／两列／一列断点间切换并恢复共享 lede 与 `xx min read/watch`。三个页面均使用 `LOAD MORE`，Trending／Opinion 在首行后插入每条带 `16:9` 图片的米白色 `Editor's Picks`。
+- 视频内容以 `data-content-type="video"`、视频页面或 Talks 栏目识别；首页图片中央不呈现播放按钮，所有视频内容改为在红色主题标签前显示留有间距的小型红色播放三角，时长显示 `xx min watch`。主推荐画廊每 10 秒自动前进，圆点用扇形显示进度并提供播放／暂停。
 
 当前源站可见技术基线：Aardvark 主题、Elementor/Elementor Pro、WooCommerce、WooCommerce Memberships、订阅功能、Sensei LMS 与 Give。最终采用“现有主题子主题”还是“自建主题”，须在取得服务器代码与后台导出后决定。
 
@@ -69,7 +80,7 @@
 |---|---|---|---|---|
 | 1 | Front Page | `front-page.php`，或 Elementor Theme Builder 的 Front Page 模板 | 置顶文章、栏目查询、会员推广位 | 拟定 |
 | 2a | Trending 页面或内容归档 | 优先评估 `archive.php`、`category.php` 或专用 Page Template；若继续使用 Elementor，则建立对应 Archive/Page 模板 | Posts、Category/Taxonomy、置顶内容 | 拟定 |
-| 2b | Thinkers Forum 页面或内容归档 | `archive-thinkers.php`、自定义 taxonomy archive，或 Elementor Archive 模板 | 文章、作者、议题 taxonomy | 拟定 |
+| 2b | Opinion 页面或内容归档 | `archive-thinkers.php`、自定义 taxonomy archive，或 Elementor Archive 模板 | 文章、作者、议题 taxonomy | 拟定 |
 | 3 | Video Archive | `archive-video.php`，或视频 CPT/栏目归档模板 | Video CPT、系列 taxonomy、时长、YouTube ID | 拟定 |
 | 4a | Video Single | `single-video.php` 或视频文章专用模板 | 播放器、文字稿、嘉宾、章节、相关阅读 | 拟定 |
 | 4b | Opinion Post Single | `single.php` / `single-post.php`，通过分类或 block pattern 呈现观点文章变体 | Post、作者、正文、引文、参考资料 | 拟定 |
@@ -114,16 +125,20 @@ flowchart TD
   DS --> M[实际母版样式<br/>masters.css]
   M --> H[出版首页母版<br/>.master-home]
   M --> PM[会员聚合母版<br/>.master-member]
-  M --> L[栏目/列表母版]
+  M --> AS[Article Section母版<br/>.master-section]
+  M --> L[其他栏目/列表母版]
   M --> A[文章/详情母版<br/>.master-article]
   M --> S[服务/账户母版]
   H --> Home[Homepage]
-  L --> Trend[Trending]
-  L --> TF[Thinkers Forum]
+  Home --> Beta[Homepage Beta<br/>4:3 + two-row galleries]
+  AS --> Trend[Trending]
+  AS --> TF[Opinion]
+  AS --> Intelligence[Premium Intelligence]
   L --> Video[Video]
-  L --> Talks[Premium Talks / Intelligence]
+  L --> Talks[Premium Talks]
   A --> Opinion[观点文章]
   A --> Tech[科技文章]
+  A --> NewsTemplate[新闻文章模板]
   A --> VideoArticle[视频文章]
   VideoArticle --> PremiumTalk[Premium Talk 详情]
   PM --> Member[Premium Member]
