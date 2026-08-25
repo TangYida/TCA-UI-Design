@@ -384,7 +384,29 @@ d.querySelectorAll('.member-section').forEach(section => {
   if (section.querySelector('.member-section-title')?.textContent.trim() === 'Talks') markVideoLabels(section);
 });
 
-d.querySelectorAll('.master-section .section-card').forEach((card, index) => {
+const premiumMediaSelector = [
+  '.home-feature-media', '.member-card-image', '.section-card-media',
+  '.gallery-image', '.feature-image', '.card-media', '.hero-media', '.course-media'
+].join(',');
+const labelPremiumMedia = scope => {
+  scope.querySelectorAll(premiumMediaSelector).forEach(media => {
+    if (!media.querySelector('img')) return;
+    media.classList.add('premium-cover');
+    let badge = media.querySelector(':scope > .premium-badge, :scope > .lock');
+    if (!badge) {
+      badge = d.createElement('span');
+      media.append(badge);
+    }
+    badge.classList.add('premium-badge');
+    badge.textContent = 'Premium';
+  });
+};
+if (page === 'premium' || location.pathname.includes('premium-')) labelPremiumMedia(d);
+d.querySelectorAll('.master-home .home-section').forEach(section => {
+  if (section.querySelector('.home-section-title')?.textContent.trim() === 'Premium') labelPremiumMedia(section);
+});
+
+d.querySelectorAll('.master-section .section-card, .master-section .editor-pick').forEach((card, index) => {
   if (!card.dataset.words) card.dataset.words = String(880 + (index % 6) * 130);
   const lede = card.querySelector('.section-card-lede');
   const href = card.querySelector('h2 a, h3 a')?.getAttribute('href');
@@ -392,6 +414,19 @@ d.querySelectorAll('.master-section .section-card').forEach((card, index) => {
   const copy = lede.textContent.trim();
   lede.classList.add('lede-row');
   lede.innerHTML = `<a class="lede-link" href="${href}">${copy}</a><span class="read-time-pill" data-read-time></span>`;
+});
+d.querySelectorAll('.master-section .editor-pick').forEach(pick => {
+  const time = pick.querySelector('time');
+  if (!time || pick.querySelector('.theme-tag')) return;
+  const meta = d.createElement('div');
+  meta.className = 'editor-pick-meta';
+  const theme = d.createElement('a');
+  theme.className = 'theme-tag kicker';
+  theme.setAttribute('data-auto-theme', '');
+  theme.href = '#';
+  theme.append(d.createElement('span'));
+  time.before(meta);
+  meta.append(theme, time);
 });
 
 const themeTaxonomy = Object.freeze([
@@ -434,15 +469,16 @@ const inferTheme = tag => {
 d.querySelectorAll('.section-topics').forEach(topics => {
   const latest = d.querySelector('.section-board');
   if (latest && !latest.id) latest.id = 'latest';
-  topics.innerHTML = `<a href="#latest">Latest</a>${themeTaxonomy.map(theme => `<a href="../Utility/search.html?tag=${encodeURIComponent(theme)}">${theme}</a>`).join('')}`;
+  topics.innerHTML = `<a href="#latest" data-section-theme="Latest">Latest</a>${themeTaxonomy.map(theme => `<a href="#theme=${encodeURIComponent(theme)}" data-section-theme="${theme}">${theme}</a>`).join('')}`;
 });
 
 const canonicalThemeTags = d.querySelectorAll('.theme-tag, .article-tags a.article-tag, .article-hero > a.eyebrow');
 canonicalThemeTags.forEach(tag => {
   const theme = inferTheme(tag);
   tag.textContent = theme;
-  if (tag.matches('a')) tag.href = `../Utility/search.html?tag=${encodeURIComponent(theme)}`;
+  if (tag.matches('a')) tag.href = tag.closest('.master-section') ? `#theme=${encodeURIComponent(theme)}` : `../Utility/search.html?tag=${encodeURIComponent(theme)}`;
   tag.dataset.theme = theme;
+  if (tag.closest('.master-section')) tag.dataset.sectionTheme = theme;
 });
 
 const prepareThemeTag = tag => {
@@ -456,6 +492,104 @@ const prepareThemeTag = tag => {
   }
 };
 canonicalThemeTags.forEach(prepareThemeTag);
+
+d.querySelectorAll('.master-section').forEach(pageRoot => {
+  const board = pageRoot.querySelector('.section-board');
+  const topics = pageRoot.querySelector('.section-topics');
+  if (!board || !topics) return;
+  const cards = [...board.querySelectorAll('.section-card')];
+  const picks = [...board.querySelectorAll('.editor-pick')];
+  const grids = [...board.querySelectorAll('.section-card-grid')];
+  const editorPicks = board.querySelector('.editor-picks');
+  const loadRow = board.querySelector('.section-load-row');
+  const loadButton = board.querySelector('[data-section-load-more]');
+  const initiallyHidden = new WeakMap(cards.map(card => [card, card.hidden]));
+  let latestExpanded = Boolean(loadButton?.hidden);
+  let activeTheme = 'Latest';
+  let activeIndex = 0;
+  let transitionToken = 0;
+  cards.forEach(card => { card.dataset.theme = card.querySelector('.theme-tag')?.dataset.theme || 'China’s Politics'; });
+  picks.forEach(pick => { pick.dataset.theme = pick.querySelector('.theme-tag')?.dataset.theme || 'China’s Politics'; });
+  const empty = d.createElement('p');
+  empty.className = 'section-empty';
+  empty.hidden = true;
+  board.insertBefore(empty, loadRow || null);
+  const topicLinks = [...topics.querySelectorAll('[data-section-theme]')];
+  const latestLeadGrid = grids[0];
+  const latestTailGrid = grids[1];
+  const baseLatestCount = cards.filter(card => !initiallyHidden.get(card)).length;
+  const latestColumns = () => innerWidth <= 600 ? 1 : innerWidth <= 900 ? 2 : innerWidth <= 1200 ? 3 : 4;
+  const latestVisibleCount = () => latestExpanded
+    ? cards.length
+    : Math.min(cards.length, Math.ceil(baseLatestCount / latestColumns()) * latestColumns());
+  const fillLatestRows = () => {
+    const visibleCount = latestVisibleCount();
+    cards.forEach((card, index) => { card.hidden = index >= visibleCount; });
+    if (loadButton) loadButton.hidden = latestExpanded || visibleCount >= cards.length;
+  };
+  const arrangeLatestCards = () => {
+    if (!editorPicks || !latestTailGrid) return;
+    const leadCount = latestColumns();
+    cards.forEach((card, index) => (index < leadCount ? latestLeadGrid : latestTailGrid).append(card));
+  };
+  const arrangeThemeCards = () => {
+    if (!latestLeadGrid) return;
+    cards.forEach(card => latestLeadGrid.append(card));
+  };
+  const applyTheme = (theme, requestedIndex = topicLinks.findIndex(link => link.dataset.sectionTheme === theme)) => {
+    const nextIndex = requestedIndex < 0 ? 0 : requestedIndex;
+    const direction = nextIndex >= activeIndex ? 1 : -1;
+    activeIndex = nextIndex;
+    const token = ++transitionToken;
+    board.style.setProperty('--section-slide-out', direction > 0 ? '-32px' : '32px');
+    board.style.setProperty('--section-slide-in', direction > 0 ? '32px' : '-32px');
+    board.classList.add('is-sliding-out');
+    setTimeout(() => {
+      if (token !== transitionToken) return;
+      const latest = theme === 'Latest';
+      activeTheme = theme;
+      if (latest) arrangeLatestCards();
+      else arrangeThemeCards();
+      if (latest) fillLatestRows();
+      else cards.forEach(card => { card.hidden = card.dataset.theme !== theme; });
+      grids.forEach(grid => { grid.hidden = !grid.querySelector('.section-card:not([hidden])'); });
+      if (editorPicks) editorPicks.hidden = !latest;
+      if (loadRow) loadRow.hidden = !latest;
+      const visibleCount = cards.filter(card => !card.hidden).length;
+      empty.hidden = latest || visibleCount > 0;
+      empty.textContent = visibleCount ? '' : `No ${theme} stories are available in this demo yet.`;
+      topicLinks.forEach(link => link.setAttribute('aria-current', String(link.dataset.sectionTheme === theme)));
+      board.classList.remove('is-sliding-out');
+      board.classList.add('is-sliding-in');
+      requestAnimationFrame(() => requestAnimationFrame(() => board.classList.remove('is-sliding-in')));
+      history.replaceState(null, '', latest ? '#latest' : `#theme=${encodeURIComponent(theme)}`);
+    }, 190);
+  };
+  topicLinks.forEach((link, index) => link.addEventListener('click', event => {
+    event.preventDefault();
+    applyTheme(link.dataset.sectionTheme, index);
+  }));
+  board.querySelectorAll('.theme-tag[data-section-theme]').forEach(tag => tag.addEventListener('click', event => {
+    event.preventDefault();
+    applyTheme(tag.dataset.sectionTheme);
+  }));
+  loadButton?.addEventListener('click', () => { latestExpanded = true; fillLatestRows(); });
+  let sectionLayoutFrame = 0;
+  addEventListener('resize', () => {
+    cancelAnimationFrame(sectionLayoutFrame);
+    sectionLayoutFrame = requestAnimationFrame(() => {
+      if (activeTheme !== 'Latest') return;
+      arrangeLatestCards();
+      fillLatestRows();
+      grids.forEach(grid => { grid.hidden = !grid.querySelector('.section-card:not([hidden])'); });
+    });
+  }, { passive: true });
+  arrangeLatestCards();
+  fillLatestRows();
+  const requestedTheme = decodeURIComponent(location.hash.replace(/^#theme=/, ''));
+  if (location.hash.startsWith('#theme=') && themeTaxonomy.includes(requestedTheme)) applyTheme(requestedTheme);
+  else topicLinks[0]?.setAttribute('aria-current', 'true');
+});
 
 d.querySelectorAll('[data-words], [data-duration]').forEach(item => {
   const words = Number(item.dataset.words) || 0;
@@ -529,6 +663,19 @@ if (d.querySelector('.recommendation-cover, .home-feature')) {
   requestCoverFit();
 }
 
+const collectionBookmarkPath = 'M45.69,23.5h346A21.22,21.22,0,0,1,412.9,44.73V473.58c0,15.19-18.16,23-29.21,12.59L218.2,329.93,53,486.9c-11,10.49-29.28,2.64-29.25-12.59l.71-429.62A21.23,21.23,0,0,1,45.69,23.5Z';
+const createCollectionBookmark = ({ id = '', saved = false, label = 'Save this article' } = {}) => {
+  const control = d.createElement('div');
+  control.className = 'collection-bookmark right';
+  if (id) control.id = id;
+  control.setAttribute('role', 'button');
+  control.setAttribute('tabindex', '0');
+  control.setAttribute('aria-label', label);
+  control.setAttribute('aria-pressed', String(saved));
+  control.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="bookmark saved11${saved ? '' : ' active'}" viewBox="0 0 431.15 510.2" aria-hidden="true"><path class="saved1" d="${collectionBookmarkPath}" transform="translate(-2.75 -2.5)"></path></svg><svg xmlns="http://www.w3.org/2000/svg" class="bookmark saved22${saved ? ' active' : ''}" viewBox="0 0 431.15 510.2" aria-hidden="true"><path class="saved2" d="${collectionBookmarkPath}" transform="translate(-2.75 -2.5)"></path></svg>`;
+  return control;
+};
+
 const articleLayout = d.querySelector('.master-article .article-layout');
 if (articleLayout) {
   const articleBody = articleLayout.querySelector('.article-body');
@@ -548,7 +695,120 @@ if (articleLayout) {
 
   const oldRightRail = [...articleLayout.querySelectorAll(':scope > .article-rail')][1];
   oldRightRail?.remove();
-  articleLayout.insertAdjacentHTML('beforeend', `<aside class="article-rail article-recommendations" aria-label="Recommended reading"><section><div class="side-title">Continue exploring</div><a class="side-story" href="https://thechinaacademy.org/the-historical-logic-and-modern-framework-of-chinas-political-system/"><span>Political system</span><strong>The Historical Logic and Modern Framework of China's Political System</strong><small>How institutions emerged from China's historical problems and modern state-building.</small></a><a class="side-story" href="https://thechinaacademy.org/china-has-nearly-50-million-evs-where-will-their-used-batteries-go/"><span>Electric vehicles</span><strong>China Has Nearly 50 Million EVs. Where Will Their Used Batteries Go?</strong><small>A fast-growing materials problem becomes a test of industrial coordination.</small></a></section><section><div class="side-title">Related reading</div><a class="side-story" href="../Articles/article-text.html"><span>Digital culture</span><strong>From TikTok to Rednote</strong><small>A platform ban unexpectedly opens a direct window onto everyday life.</small></a><a class="side-story" href="../Articles/article-news.html"><span>News briefing</span><strong>Chang'e-6 Returns with Lunar Far Side Samples</strong><small>Three developments in science, technology and public affairs.</small></a></section></aside>`);
+  const articleTheme = articleHero?.querySelector('[data-theme]')?.dataset.theme || (/chang|lunar|technology|platform|digital/i.test(articleTitle) ? 'China’s Technology' : 'China’s Politics');
+  const continueCourses = [
+    { theme: 'China’s Worldview', title: 'Making the world Anew: Bandung Spirit and the De-dependency Development of China', lede: 'Presented by Yin Zhiguang.', href: 'https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/' },
+    { theme: 'China’s Politics', title: "The Historical Logic and Modern Framework of China's Political System", lede: 'Presented by Fan Yongpeng.', href: 'https://thechinaacademy.org/lesson/the-historical-logic-and-modern-framework-of-chinas-political-system/' }
+  ];
+  const relatedStories = [
+    { theme: 'U.S.', title: '“America Is in a Pre-Revolutionary Situation”', lede: 'A crisis of legitimacy and the political limits of the status quo.', href: 'https://thechinaacademy.org/america-is-in-a-pre-revolutionary-situation/' },
+    { theme: 'U.S.', title: 'From TikTok to Rednote', lede: 'A platform ban unexpectedly opens a direct window onto everyday life.', href: '../Articles/article-text.html' },
+    { theme: 'U.S.', title: 'How Mao Zedong Shattered the U.S. Trade Blockade', lede: 'Production, trade and political will outlasted a comprehensive embargo.', href: '../Articles/article-featured-image.html' },
+    { theme: 'China’s Technology', title: "Chang'e-6 Returns with Lunar Far Side Samples", lede: 'Three developments in science, technology and public affairs.', href: '../Articles/article-news.html' },
+    { theme: 'China’s Technology', title: 'China Has Nearly 50 Million EVs. Where Will Their Used Batteries Go?', lede: 'A fast-growing materials problem becomes a test of industrial coordination.', href: 'https://thechinaacademy.org/china-has-nearly-50-million-evs-where-will-their-used-batteries-go/' },
+    { theme: 'China’s Technology', title: 'What China’s Platform Shift Reveals', lede: 'Evidence, market implications and policy inference in one concise brief.', href: '../Article%20Sections/premium-intelligence.html' },
+    { theme: 'China’s Politics', title: "The Historical Logic and Modern Framework of China's Political System", lede: 'Institutions emerged from specific historical problems and modern state-building.', href: 'https://thechinaacademy.org/lesson/the-historical-logic-and-modern-framework-of-chinas-political-system/' },
+    { theme: 'China’s Politics', title: 'The Rise of the Civilizational State', lede: 'A different account of governance and political modernity.', href: 'https://thechinaacademy.org/lesson/the-rise-of-the-civilizational-statepart-1/' }
+  ];
+  const currentPath = location.pathname;
+  const isCurrentStory = story => {
+    try { return new URL(story.href, location.href).pathname === currentPath; } catch { return false; }
+  };
+  const relatedForTheme = relatedStories.filter(story => story.theme === articleTheme && !isCurrentStory(story)).slice(0, 2);
+  const sideStoryMarkup = story => `<article class="side-story" data-theme="${story.theme}"><span>${story.theme}</span><strong><a href="${story.href}">${story.title}</a></strong><small class="side-story-lede"><a class="lede-link" href="${story.href}">${story.lede}</a></small></article>`;
+  articleLayout.insertAdjacentHTML('beforeend', `<aside class="article-rail article-recommendations" aria-label="Recommended reading"><section><div class="side-title">Continue exploring</div>${continueCourses.map(sideStoryMarkup).join('')}</section><section><div class="side-title">Related reading</div>${relatedForTheme.map(sideStoryMarkup).join('')}</section></aside>`);
+
+  const articleKey = `${location.pathname}${location.search}`;
+  const storageRead = (key, fallback) => {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
+  };
+  const storageWrite = (key, value) => {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+  };
+  let collections = storageRead('tca-collections', ['Saved Articles', 'China Research', 'Read Later']);
+  let savedArticles = storageRead('tca-saved-articles', []);
+  const saveControl = createCollectionBookmark({ id: 'custom_collection_single' });
+  const articleDeck = articleHero?.querySelector('.article-deck');
+  articleDeck?.querySelector('.read-time-pill')?.remove();
+  const saveRow = d.createElement('div');
+  saveRow.className = `article-save-row${articleDeck ? '' : ' article-save-row--default'}`;
+  saveRow.append(saveControl);
+  if (articleDeck) {
+    articleDeck.insertAdjacentElement('afterend', saveRow);
+    const syncSaveSize = () => { saveRow.style.fontSize = getComputedStyle(articleDeck).fontSize; };
+    addEventListener('resize', syncSaveSize, { passive: true });
+    d.fonts?.ready.then(syncSaveSize);
+    syncSaveSize();
+  } else articleHero?.querySelector('h1')?.insertAdjacentElement('afterend', saveRow);
+  if (saveControl.isConnected) {
+    d.body.insertAdjacentHTML('beforeend', `<dialog class="author-dialog collection-dialog" id="collection-dialog"><form class="author-dialog-card collection-dialog-card"><button class="author-dialog-close" type="button" aria-label="Close">×</button><div class="kicker">Save this article</div><h2>Choose a collection</h2><div class="collection-list" data-collection-list></div><div class="collection-create"><input type="text" name="newCollection" maxlength="48" placeholder="New collection name" aria-label="New collection name"><button class="button" type="button" data-create-collection>Create</button></div><div class="collection-actions"><button class="button" type="submit">Save article</button><button class="button collection-remove" type="button" data-remove-saved hidden>Remove</button></div><p class="collection-status" aria-live="polite"></p></form></dialog>`);
+    const collectionDialog = d.querySelector('#collection-dialog');
+    const collectionForm = collectionDialog.querySelector('form');
+    const collectionList = collectionDialog.querySelector('[data-collection-list]');
+    const removeSaved = collectionDialog.querySelector('[data-remove-saved]');
+    const collectionStatus = collectionDialog.querySelector('.collection-status');
+    const currentSave = () => savedArticles.find(item => item.key === articleKey);
+    const updateSaveButton = () => {
+      const saved = currentSave();
+      saveControl.dataset.saved = String(Boolean(saved));
+      saveControl.setAttribute('aria-pressed', String(Boolean(saved)));
+      saveControl.setAttribute('aria-label', saved ? `Saved in ${saved.collection}` : 'Save this article');
+      saveControl.querySelector('.saved11').classList.toggle('active', !saved);
+      saveControl.querySelector('.saved22').classList.toggle('active', Boolean(saved));
+      removeSaved.hidden = !saved;
+    };
+    const renderCollections = selected => {
+      collectionList.replaceChildren();
+      collections.forEach((collection, index) => {
+        const label = d.createElement('label');
+        label.className = 'collection-option';
+        const radio = d.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'collection';
+        radio.value = collection;
+        radio.checked = collection === selected || (!selected && index === 0);
+        label.append(radio, d.createTextNode(collection));
+        collectionList.append(label);
+      });
+    };
+    const openCollections = () => {
+      collectionStatus.textContent = '';
+      collectionForm.elements.newCollection.value = '';
+      renderCollections(currentSave()?.collection);
+      updateSaveButton();
+      collectionDialog.showModal();
+    };
+    saveControl.addEventListener('click', openCollections);
+    saveControl.addEventListener('keydown', event => { if (['Enter', ' '].includes(event.key)) { event.preventDefault(); openCollections(); } });
+    collectionDialog.querySelector('.author-dialog-close').addEventListener('click', () => collectionDialog.close('cancel'));
+    collectionDialog.addEventListener('click', event => { if (event.target === collectionDialog) collectionDialog.close('cancel'); });
+    collectionDialog.querySelector('[data-create-collection]').addEventListener('click', () => {
+      const name = collectionForm.elements.newCollection.value.trim();
+      if (!name) { collectionStatus.textContent = 'Enter a collection name first.'; return; }
+      if (!collections.includes(name)) collections.push(name);
+      storageWrite('tca-collections', collections);
+      renderCollections(name);
+      collectionForm.elements.newCollection.value = '';
+      collectionStatus.textContent = `Created “${name}”.`;
+    });
+    collectionForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const collection = new FormData(collectionForm).get('collection');
+      if (!collection) { collectionStatus.textContent = 'Choose or create a collection.'; return; }
+      savedArticles = savedArticles.filter(item => item.key !== articleKey);
+      savedArticles.push({ key: articleKey, title: articleTitle, collection });
+      storageWrite('tca-saved-articles', savedArticles);
+      updateSaveButton();
+      collectionDialog.close('saved');
+    });
+    removeSaved.addEventListener('click', () => {
+      savedArticles = savedArticles.filter(item => item.key !== articleKey);
+      storageWrite('tca-saved-articles', savedArticles);
+      updateSaveButton();
+      collectionDialog.close('removed');
+    });
+    updateSaveButton();
+  }
 
   if (!articleBody.querySelector('.article-editor')) articleBody.insertAdjacentHTML('beforeend', `<footer class="article-editor">Edited by The China Academy Editorial Desk</footer>`);
 
