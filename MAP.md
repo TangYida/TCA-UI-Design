@@ -1,6 +1,6 @@
 # 关键页面映射
 
-更新日期：2026-08-24
+更新日期：2026-08-25
 
 ## 维护规则
 
@@ -28,14 +28,14 @@
 
 | # | 源网址 | 对应文件 | 本轮重新设计 |
 |---|---|---|---|
-| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** 主要推荐画廊 + Trending / Opinion / Premium / Video；视频媒体固定 `16:9` 且图片中央不显示播放按钮，改由红色主题标签前的小型红色播放三角表达视频属性；主推荐保持 10 秒自动轮播，播放／暂停使用零 margin、同一 `10px` 行盒内纯 CSS 绘制并与圆点几何同轴；未注册时进入首页立即打开与功能栏／Footer 同色的贴底窗口，关闭后横幅向上滑入并淡入，横幅全部使用 Roboto；两种状态遇到 Footer 均向下收回，离开 Footer 后重新弹出，不再并入 Footer |
+| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** 主要推荐画廊 + Trending / Opinion / Premium / Video；视频媒体固定 `16:9` 且图片中央不显示播放按钮，改由红色主题标签前的小型红色播放三角表达视频属性；主推荐保持 10 秒自动轮播，播放／暂停使用零 margin、同一 `10px` 行盒内纯 CSS 绘制并与圆点几何同轴；注册窗口与横幅通过同一底部色面的高度伸缩和内容交叉淡化直接互变；Footer 桌面三列等宽，About 增加可展开的 Partners／HSK |
 | 2a | https://thechinaacademy.org/trending/ | `Article Sections/trending.html` | 继承 `.master-section`：低留白金色斜体标题（无右侧横线）、横向主题条、首行无上边界的三列卡片；lede 恢复 `xx min read/watch`，首行后插入每条带图片的米白色 `Editor's Picks`，`LOAD MORE` 展开后续卡片 |
 | 2b | https://thechinaacademy.org/thinkersforum/ | `Article Sections/thinkers-forum.html` | 页面展示名为 Opinion，保留源网址和文件路径；继承 `.master-section`，并在首行后以带图片的米白色 `Editor's Picks` 呈现源站 China–Japan 示例内容 |
 | 3 | https://thechinaacademy.org/video/ | `Video Sections/video.html` | 系列筛选、时长标签、主视频与节目卡片 |
 | 4a | https://thechinaacademy.org/after-the-earthquake-why-reconstruction-is-the-real-challenge-for-the-global-south/ | `Videos/video-article.html` | 大播放器、章节/文字稿结构、可切换观看与阅读 |
 | 4b | https://thechinaacademy.org/how-mao-zedong-led-china-to-break-though-the-us-blockade/ | `Articles/article-featured-image.html` | 头图固定为页面内容宽和 `16:9`；标题以 `80px` 为上限按换行和可用高度自适应，标签—标题—作者之间各固定一倍标题行距。藏青蒙版保留浅红无框标签、日期和完整作者信息；图下 lede 与正文同字号且时长标签不变色。移动评论区与正文同宽；作者弹窗支持无内容关闭、cookie 草稿、段内 Learn more 和深藏青输入框 |
 | 4c | https://thechinaacademy.org/from-tiktok-to-rednote-the-dialectical-transition-into-opposites/ | `Articles/article-text.html` | 文字文章变体：主题标签与日期按文字基线对齐，标题、作者与 lede 居中；正文继承与头图版相同的目录、双组推荐、Editor、分享、评论和作者联系弹窗 |
-| 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块，权益说明取消字符宽度上限并填满右侧文字列直至卡片右内边距；会员按钮默认蓝底白字、悬浮或键盘聚焦时切换为金底白字；Intelligence、Courses、Talks 各使用一篇“左侧连续文字组、右侧方图”的非推荐栏目封面文章，后接三张 `16:9` 普通卡片 |
+| 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块；Intelligence、Courses 继承非推荐栏目结构。Talks 封面及三张卡片进一步统一首页视频语言：`16:9`、红色标签前播放三角、无图中央播放字符、lede 和 `xx min watch` |
 | 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 学习路径首页、课程筛选、清楚的课时信息 |
 | 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 主课程播放器、目标、课纲与进度侧栏 |
 | 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 大搜索框、类型计数、统一结果结构 |
@@ -54,7 +54,7 @@
 
 | 用途 | 文件 | 作用范围 |
 |---|---|---|
-| 新闻文章模板 | `Articles/article-news.html` | 参考 Chang’e-6 源页：日期／标题居中、左侧简报导航、正文、带导语的右侧推荐、一行 Editor、圆形分享与评论；这是模板演示，不计入 21 个关键网址 |
+| 新闻文章模板 | `Articles/article-news.html` | 参考 Chang’e-6 源页：日期／标题居中、左侧简报导航、正文、带导语的右侧推荐、一行 Editor、圆形分享与评论；相邻新闻的章末—分割线与分割线—下章标题留白均为 `1.15em`；这是模板演示，不计入 21 个关键网址 |
 | 首页 Beta | `Beta Demo/homepage.html` | 加载 `Homepage/index.html?demo=beta-4x3`；桌面非视频封面切换为 `4:3`、视频保持 `16:9`，普通文章画廊使用两行和 `246px` 卡片（较原版缩小四分之一），不影响正式首页 |
 
 ## WordPress 实现映射
@@ -69,10 +69,10 @@
 - 主题标签链接到 `Utility/search.html?tag=...`，悬浮时切换为 `MORE >>`；静态搜索页由 `site.js` 读取参数，正式 WordPress 实现应映射到 taxonomy archive 或带 taxonomy 查询的 `search.php`。
 - 首页图片全部改为非链接容器，只有标题和 lede 可进入文章。共享 `.lede-row` 把 `xx min read` 圆角标签内联在导语末尾，方框高度为一字高，内部字号为 lede 的一半；鼠标进入文字或方框都会触发整个 lede 的换色反馈。阅读时长仍按英文词数除以 `220` 后向上取整。
 - 功能栏与标题栏缩小由同一个滚动状态驱动：`3px` 噪声过滤、向下 `30px`／向上 `36px` 的方向累计和切换后的 `560ms` 锁避免状态反转；`overflow-anchor:none` 防止 Header 动画参与浏览器滚动锚定。功能栏在 `280ms` 内收回，同时标题栏从 `82px` 缩到 `58px`、品牌同步缩小。演示登录同时写入当前浏览器会话的注册状态；正式 WordPress 合并时须替换为 WordPress/WooCommerce 登录状态和账户链接。
-- 首页未注册会话进入页面即打开无遮罩的贴底窗口；关闭后以向上滑入和淡入动效显示 `36px` 横幅。窗口与横幅均使用功能栏／Footer 的 `--ink`；两个入口在桌面与移动端均等高，说明使用正体，窗口品牌不拆行。横幅 `Follow along` 为 `20px`，说明、品牌和按钮统一使用本地 Roboto。三列注册窗口的理论宽度临界点约为 `847px`；共享 CSS 在 `601–860px` 隐藏说明列，把两个入口改为等宽双列并为关闭按钮预留独立空间。Footer 进入视口后当前提示向下收回，离开后重新弹出，不迁入 Footer；移动端层级低于全屏导航。正式实现应由真实登录／注册 cookie 或 WordPress 用户状态驱动。
+- 首页未注册会话进入页面即打开无遮罩的贴底窗口；窗口和 `36px` 横幅共用同一底部色面，`site.js` 测量窗口内容高度，CSS 在 `520ms` 内直接改变外层高度，同时交叉淡化两套内容，不再串行收回／弹出。三列窗口的理论宽度临界点约为 `847px`；`601–860px` 隐藏说明列并为关闭按钮预留空间。Footer 进入视口后当前提示向下收回，离开后恢复；移动端层级低于全屏导航。正式实现应由真实登录／注册状态驱动。
 - 当前页面的 viewport 均启用 `viewport-fit=cover`；共享脚本以白色为默认浏览器主题色，移动全屏菜单打开时同步切为藏青色，使 iPhone 刘海安全区与其下方区域一致。
-- `.master-article` 现在有头图、文字、新闻三种标题区变体；三者共用无框红字主题标签、作者卡、彩色正文图片、对齐首段的首字下沉、以文章标题返回页首的左栏导航、一行灰色 Editor、圆形分享、评论和藏青作者联系弹窗。正文图片的共享规则为 `width:auto; min-width:50%; max-width:100%; height:auto`；大章节 `h2` 使用粗体、`28.5ch` 最大宽度，并在普通段落节奏外增加一倍自身行距；编号小节 `h3` 使用 `400` 常规字重，Newsletter 条目标题不继承额外章节间距。作者联系草稿写入 30 天 cookie；桌面推荐固定在正文右栏，`900px` 以下把同一推荐组件移动到评论之后，并让评论区与正文使用同一内容宽度。
-- `js/site.js` 生成的全站 Footer 复用源站官方图标并删除旧宣传句；栏目固定为 About、Follow Us、More。Contact Us 指向 `hello@thechinaacademy.org`；YouTube／Twitter／TikTok 平台名继承 About Us 的衬线字体，账号入口使用 Roboto、每项独占一行，首项与平台名按基线对齐；入口列表不叠加额外行间 `gap`，相邻项只相隔一倍自身行高。More 收纳三项政策链接。源站已有设计页面继续在 `MAP.md` 映射，Footer 的外链直接指向用户指定的正式网址。
+- `.master-article` 现在有头图、文字、新闻三种标题区变体；三者共用无框红字主题标签、作者卡、彩色正文图片、对齐首段的首字下沉、左栏导航、Editor、分享、评论和作者联系弹窗。所有正文图片统一使用 `width:100%; max-width:100%; height:auto` 与正文等宽；大章节 `h2` 使用粗体和 `28.5ch` 最大宽度，编号小节 `h3` 使用常规字重。新闻条目清除末项默认 margin，使分割线上下严格对称为 `1.15em`。
+- `js/site.js` 生成的全站 Footer 复用源站官方图标并删除旧宣传句；桌面 About、Follow Us、More 为三个等宽列。About 末尾的 Partners 使用 `<details>`，悬浮、聚焦或点击时平滑展开 Roboto 字体的伙伴列表，当前 HSK 链接到正式课程页。其余平台、账号、邮件和政策规则保持不变。
 - `.master-section` 统一 Trending、Opinion 与 Premium Intelligence：低上留白的金色斜体栏目标题不接右侧横线，taxonomy 条单行横向滚动；首行取消顶部横线，卡片看板在三列／两列／一列断点间切换并恢复共享 lede 与 `xx min read/watch`。三个页面均使用 `LOAD MORE`，Trending／Opinion 在首行后插入每条带 `16:9` 图片的米白色 `Editor's Picks`。
 - 视频内容以 `data-content-type="video"`、视频页面或 Talks 栏目识别；首页图片中央不呈现播放按钮，所有视频内容改为在红色主题标签前显示留有间距的小型红色播放三角，时长显示 `xx min watch`。主推荐画廊每 10 秒自动前进，圆点用扇形显示进度；播放／暂停控制器不使用字符或圆形底纹，改在 `10px × 10px` 盒中用 CSS 双竖线／三角形绘制并与圆点中心对齐，控制器外边距固定为 `0`。
 

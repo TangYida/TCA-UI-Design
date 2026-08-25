@@ -197,16 +197,36 @@ if (header) {
 const footer = d.querySelector('[data-site-footer]');
 if (footer) {
   footer.className = 'site-footer';
-  footer.innerHTML = `<div class="shell"><div class="footer-mast"><a class="footer-brand" href="../Homepage/index.html"><img class="footer-logo" src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span class="brand-name">The China Academy</span></a></div><div class="footer-grid"><section class="footer-column"><div class="footer-title">About</div><div class="footer-links"><a href="https://thechinaacademy.org/about-us/">About Us</a><a href="mailto:hello@thechinaacademy.org">Contact Us</a><a href="https://thechinaacademy.org/contributors-2/">Contributors</a><a href="https://thechinaacademy.org/support-us/">Cooperation</a></div></section><section class="footer-column footer-follow"><div class="footer-title">Follow Us</div><div class="footer-socials"><div class="footer-social-group"><div class="footer-platform">YouTube</div><div class="footer-social-links"><a href="https://www.youtube.com/@guanvideo" target="_blank" rel="noreferrer">观视频工作室 Guan Video</a><a href="https://www.youtube.com/@wavemedia4433" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.youtube.com/@thinkersforum4149" target="_blank" rel="noreferrer">ThinkersForum</a><a href="https://www.youtube.com/@TechSignal2023" target="_blank" rel="noreferrer">TechSignal</a></div></div><div class="footer-social-group"><div class="footer-platform">Twitter</div><div class="footer-social-links"><a href="https://x.com/ChinaAcademyORG" target="_blank" rel="noreferrer">The China Academy</a></div></div><div class="footer-social-group"><div class="footer-platform">TikTok</div><div class="footer-social-links"><a href="https://www.tiktok.com/@chinacontentcenter" target="_blank" rel="noreferrer">ChinaContentCenter</a><a href="https://www.tiktok.com/@wavemedia2022" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.tiktok.com/@thinkersforumcn" target="_blank" rel="noreferrer">ThinkersForum</a></div></div></div></section><nav class="footer-column footer-legal" aria-label="More"><div class="footer-title">More</div><div class="footer-links"><a href="https://thechinaacademy.org/terms-of-use/">Terms of Use</a><a href="https://thechinaacademy.org/privacy-policy-2/">Privacy Policy</a><a href="https://thechinaacademy.org/cookies-policy/">Cookie Policy</a></div></nav></div><div class="copyright">© 2026 <span class="brand-name">The China Academy</span> · Redesign prototype · Images remain hosted by the source website.</div></div>`;
+  footer.innerHTML = `<div class="shell"><div class="footer-mast"><a class="footer-brand" href="../Homepage/index.html"><img class="footer-logo" src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span class="brand-name">The China Academy</span></a></div><div class="footer-grid"><section class="footer-column"><div class="footer-title">About</div><div class="footer-links"><a href="https://thechinaacademy.org/about-us/">About Us</a><a href="mailto:hello@thechinaacademy.org">Contact Us</a><a href="https://thechinaacademy.org/contributors-2/">Contributors</a><a href="https://thechinaacademy.org/support-us/">Cooperation</a><details class="footer-partners"><summary>Partners</summary><div class="footer-partner-reveal"><div><a href="https://thechinaacademy.org/hsk-certified-courses/">HSK</a></div></div></details></div></section><section class="footer-column footer-follow"><div class="footer-title">Follow Us</div><div class="footer-socials"><div class="footer-social-group"><div class="footer-platform">YouTube</div><div class="footer-social-links"><a href="https://www.youtube.com/@guanvideo" target="_blank" rel="noreferrer">观视频工作室 Guan Video</a><a href="https://www.youtube.com/@wavemedia4433" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.youtube.com/@thinkersforum4149" target="_blank" rel="noreferrer">ThinkersForum</a><a href="https://www.youtube.com/@TechSignal2023" target="_blank" rel="noreferrer">TechSignal</a></div></div><div class="footer-social-group"><div class="footer-platform">Twitter</div><div class="footer-social-links"><a href="https://x.com/ChinaAcademyORG" target="_blank" rel="noreferrer">The China Academy</a></div></div><div class="footer-social-group"><div class="footer-platform">TikTok</div><div class="footer-social-links"><a href="https://www.tiktok.com/@chinacontentcenter" target="_blank" rel="noreferrer">ChinaContentCenter</a><a href="https://www.tiktok.com/@wavemedia2022" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.tiktok.com/@thinkersforumcn" target="_blank" rel="noreferrer">ThinkersForum</a></div></div></div></section><nav class="footer-column footer-legal" aria-label="More"><div class="footer-title">More</div><div class="footer-links"><a href="https://thechinaacademy.org/terms-of-use/">Terms of Use</a><a href="https://thechinaacademy.org/privacy-policy-2/">Privacy Policy</a><a href="https://thechinaacademy.org/cookies-policy/">Cookie Policy</a></div></nav></div><div class="copyright">© 2026 <span class="brand-name">The China Academy</span> · Redesign prototype · Images remain hosted by the source website.</div></div>`;
+
+  // Add hover effect and auto-open to footer partners
+  const footerPartners = d.querySelector('.footer-partners');
+  if (footerPartners) {
+    const summary = footerPartners.querySelector('summary');
+    if (summary) {
+      footerPartners.addEventListener('mouseenter', () => {
+        summary.style.textDecoration = 'underline';
+        summary.style.color = 'var(--gold)';
+        footerPartners.open = true;
+      });
+      footerPartners.addEventListener('mouseleave', () => {
+        summary.style.textDecoration = 'none';
+        summary.style.color = '';
+        footerPartners.open = false;
+      });
+    }
+  }
 }
 
-if (!d.querySelector('#signup-dialog')) d.body.insertAdjacentHTML('beforeend', `<aside class="signup-dialog" id="signup-dialog" role="dialog" aria-modal="false" aria-label="Follow The China Academy" hidden><div class="signup-panel"><div class="signup-copy"><p class="signup-sheet-message">Follow along with <span class="brand-name">The China Academy</span></p><a class="signup-choice" href="../Homepage/premium-member.html"><strong>Premium Member</strong><em>Gain access to exclusive courses, interviews, and reports on the pivotal driving forces behind China’s evolution.</em></a><a class="signup-choice" href="../Utility/setting.html?mode=register"><strong>Free Registration</strong><em>Stay Updated with On-the-Ground Information, Discussions, and Expert Analysis on All Things China and China-Related.</em></a><button class="signup-close" data-close type="button" aria-label="Close">×</button></div></div></aside><aside class="signup-banner" data-signup-banner hidden><span>Follow along with <span class="brand-name">The China Academy</span></span><button type="button" data-expand-signup>Become a Member</button></aside>`);
+if (!d.querySelector('#signup-dialog')) d.body.insertAdjacentHTML('beforeend', `<aside class="signup-dialog" id="signup-dialog" role="dialog" aria-modal="false" aria-label="Follow The China Academy" hidden><div class="signup-panel"><div class="signup-copy"><p class="signup-sheet-message">Follow along with <span class="brand-name">The China Academy</span></p><a class="signup-choice" href="../Homepage/premium-member.html"><strong>Premium Member</strong><em>Gain access to exclusive courses, interviews, and reports on the pivotal driving forces behind China's evolution.</em></a><a class="signup-choice" href="../Utility/setting.html?mode=register"><strong>Free Registration</strong><em>Stay Updated with On-the-Ground Information, Discussions, and Expert Analysis on All Things China and China-Related.</em></a><button class="signup-close" data-close type="button" aria-label="Close">×</button></div></div></aside><aside class="signup-banner" data-signup-banner hidden><span>Follow along with <span class="brand-name">The China Academy</span></span><button type="button" data-expand-signup>Become a Member</button></aside>`);
 const dialog = d.querySelector('#signup-dialog');
 if (dialog) {
   const banner = d.querySelector('[data-signup-banner]');
   const registrationActive = () => {
     try { return sessionStorage.getItem('tca-registration-active') === '1'; } catch { return false; }
   };
+  const panel = dialog.querySelector('.signup-panel');
+  const morphDuration = 520;
   let closeTimer = 0;
   let bannerFrame = 0;
   const sheetOpen = () => dialog.classList.contains('is-open');
@@ -217,7 +237,7 @@ if (dialog) {
   const showBanner = () => {
     if (!banner || registrationActive()) return;
     cancelBannerReveal();
-    banner.classList.remove('is-visible');
+    banner.classList.remove('is-visible', 'is-morphing');
     banner.hidden = false;
     banner.getBoundingClientRect();
     bannerFrame = requestAnimationFrame(() => {
@@ -225,23 +245,56 @@ if (dialog) {
       bannerFrame = 0;
     });
   };
+  const syncExpandedHeight = () => {
+    const safeArea = parseFloat(getComputedStyle(dialog).paddingBottom) || 0;
+    dialog.style.setProperty('--signup-expanded-height', `${Math.ceil(panel.scrollHeight + safeArea)}px`);
+  };
   const openSheet = () => {
     clearTimeout(closeTimer);
-    if (banner) {
-      cancelBannerReveal();
-      banner.classList.remove('is-visible');
-      banner.hidden = true;
-    }
+    cancelBannerReveal();
+    const bannerWasVisible = Boolean(banner && !banner.hidden);
     dialog.hidden = false;
-    requestAnimationFrame(() => dialog.classList.add('is-open'));
+    syncExpandedHeight();
+    dialog.classList.remove('is-open');
+    dialog.classList.add('is-morphing');
+    dialog.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      dialog.classList.add('is-open');
+      dialog.classList.remove('is-morphing');
+      if (bannerWasVisible) {
+        banner.classList.add('is-morphing');
+        banner.classList.remove('is-visible');
+      }
+    });
+    closeTimer = setTimeout(() => {
+      if (bannerWasVisible) {
+        banner.hidden = true;
+        banner.classList.remove('is-morphing');
+      }
+    }, morphDuration);
   };
   const closeSheet = (restoreBanner = true) => {
     if (dialog.hidden) { if (restoreBanner) showBanner(); return; }
+    clearTimeout(closeTimer);
+    syncExpandedHeight();
+    if (restoreBanner && banner && !registrationActive()) {
+      cancelBannerReveal();
+      banner.hidden = false;
+      banner.classList.remove('is-visible', 'is-morphing');
+      banner.getBoundingClientRect();
+      bannerFrame = requestAnimationFrame(() => {
+        banner.classList.add('is-visible');
+        bannerFrame = 0;
+      });
+    }
+    dialog.classList.add('is-morphing');
     dialog.classList.remove('is-open');
     closeTimer = setTimeout(() => {
       dialog.hidden = true;
-      if (restoreBanner) showBanner();
-    }, 360);
+      dialog.classList.remove('is-morphing');
+    }, morphDuration);
+    // 记录用户已关闭dialog
+    try { localStorage.setItem('tca-dialog-dismissed', '1'); } catch {}
   };
   const hideSignup = () => {
     closeSheet(false);
@@ -264,9 +317,18 @@ if (dialog) {
     footerObserver.observe(footer);
   }
   addEventListener('registrationchange', hideSignup);
+  addEventListener('resize', () => { if (!dialog.hidden) syncExpandedHeight(); }, { passive: true });
+  const isDialogDismissed = () => {
+    try { return localStorage.getItem('tca-dialog-dismissed') === '1'; } catch { return false; }
+  };
   if (!registrationActive()) {
-    if (d.body.classList.contains('master-home')) requestAnimationFrame(openSheet);
-    else showBanner();
+    if (isDialogDismissed()) {
+      showBanner();
+    } else if (d.body.classList.contains('master-home')) {
+      requestAnimationFrame(openSheet);
+    } else {
+      showBanner();
+    }
   }
 }
 
@@ -274,9 +336,9 @@ const discovery = [
   ['History · 28 min', 'How Mao Zedong Shattered the U.S. Trade Blockade', 'How production, barter and diplomacy opened routes around containment.', '../Articles/article-featured-image.html'],
   ['Technology · 4 min', 'From TikTok to Rednote', 'A platform ban turns into an unexpected digital migration.', '../Articles/article-text.html'],
   ['Global Arena · 61 min', 'After the Earthquake', 'Why reconstruction is the real challenge for the Global South.', '../Videos/video-article.html'],
-  ['Premium Talks · 24 min', 'How China Builds the World’s Tallest Bridge', 'Engineering capacity from geology to institutional coordination.', '../Videos/premium-talk-detail.html'],
-  ['Course · 6 lessons', 'Making the World Anew', 'Bandung, de-dependency and China’s development path.', '../Videos/lesson.html'],
-  ['Research · 10 min', 'What China’s Platform Shift Reveals', 'Observed migration, market implications and policy inference.', '../Article%20Sections/premium-intelligence.html']
+  ['Premium Talks · 24 min', 'How China Builds the World\'s Tallest Bridge', 'Engineering capacity from geology to institutional coordination.', '../Videos/premium-talk-detail.html'],
+  ['Course · 6 lessons', 'Making the World Anew', 'Bandung, de-dependency and China\'s development path.', '../Videos/lesson.html'],
+  ['Research · 10 min', 'What China\'s Platform Shift Reveals', 'Observed migration, market implications and policy inference.', '../Article%20Sections/premium-intelligence.html']
 ];
 const main = d.querySelector('main');
 if (main && !d.body.classList.contains('master-home') && !d.body.classList.contains('master-member') && !d.body.classList.contains('master-article') && !d.body.classList.contains('master-section')) {
@@ -287,7 +349,7 @@ const requestedTag = new URLSearchParams(location.search).get('tag');
 if (requestedTag && location.pathname.endsWith('/search.html')) {
   const heading = d.querySelector('.page-hero h1');
   const input = d.querySelector('.search-box input');
-  if (heading) heading.textContent = `Stories tagged “${requestedTag}”`;
+  if (heading) heading.textContent = `Stories tagged "${requestedTag}"`;
   if (input) input.value = requestedTag;
   const results = [...d.querySelectorAll('main > section')].find(section => !section.classList.contains('page-hero') && !section.classList.contains('density-feed'));
   if (results) {
@@ -344,7 +406,7 @@ const prepareThemeTag = tag => {
 };
 d.querySelectorAll('.theme-tag, .article-tags a.article-tag, .article-hero > a.eyebrow').forEach(prepareThemeTag);
 
-d.querySelectorAll('[data-words]').forEach(item => {
+d.querySelectorAll('[data-words], [data-duration]').forEach(item => {
   const words = Number(item.dataset.words) || 0;
   const video = item.matches('[data-content-type="video"]') || item.closest('[data-content-type="video"]');
   const minutes = Number(item.dataset.duration) || Math.max(1, Math.ceil(words / 220));
@@ -420,7 +482,7 @@ if (articleLayout) {
 
   const oldRightRail = [...articleLayout.querySelectorAll(':scope > .article-rail')][1];
   oldRightRail?.remove();
-  articleLayout.insertAdjacentHTML('beforeend', `<aside class="article-rail article-recommendations" aria-label="Recommended reading"><section><div class="side-title">Continue exploring</div><a class="side-story" href="https://thechinaacademy.org/the-historical-logic-and-modern-framework-of-chinas-political-system/"><span>Political system</span><strong>The Historical Logic and Modern Framework of China’s Political System</strong><small>How institutions emerged from China’s historical problems and modern state-building.</small></a><a class="side-story" href="https://thechinaacademy.org/china-has-nearly-50-million-evs-where-will-their-used-batteries-go/"><span>Electric vehicles</span><strong>China Has Nearly 50 Million EVs. Where Will Their Used Batteries Go?</strong><small>A fast-growing materials problem becomes a test of industrial coordination.</small></a></section><section><div class="side-title">Related reading</div><a class="side-story" href="../Articles/article-text.html"><span>Digital culture</span><strong>From TikTok to Rednote</strong><small>A platform ban unexpectedly opens a direct window onto everyday life.</small></a><a class="side-story" href="../Articles/article-news.html"><span>News briefing</span><strong>Chang’e-6 Returns with Lunar Far Side Samples</strong><small>Three developments in science, technology and public affairs.</small></a></section></aside>`);
+  articleLayout.insertAdjacentHTML('beforeend', `<aside class="article-rail article-recommendations" aria-label="Recommended reading"><section><div class="side-title">Continue exploring</div><a class="side-story" href="https://thechinaacademy.org/the-historical-logic-and-modern-framework-of-chinas-political-system/"><span>Political system</span><strong>The Historical Logic and Modern Framework of China's Political System</strong><small>How institutions emerged from China's historical problems and modern state-building.</small></a><a class="side-story" href="https://thechinaacademy.org/china-has-nearly-50-million-evs-where-will-their-used-batteries-go/"><span>Electric vehicles</span><strong>China Has Nearly 50 Million EVs. Where Will Their Used Batteries Go?</strong><small>A fast-growing materials problem becomes a test of industrial coordination.</small></a></section><section><div class="side-title">Related reading</div><a class="side-story" href="../Articles/article-text.html"><span>Digital culture</span><strong>From TikTok to Rednote</strong><small>A platform ban unexpectedly opens a direct window onto everyday life.</small></a><a class="side-story" href="../Articles/article-news.html"><span>News briefing</span><strong>Chang'e-6 Returns with Lunar Far Side Samples</strong><small>Three developments in science, technology and public affairs.</small></a></section></aside>`);
 
   if (!articleBody.querySelector('.article-editor')) articleBody.insertAdjacentHTML('beforeend', `<footer class="article-editor">Edited by The China Academy Editorial Desk</footer>`);
 
