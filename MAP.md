@@ -28,7 +28,7 @@
 
 | # | 源网址 | 对应文件 | 本轮重新设计 |
 |---|---|---|---|
-| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** 主要推荐画廊 + Trending / Opinion / Premium / Video；视频媒体固定 `16:9` 且图片中央不显示播放按钮，改由红色主题标签前的小型红色播放三角表达视频属性；主推荐保持 10 秒自动轮播，播放／暂停使用零 margin、同一 `10px` 行盒内纯 CSS 绘制并与圆点几何同轴；注册窗口与横幅通过同一底部色面的高度伸缩和内容交叉淡化直接互变；Footer 桌面三列等宽，About 增加可展开的 Partners／HSK |
+| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** Continue Exploring 使用源站 Yin／Fan／Zhang／Chris 四门课程的 `16:9` 封面、标题与 lede；主推荐、课程和 Most-read 均由共享逻辑按内容自动选择六项主题，主推荐及 Most-read 显示日期。Most-read 时长位于 lede 行末并可点击；全部封面标题恢复自然左对齐。主推荐保持 10 秒自动轮播；注册提醒使用同一底部色面的伸缩切换；Footer 桌面三列等宽并含 Partners／HSK |
 | 2a | https://thechinaacademy.org/trending/ | `Article Sections/trending.html` | 继承 `.master-section`：低留白金色斜体标题（无右侧横线）、横向主题条、首行无上边界的三列卡片；lede 恢复 `xx min read/watch`，首行后插入每条带图片的米白色 `Editor's Picks`，`LOAD MORE` 展开后续卡片 |
 | 2b | https://thechinaacademy.org/thinkersforum/ | `Article Sections/thinkers-forum.html` | 页面展示名为 Opinion，保留源网址和文件路径；继承 `.master-section`，并在首行后以带图片的米白色 `Editor's Picks` 呈现源站 China–Japan 示例内容 |
 | 3 | https://thechinaacademy.org/video/ | `Video Sections/video.html` | 系列筛选、时长标签、主视频与节目卡片 |
@@ -66,8 +66,8 @@
 - 全站内容最大宽度由 `tokens.css` 的 `--max:1600px` 控制；界面无衬线统一为本地 Roboto 可变字体。`masters.css` 的最终排版护栏把所有文本行高限制在 `1.2–1.5`。
 - 除文章母版与 Article Section 母版外的非首页页面由共享脚本追加六个紧凑内容入口；Article Section 使用自身卡片看板，文章页只使用自身的 Continue Exploring／Related Reading，禁止重复追加内容流。
 - 桌面非视频封面文章图片采用 `1:1`，视频封面和全部普通文章图片采用 `16:9`。主推荐标题动态缩放且不超过 `80px`，主推荐 lede 固定为 `30px`；非推荐栏目封面的主题标签、标题和默认 `20px` lede 连续排列、整体垂直居中，标题与 lede 之间固定一倍 lede 行距。仅在发生溢出时依次缩小 lede 与标题；约 `930px` 后移动端封面回落为 `16:9`。
-- 主题标签链接到 `Utility/search.html?tag=...`，悬浮时切换为 `MORE >>`；静态搜索页由 `site.js` 读取参数，正式 WordPress 实现应映射到 taxonomy archive 或带 taxonomy 查询的 `search.php`。
-- 首页图片全部改为非链接容器，只有标题和 lede 可进入文章。共享 `.lede-row` 把 `xx min read` 圆角标签内联在导语末尾，方框高度为一字高，内部字号为 lede 的一半；鼠标进入文字或方框都会触发整个 lede 的换色反馈。阅读时长仍按英文词数除以 `220` 后向上取整。
+- 主题标签只允许使用 `China’s Economy & Business`、`China’s Politics`、`U.S.`、`China’s Technology`、`China’s Youth Sentiment`、`China’s Worldview` 六项，并链接到 `Utility/search.html?tag=...`；共享 `site.js` 负责把旧页面标签统一归类、重写查询参数及重建 Article Section 的横向主题栏，悬浮继续切换为 `MORE >>`。正式 WordPress 实现应建立同名 taxonomy terms，并在数据迁移阶段完成旧 term 映射。
+- 首页图片全部改为非链接容器，标题、lede 及 lede 行末的时长标签可进入文章。共享 `.lede-row` 把可点击的 `xx min read/watch` 圆角标签内联在导语末尾，方框高度为一字高，内部字号为 lede 的一半；鼠标进入文字或方框都会触发整个 lede 的换色反馈。阅读时长仍按英文词数除以 `220` 后向上取整。
 - 功能栏与标题栏缩小由同一个滚动状态驱动：`3px` 噪声过滤、向下 `30px`／向上 `36px` 的方向累计和切换后的 `560ms` 锁避免状态反转；`overflow-anchor:none` 防止 Header 动画参与浏览器滚动锚定。功能栏在 `280ms` 内收回，同时标题栏从 `82px` 缩到 `58px`、品牌同步缩小。演示登录同时写入当前浏览器会话的注册状态；正式 WordPress 合并时须替换为 WordPress/WooCommerce 登录状态和账户链接。
 - 首页未注册会话进入页面即打开无遮罩的贴底窗口；窗口和 `36px` 横幅共用同一底部色面，`site.js` 测量窗口内容高度，CSS 在 `520ms` 内直接改变外层高度，同时交叉淡化两套内容，不再串行收回／弹出。三列窗口的理论宽度临界点约为 `847px`；`601–860px` 隐藏说明列并为关闭按钮预留空间。Footer 进入视口后当前提示向下收回，离开后恢复；移动端层级低于全屏导航。正式实现应由真实登录／注册状态驱动。
 - 当前页面的 viewport 均启用 `viewport-fit=cover`；共享脚本以白色为默认浏览器主题色，移动全屏菜单打开时同步切为藏青色，使 iPhone 刘海安全区与其下方区域一致。

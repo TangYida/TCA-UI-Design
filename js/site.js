@@ -394,6 +394,57 @@ d.querySelectorAll('.master-section .section-card').forEach((card, index) => {
   lede.innerHTML = `<a class="lede-link" href="${href}">${copy}</a><span class="read-time-pill" data-read-time></span>`;
 });
 
+const themeTaxonomy = Object.freeze([
+  'China’s Economy & Business',
+  'China’s Politics',
+  'U.S.',
+  'China’s Technology',
+  'China’s Youth Sentiment',
+  'China’s Worldview'
+]);
+const inferTheme = tag => {
+  const label = tag.textContent.replace(/MORE\s*>>/gi, '').trim();
+  const story = tag.closest('article, .article-hero, .member-section, .section-card');
+  const context = `${label} ${story?.textContent || ''}`.toLowerCase();
+  const exact = themeTaxonomy.find(theme => theme.toLowerCase() === label.toLowerCase());
+  if (exact) return exact;
+  if (tag.hasAttribute('data-auto-theme')) {
+    if (/united states|\bu\.?s\.?\b|america|nato|trade blockade/.test(context)) return 'U.S.';
+    if (/technology|tech|\bai\b|platform|digital|electric|\bev\b|infrastructure|engineering|energy|science/.test(context)) return 'China’s Technology';
+    if (/youth|society|culture|education|mobility|consumer|generation|demograph|identity|china 101|christopher kutarna/.test(context)) return 'China’s Youth Sentiment';
+    if (/world|global|diploma|international|brics|bandung|multipolar|geopolit|foreign policy|china.?japan|europe|india|security/.test(context)) return 'China’s Worldview';
+    if (/politic|state|history|mao|governance|opinion|civilizational/.test(context)) return 'China’s Politics';
+    if (/econom|finance|market|industry|industrial|business|trade|development|reconstruction|factory|factories/.test(context)) return 'China’s Economy & Business';
+    return 'China’s Politics';
+  }
+  if (/united states|\bu\.?s\.?\b|america|nato|trade blockade/.test(label.toLowerCase())) return 'U.S.';
+  if (/technology|tech|\bai\b|platform|digital|electric|\bev\b|infrastructure|engineering|energy|science/.test(label.toLowerCase())) return 'China’s Technology';
+  if (/econom|finance|market|industry|industrial|business|trade|development|reconstruction/.test(label.toLowerCase())) return 'China’s Economy & Business';
+  if (/youth|society|culture|education|mobility|consumer|generation/.test(label.toLowerCase())) return 'China’s Youth Sentiment';
+  if (/world|global|diploma|international|brics|bandung|multipolar|geopolit|foreign policy|china.?japan|europe|india|security/.test(label.toLowerCase())) return 'China’s Worldview';
+  if (/politic|state|history|mao|governance|opinion/.test(label.toLowerCase())) return 'China’s Politics';
+  if (/united states|\bu\.?s\.?\b|america|nato/.test(context)) return 'U.S.';
+  if (/technology|tech|\bai\b|platform|digital|electric|\bev\b|infrastructure|engineering|energy|science/.test(context)) return 'China’s Technology';
+  if (/econom|finance|market|industry|industrial|business|trade|development|reconstruction/.test(context)) return 'China’s Economy & Business';
+  if (/youth|society|culture|education|mobility|consumer|generation/.test(context)) return 'China’s Youth Sentiment';
+  if (/world|global|diploma|international|brics|bandung|multipolar|geopolit|foreign policy|security/.test(context)) return 'China’s Worldview';
+  return 'China’s Politics';
+};
+
+d.querySelectorAll('.section-topics').forEach(topics => {
+  const latest = d.querySelector('.section-board');
+  if (latest && !latest.id) latest.id = 'latest';
+  topics.innerHTML = `<a href="#latest">Latest</a>${themeTaxonomy.map(theme => `<a href="../Utility/search.html?tag=${encodeURIComponent(theme)}">${theme}</a>`).join('')}`;
+});
+
+const canonicalThemeTags = d.querySelectorAll('.theme-tag, .article-tags a.article-tag, .article-hero > a.eyebrow');
+canonicalThemeTags.forEach(tag => {
+  const theme = inferTheme(tag);
+  tag.textContent = theme;
+  if (tag.matches('a')) tag.href = `../Utility/search.html?tag=${encodeURIComponent(theme)}`;
+  tag.dataset.theme = theme;
+});
+
 const prepareThemeTag = tag => {
   if (!tag.classList.contains('theme-tag')) tag.classList.add('theme-tag');
   if (!tag.querySelector(':scope > span')) {
@@ -404,7 +455,7 @@ const prepareThemeTag = tag => {
     tag.append(span);
   }
 };
-d.querySelectorAll('.theme-tag, .article-tags a.article-tag, .article-hero > a.eyebrow').forEach(prepareThemeTag);
+canonicalThemeTags.forEach(prepareThemeTag);
 
 d.querySelectorAll('[data-words], [data-duration]').forEach(item => {
   const words = Number(item.dataset.words) || 0;
@@ -412,6 +463,21 @@ d.querySelectorAll('[data-words], [data-duration]').forEach(item => {
   const minutes = Number(item.dataset.duration) || Math.max(1, Math.ceil(words / 220));
   const output = item.querySelector('[data-read-time]');
   if (output) output.innerHTML = `<span>${minutes} min ${video ? 'watch' : 'read'}</span>`;
+});
+
+d.querySelectorAll('.lede-row .read-time-pill').forEach(pill => {
+  const lede = pill.closest('.lede-row');
+  const destination = lede?.querySelector('.lede-link')?.getAttribute('href') || lede?.closest('article')?.querySelector('h1 a, h2 a, h3 a')?.getAttribute('href');
+  if (!destination) return;
+  if (pill.matches('a')) {
+    if (!pill.getAttribute('href')) pill.setAttribute('href', destination);
+    return;
+  }
+  const link = d.createElement('a');
+  [...pill.attributes].forEach(attribute => link.setAttribute(attribute.name, attribute.value));
+  link.setAttribute('href', destination);
+  link.innerHTML = pill.innerHTML;
+  pill.replaceWith(link);
 });
 
 const desktopCovers = matchMedia('(min-width: 931px)');
