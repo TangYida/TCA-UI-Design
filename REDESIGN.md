@@ -66,7 +66,7 @@
 - 正文段落与正文图片使用 `1.15em` 垂直节奏；所有文内图片统一与正文等宽并保持 `height:auto`。正式大章节 `h2` 使用粗体和 `28.5ch` 最大文本宽度，编号小节 `h3` 使用常规字重。新闻版每节末项 margin 归零，使章末至下分割线与分割线至下章标题的距离同为 `1.15em`。
 - 桌面只显示正文右栏这一组推荐，评论后不再追加 Related Reading 或密度内容流。移动端隐藏普通目录，并把同一个推荐组件移动到评论区之后；新闻版左侧简报入口改为横向滚动。
 - 正文结束处只显示右对齐的一行灰色 Editor；随后直接放置无分割线的 X、Facebook、LinkedIn、Reddit、Email 圆形分享图标。Comments 标题采用较小层级，保留 Latest／Popular、顶、踩和回复。
-- 跨平台讨论 Version B 位于正文与本站 Comments 之间；两区共用 EB Garamond 标题、muted Roboto 说明、圆形身份标识、身份左／状态右的元数据行及水平 divider。外部评论只引用编辑精选内容并把 engagement metadata 作为外链，不复制第三方原生界面；移动端状态仍留在右列并允许自然折行。
+- 跨平台讨论 Version B 位于正文与本站 Comments 之间；两区共用 EB Garamond 标题、muted Roboto 说明、圆形身份标识、身份左／状态右的元数据行及水平 divider。精选流上方设置与 Add a comment 同构的跨平台启动行：LinkedIn／Reddit／Facebook 使用各自主题色底和纸色阴纹主体，YouTube 评论图标使用 SVG 播放符号。外部评论只引用编辑精选内容并把 engagement metadata 作为外链；移动端状态仍留在右列并允许自然折行。
 - 头图版由脚本根据图片固有宽度、正文栏宽和页面可用宽度计算最终宽度；藏青半透明蒙版始终覆盖图片，红色无边框主题标签保留全局 `MORE >>` 动效，标题和作者随容器缩放以避免溢出。
 - 作者悬浮只给头像增加半透明藏青蒙版并给名字加下划线，不把照片变为灰度或单色；激活后打开藏青 Contact the Author 弹窗，包含关闭 `×`、作者简介、Learn more、Email 和 Message。
 

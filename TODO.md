@@ -85,6 +85,7 @@
 - [x] Trending 与 Opinion 在 All 的首个满行之后插入完整米白色 `Editor's Picks` 卡片看板；每条推荐均增加 `16:9` 图片，Opinion 的条目与 China–Japan 主题参考源站 Thinkers Forum 当前内容。
 - [x] 三个栏目页均加入 `LOAD MORE`，点击后展开第三批卡片并隐藏按钮；Article Section 不再被全局脚本追加旧的 “Continue exploring” 密度区。
 - [x] 三个 Article Section 的首项由 `Latest` 改为 `All`，并复用 Video Section 的 `Sort by · Latest／Popular` 控件；排序在当前主题看板内生效，All 状态继续保留 Editor's Picks 和满行加载规则。
+- [x] Section 看板边框改为“网格绘制上／左边界，每张实际卡片绘制右／下边界”；最后一行不足四／三／两列时不再依赖空轨道补线，Article Section 与 Video Section 的末行卡片都能独立闭合。
 
 ## 已完成：Video Section 与 Premium Talks（2026-08-27）
 
@@ -129,7 +130,7 @@
 ## 已完成：Beta Demo
 
 - [x] 新增 `Beta Demo/homepage.html`，隔离展示桌面端非视频封面模块 `4:3` 与普通文章画廊两行排列；视频封面仍强制 `16:9`。普通卡片宽度由 `328px` 缩至 `246px`（缩小四分之一），正式首页不受影响。
-- [x] 新增 `Beta Demo/discussions-across-platforms-demo.html`：在完整文章 mock 后依次放置 Version B 的 Discussions Across Platforms 与本站 Comments。两区共用标题、说明、头像／平台图标、身份／状态和 divider comment stream；外部区含 X、Wave Media、TF、Guan Video 四条精选讨论及 LinkedIn／Reddit／Facebook 紧凑入口，不使用卡片、第三方 embed 或额外 CTA。
+- [x] 新增 `Beta Demo/discussions-across-platforms-demo.html`：在完整文章 mock 后依次放置 Version B 的 Discussions Across Platforms 与本站 Comments。两区共用标题、说明、头像／平台图标、身份／状态和 divider comment stream；LinkedIn／Reddit／Facebook 阴纹入口位于精选评论上方并与 Add a comment 同构，YouTube 评论使用 SVG 播放符号；不使用卡片、第三方 embed 或额外 CTA。
 - [x] Homepage 的 `820px` 以下课程看板使用两条完全相同的固定轨道，并由共享脚本按容器实测宽度向下取整，同步写入所有卡片的像素宽度和 `16:9` 像素高度；针对 `440×956` 消除内容最小宽度、Grid 余数或单卡旧尺寸使 China 101 与前三张不同步的问题。
 
 ## 工作交接
