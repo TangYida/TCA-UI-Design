@@ -67,9 +67,14 @@ body:not(.master-home) .result{padding:17px 0}
   .site-header{padding-top:env(safe-area-inset-top);background:var(--white)}.site-header.open{background:var(--blue)}
   html.mobile-menu-open .site-header{position:fixed;z-index:102;inset:0 0 auto;height:calc(68px + env(safe-area-inset-top));backdrop-filter:none}
   .mobile-drawer{z-index:101;inset:0;height:100dvh;max-height:100dvh;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
-  html.mobile-menu-open .mobile-drawer{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+html.mobile-menu-open .mobile-drawer{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.mobile-group-head{display:grid;grid-template-columns:minmax(0,1fr) 48px;align-items:center;height:48px;min-height:48px;border-bottom:1px solid rgba(255,255,255,.22)}
+.mobile-group-head>a{display:flex;align-items:center;height:48px;color:inherit;font:.72rem/1.2 var(--sans);font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+.mobile-group-head>button{display:grid;place-items:center;width:48px;height:48px;padding:0;border:0;background:transparent;color:var(--gold);cursor:pointer}
+.mobile-group-head>button span{font:400 18px/1 var(--sans)}
   .signup-dialog{z-index:90}.signup-banner{z-index:80}
 }
 @media(max-width:600px){
+  html,body{height:auto;min-height:100%}body{overflow-x:clip}.site-footer{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
   .signup-banner{gap:10px;padding-inline:10px;font-size:15px;white-space:nowrap}.signup-banner button{padding:5px 7px;font-size:8px}
 }

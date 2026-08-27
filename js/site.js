@@ -17,21 +17,20 @@ setBrowserChrome(false);
 const betaMode = new URLSearchParams(location.search).get('demo') === 'beta-4x3';
 if (betaMode) d.body.classList.add('beta-home');
 
-const videoLinks = [
+const videoChannels = [
   'China Currents', 'China Now', 'Global Arena', 'Speak Softly', 'Thinkers Forum',
   'Threshold', 'Overlap', 'TOP PICKS', 'Roughly Chinese', 'China On the Ground', 'The Unfiltered'
 ];
+const videoLinks = videoChannels.map(channel => [channel, `../Video%20Sections/video.html?channel=${encodeURIComponent(channel)}`]);
 const premiumLinks = [
   ['Courses', '../About/premium-courses.html'],
   ['Intelligence', '../Article%20Sections/premium-intelligence.html'],
   ['Talks', '../Video%20Sections/premium-talks.html']
 ];
 const nav = (label, href, key) => `<a ${page === key ? 'aria-current="page"' : ''} href="${href}">${label}</a>`;
-const dropdown = (label, items, className = '') => `<div class="nav-dropdown ${className}">
-  <button class="nav-drop-trigger" type="button" aria-expanded="false">${label}<span aria-hidden="true">⌄</span></button>
-  <div class="nav-drop-panel">${items.map(item => Array.isArray(item)
-    ? `<a href="${item[1]}">${item[0]}</a>`
-    : `<a href="../Video%20Sections/video.html">${item}</a>`).join('')}</div>
+const dropdown = (label, items, className = '', href = '', key = '') => `<div class="nav-dropdown ${className}">
+  <a class="nav-drop-trigger" ${page === key ? 'aria-current="page"' : ''} href="${href}" aria-haspopup="true">${label}<span aria-hidden="true">⌄</span></a>
+  <div class="nav-drop-panel">${items.map(item => `<a href="${item[1]}">${item[0]}</a>`).join('')}</div>
 </div>`;
 
 if (header) {
@@ -53,13 +52,13 @@ if (header) {
       <div class="shell titlebar-inner">
         <nav class="title-nav title-nav-left">${nav('Home', '../Homepage/index.html', 'home')}${nav('Trending', '../Article%20Sections/trending.html', 'trending')}${nav('Opinion', '../Article%20Sections/thinkers-forum.html', 'thinkers')}</nav>
         <a class="brand" href="../Homepage/index.html"><img class="brand-logo" src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span class="brand-name">The China Academy</span></a>
-        <nav class="title-nav title-nav-right">${dropdown('Video', videoLinks, 'video-dropdown')}${dropdown('Premium', premiumLinks, 'premium-dropdown')}<a href="https://chinanotjusttravel.com/">Not Just Travel</a></nav>
+        <nav class="title-nav title-nav-right">${dropdown('Video', videoLinks, 'video-dropdown', '../Video%20Sections/video.html', 'video')}${dropdown('Premium', premiumLinks, 'premium-dropdown', '../Homepage/premium-member.html', 'premium')}<a href="https://chinanotjusttravel.com/">Not Just Travel</a></nav>
         <button class="menu-button" type="button" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span></button>
       </div>
       <div class="mobile-drawer" data-mobile-drawer role="dialog" aria-modal="true" aria-label="Site navigation" aria-hidden="true">
         <nav class="mobile-primary">${nav('Home', '../Homepage/index.html', 'home')}${nav('Trending', '../Article%20Sections/trending.html', 'trending')}${nav('Opinion', '../Article%20Sections/thinkers-forum.html', 'thinkers')}<a href="https://chinanotjusttravel.com/">Not Just Travel</a></nav>
-        <div class="mobile-group"><button type="button" data-mobile-submenu aria-expanded="false">Video <span>＋</span></button><div class="mobile-submenu">${videoLinks.map(x => `<a href="../Video%20Sections/video.html">${x}</a>`).join('')}</div></div>
-        <div class="mobile-group"><button type="button" data-mobile-submenu aria-expanded="false">Premium <span>＋</span></button><div class="mobile-submenu">${premiumLinks.map(x => `<a href="${x[1]}">${x[0]}</a>`).join('')}</div></div>
+        <div class="mobile-group"><div class="mobile-group-head"><a href="../Video%20Sections/video.html">Video</a><button type="button" data-mobile-submenu aria-expanded="false" aria-label="Show Video channels"><span>＋</span></button></div><div class="mobile-submenu">${videoLinks.map(x => `<a href="${x[1]}">${x[0]}</a>`).join('')}</div></div>
+        <div class="mobile-group"><div class="mobile-group-head"><a href="../Homepage/premium-member.html">Premium</a><button type="button" data-mobile-submenu aria-expanded="false" aria-label="Show Premium pages"><span>＋</span></button></div><div class="mobile-submenu">${premiumLinks.map(x => `<a href="${x[1]}">${x[0]}</a>`).join('')}</div></div>
         <nav class="mobile-utility"><a href="../About/support.html">Support Us</a><a href="../About/about.html">About Us</a><a href="../Utility/search.html">Search</a><button type="button" data-signin>SIGN IN</button></nav>
       </div>
     </div>`;
@@ -106,14 +105,7 @@ if (header) {
     item.classList.remove('open');
     item.querySelector('.nav-drop-trigger')?.setAttribute('aria-expanded', 'false');
   });
-  header.querySelectorAll('.nav-drop-trigger').forEach(button => button.addEventListener('click', event => {
-    event.stopPropagation();
-    const item = button.closest('.nav-dropdown');
-    const open = !item.classList.contains('open');
-    closeDesktopDropdowns(item);
-    item.classList.toggle('open', open);
-    button.setAttribute('aria-expanded', String(open));
-  }));
+  header.querySelectorAll('.nav-drop-trigger').forEach(trigger => trigger.addEventListener('click', () => closeDesktopDropdowns()));
   d.addEventListener('pointerdown', event => {
     if (!event.target.closest('.nav-dropdown')) closeDesktopDropdowns();
   });
@@ -341,7 +333,7 @@ const discovery = [
   ['Research · 10 min', 'What China\'s Platform Shift Reveals', 'Observed migration, market implications and policy inference.', '../Article%20Sections/premium-intelligence.html']
 ];
 const main = d.querySelector('main');
-if (main && !d.body.classList.contains('master-home') && !d.body.classList.contains('master-member') && !d.body.classList.contains('master-article') && !d.body.classList.contains('master-section')) {
+if (main && !d.body.classList.contains('master-home') && !d.body.classList.contains('master-member') && !d.body.classList.contains('master-article') && !d.body.classList.contains('master-section') && !d.body.classList.contains('master-premium-talks')) {
   main.insertAdjacentHTML('beforeend', `<section class="density-feed shell"><header><div class="kicker">Continue exploring</div><h2 class="display">More context, in less space.</h2></header><div class="density-grid">${discovery.map(([meta, title, copy, href]) => `<article class="density-item"><div class="kicker">${meta}</div><h3><a href="${href}">${title}</a></h3><p>${copy}</p><a class="density-arrow" href="${href}" aria-label="Open ${title}">→</a></article>`).join('')}</div></section>`);
 }
 
@@ -406,12 +398,12 @@ d.querySelectorAll('.master-home .home-section').forEach(section => {
   if (section.querySelector('.home-section-title')?.textContent.trim() === 'Premium') labelPremiumMedia(section);
 });
 
-d.querySelectorAll('.master-section .section-card, .master-section .editor-pick').forEach((card, index) => {
+d.querySelectorAll('.master-section .section-card, .master-section .editor-pick, .master-premium-talks .talk-card').forEach((card, index) => {
   if (!card.dataset.words) card.dataset.words = String(880 + (index % 6) * 130);
   const lede = card.querySelector('.section-card-lede');
   const href = card.querySelector('h2 a, h3 a')?.getAttribute('href');
   if (!lede || !href || lede.querySelector('[data-read-time]')) return;
-  const copy = lede.textContent.trim();
+  const copy = lede.innerHTML.trim();
   lede.classList.add('lede-row');
   lede.innerHTML = `<a class="lede-link" href="${href}">${copy}</a><span class="read-time-pill" data-read-time></span>`;
 });
@@ -466,19 +458,23 @@ const inferTheme = tag => {
   return 'China’s Politics';
 };
 
-d.querySelectorAll('.section-topics').forEach(topics => {
-  const latest = d.querySelector('.section-board');
-  if (latest && !latest.id) latest.id = 'latest';
-  topics.innerHTML = `<a href="#latest" data-section-theme="Latest">Latest</a>${themeTaxonomy.map(theme => `<a href="#theme=${encodeURIComponent(theme)}" data-section-theme="${theme}">${theme}</a>`).join('')}`;
+d.querySelectorAll('.section-topics:not([data-video-topics])').forEach(topics => {
+  const allStories = topics.closest('.master-section')?.querySelector('.section-board');
+  if (allStories && !allStories.id) allStories.id = 'all';
+  topics.innerHTML = `<a href="#all" data-section-theme="All">All</a>${themeTaxonomy.map(theme => `<a href="#theme=${encodeURIComponent(theme)}" data-section-theme="${theme}">${theme}</a>`).join('')}`;
+  if (!topics.nextElementSibling?.classList.contains('section-sort')) {
+    topics.insertAdjacentHTML('afterend', `<div class="section-sort" role="group" aria-label="Sort articles"><span>Sort by</span><button class="active" type="button" data-section-sort="latest" aria-pressed="true">Latest</button><button type="button" data-section-sort="popular" aria-pressed="false">Popular</button></div>`);
+  }
 });
 
 const canonicalThemeTags = d.querySelectorAll('.theme-tag, .article-tags a.article-tag, .article-hero > a.eyebrow');
 canonicalThemeTags.forEach(tag => {
   const theme = inferTheme(tag);
   tag.textContent = theme;
-  if (tag.matches('a')) tag.href = tag.closest('.master-section') ? `#theme=${encodeURIComponent(theme)}` : `../Utility/search.html?tag=${encodeURIComponent(theme)}`;
+  const articleSection = tag.closest('.master-section:not(.master-video-section)');
+  if (tag.matches('a')) tag.href = articleSection ? `#theme=${encodeURIComponent(theme)}` : `../Utility/search.html?tag=${encodeURIComponent(theme)}`;
   tag.dataset.theme = theme;
-  if (tag.closest('.master-section')) tag.dataset.sectionTheme = theme;
+  if (articleSection) tag.dataset.sectionTheme = theme;
 });
 
 const prepareThemeTag = tag => {
@@ -493,7 +489,7 @@ const prepareThemeTag = tag => {
 };
 canonicalThemeTags.forEach(prepareThemeTag);
 
-d.querySelectorAll('.master-section').forEach(pageRoot => {
+d.querySelectorAll('.master-section:not(.master-video-section)').forEach(pageRoot => {
   const board = pageRoot.querySelector('.section-board');
   const topics = pageRoot.querySelector('.section-topics');
   if (!board || !topics) return;
@@ -503,38 +499,54 @@ d.querySelectorAll('.master-section').forEach(pageRoot => {
   const editorPicks = board.querySelector('.editor-picks');
   const loadRow = board.querySelector('.section-load-row');
   const loadButton = board.querySelector('[data-section-load-more]');
+  const sortButtons = [...pageRoot.querySelectorAll('[data-section-sort]')];
   const initiallyHidden = new WeakMap(cards.map(card => [card, card.hidden]));
-  let latestExpanded = Boolean(loadButton?.hidden);
-  let activeTheme = 'Latest';
+  let allExpanded = Boolean(loadButton?.hidden);
+  let activeTheme = 'All';
+  let activeSort = 'latest';
   let activeIndex = 0;
   let transitionToken = 0;
-  cards.forEach(card => { card.dataset.theme = card.querySelector('.theme-tag')?.dataset.theme || 'China’s Politics'; });
+  cards.forEach((card, index) => {
+    card.dataset.theme = card.querySelector('.theme-tag')?.dataset.theme || 'China’s Politics';
+    card.dataset.published = card.querySelector('time')?.getAttribute('datetime') || '';
+    if (!card.dataset.popularity) {
+      const title = card.querySelector('h2, h3')?.textContent.trim() || String(index);
+      card.dataset.popularity = String([...title].reduce((score, character, characterIndex) => score + character.charCodeAt(0) * (characterIndex + 1), 0));
+    }
+  });
   picks.forEach(pick => { pick.dataset.theme = pick.querySelector('.theme-tag')?.dataset.theme || 'China’s Politics'; });
   const empty = d.createElement('p');
   empty.className = 'section-empty';
   empty.hidden = true;
   board.insertBefore(empty, loadRow || null);
   const topicLinks = [...topics.querySelectorAll('[data-section-theme]')];
-  const latestLeadGrid = grids[0];
-  const latestTailGrid = grids[1];
-  const baseLatestCount = cards.filter(card => !initiallyHidden.get(card)).length;
-  const latestColumns = () => innerWidth <= 600 ? 1 : innerWidth <= 900 ? 2 : innerWidth <= 1200 ? 3 : 4;
-  const latestVisibleCount = () => latestExpanded
+  const allLeadGrid = grids[0];
+  const allTailGrid = grids[1];
+  const baseAllCount = cards.filter(card => !initiallyHidden.get(card)).length;
+  const allColumns = () => innerWidth <= 600 ? 1 : innerWidth <= 900 ? 2 : innerWidth <= 1200 ? 3 : 4;
+  const orderedCards = () => [...cards].sort((a, b) => activeSort === 'popular'
+    ? Number(b.dataset.popularity) - Number(a.dataset.popularity)
+    : String(b.dataset.published).localeCompare(String(a.dataset.published)));
+  const allVisibleCount = () => allExpanded
     ? cards.length
-    : Math.min(cards.length, Math.ceil(baseLatestCount / latestColumns()) * latestColumns());
-  const fillLatestRows = () => {
-    const visibleCount = latestVisibleCount();
-    cards.forEach((card, index) => { card.hidden = index >= visibleCount; });
-    if (loadButton) loadButton.hidden = latestExpanded || visibleCount >= cards.length;
+    : Math.min(cards.length, Math.ceil(baseAllCount / allColumns()) * allColumns());
+  const fillAllRows = () => {
+    const visibleCount = allVisibleCount();
+    orderedCards().forEach((card, index) => { card.hidden = index >= visibleCount; });
+    if (loadButton) loadButton.hidden = allExpanded || visibleCount >= cards.length;
   };
-  const arrangeLatestCards = () => {
-    if (!editorPicks || !latestTailGrid) return;
-    const leadCount = latestColumns();
-    cards.forEach((card, index) => (index < leadCount ? latestLeadGrid : latestTailGrid).append(card));
+  const arrangeAllCards = () => {
+    if (!allLeadGrid) return;
+    if (!editorPicks || !allTailGrid) {
+      orderedCards().forEach(card => allLeadGrid.append(card));
+      return;
+    }
+    const leadCount = allColumns();
+    orderedCards().forEach((card, index) => (index < leadCount ? allLeadGrid : allTailGrid).append(card));
   };
   const arrangeThemeCards = () => {
-    if (!latestLeadGrid) return;
-    cards.forEach(card => latestLeadGrid.append(card));
+    if (!allLeadGrid) return;
+    orderedCards().forEach(card => allLeadGrid.append(card));
   };
   const applyTheme = (theme, requestedIndex = topicLinks.findIndex(link => link.dataset.sectionTheme === theme)) => {
     const nextIndex = requestedIndex < 0 ? 0 : requestedIndex;
@@ -546,23 +558,23 @@ d.querySelectorAll('.master-section').forEach(pageRoot => {
     board.classList.add('is-sliding-out');
     setTimeout(() => {
       if (token !== transitionToken) return;
-      const latest = theme === 'Latest';
+      const all = theme === 'All';
       activeTheme = theme;
-      if (latest) arrangeLatestCards();
+      if (all) arrangeAllCards();
       else arrangeThemeCards();
-      if (latest) fillLatestRows();
+      if (all) fillAllRows();
       else cards.forEach(card => { card.hidden = card.dataset.theme !== theme; });
       grids.forEach(grid => { grid.hidden = !grid.querySelector('.section-card:not([hidden])'); });
-      if (editorPicks) editorPicks.hidden = !latest;
-      if (loadRow) loadRow.hidden = !latest;
+      if (editorPicks) editorPicks.hidden = !all;
+      if (loadRow) loadRow.hidden = !all;
       const visibleCount = cards.filter(card => !card.hidden).length;
-      empty.hidden = latest || visibleCount > 0;
+      empty.hidden = all || visibleCount > 0;
       empty.textContent = visibleCount ? '' : `No ${theme} stories are available in this demo yet.`;
       topicLinks.forEach(link => link.setAttribute('aria-current', String(link.dataset.sectionTheme === theme)));
       board.classList.remove('is-sliding-out');
       board.classList.add('is-sliding-in');
       requestAnimationFrame(() => requestAnimationFrame(() => board.classList.remove('is-sliding-in')));
-      history.replaceState(null, '', latest ? '#latest' : `#theme=${encodeURIComponent(theme)}`);
+      history.replaceState(null, '', all ? '#all' : `#theme=${encodeURIComponent(theme)}`);
     }, 190);
   };
   topicLinks.forEach((link, index) => link.addEventListener('click', event => {
@@ -573,22 +585,115 @@ d.querySelectorAll('.master-section').forEach(pageRoot => {
     event.preventDefault();
     applyTheme(tag.dataset.sectionTheme);
   }));
-  loadButton?.addEventListener('click', () => { latestExpanded = true; fillLatestRows(); });
+  sortButtons.forEach(button => button.addEventListener('click', () => {
+    const nextSort = button.dataset.sectionSort;
+    if (nextSort === activeSort) return;
+    activeSort = nextSort;
+    sortButtons.forEach(control => {
+      const selected = control.dataset.sectionSort === activeSort;
+      control.classList.toggle('active', selected);
+      control.setAttribute('aria-pressed', String(selected));
+    });
+    if (activeTheme === 'All') {
+      arrangeAllCards();
+      fillAllRows();
+    } else {
+      arrangeThemeCards();
+      cards.forEach(card => { card.hidden = card.dataset.theme !== activeTheme; });
+    }
+    grids.forEach(grid => { grid.hidden = !grid.querySelector('.section-card:not([hidden])'); });
+  }));
+  loadButton?.addEventListener('click', () => { allExpanded = true; fillAllRows(); });
   let sectionLayoutFrame = 0;
   addEventListener('resize', () => {
     cancelAnimationFrame(sectionLayoutFrame);
     sectionLayoutFrame = requestAnimationFrame(() => {
-      if (activeTheme !== 'Latest') return;
-      arrangeLatestCards();
-      fillLatestRows();
+      if (activeTheme !== 'All') return;
+      arrangeAllCards();
+      fillAllRows();
       grids.forEach(grid => { grid.hidden = !grid.querySelector('.section-card:not([hidden])'); });
     });
   }, { passive: true });
-  arrangeLatestCards();
-  fillLatestRows();
+  arrangeAllCards();
+  fillAllRows();
   const requestedTheme = decodeURIComponent(location.hash.replace(/^#theme=/, ''));
   if (location.hash.startsWith('#theme=') && themeTaxonomy.includes(requestedTheme)) applyTheme(requestedTheme);
   else topicLinks[0]?.setAttribute('aria-current', 'true');
+});
+
+d.querySelectorAll('.master-video-section').forEach(pageRoot => {
+  const board = pageRoot.querySelector('[data-video-board]');
+  const grid = board?.querySelector('[data-video-grid]');
+  const topicLinks = [...pageRoot.querySelectorAll('[data-video-channel]')];
+  const sortButtons = [...pageRoot.querySelectorAll('[data-video-sort]')];
+  const cards = [...pageRoot.querySelectorAll('[data-video-card]')];
+  const loadButton = pageRoot.querySelector('[data-video-load-more]');
+  if (!board || !grid || !cards.length) return;
+  const requestedChannel = new URLSearchParams(location.search).get('channel');
+  let activeChannel = videoChannels.includes(requestedChannel) ? requestedChannel : 'All';
+  let activeSort = 'latest';
+  let expanded = false;
+  const columns = () => innerWidth <= 600 ? 1 : innerWidth <= 900 ? 2 : innerWidth <= 1200 ? 3 : 4;
+  const matchingCards = () => cards.filter(card => activeChannel === 'All' || (card.dataset.videoChannel || '').split('|').includes(activeChannel));
+  const renderVideoBoard = ({ updateUrl = true } = {}) => {
+    const ordered = matchingCards().sort((a, b) => activeSort === 'popular'
+      ? Number(b.dataset.popularity) - Number(a.dataset.popularity)
+      : String(b.dataset.published).localeCompare(String(a.dataset.published)));
+    const baseCount = Math.min(ordered.length, columns() * 2);
+    const visibleCount = expanded || activeChannel !== 'All' ? ordered.length : baseCount;
+    cards.forEach(card => { card.hidden = true; });
+    ordered.forEach((card, index) => {
+      grid.append(card);
+      card.hidden = index >= visibleCount;
+    });
+    topicLinks.forEach(link => link.setAttribute('aria-current', String(link.dataset.videoChannel === activeChannel)));
+    sortButtons.forEach(button => {
+      const selected = button.dataset.videoSort === activeSort;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    if (loadButton) loadButton.hidden = activeChannel !== 'All' || expanded || visibleCount >= ordered.length;
+    if (updateUrl) {
+      const next = new URL(location.href);
+      if (activeChannel === 'All') next.searchParams.delete('channel');
+      else next.searchParams.set('channel', activeChannel);
+      history.replaceState(null, '', `${next.pathname}${next.search}${next.hash}`);
+    }
+  };
+  const animateVideoBoard = callback => {
+    board.classList.add('is-sliding-out');
+    setTimeout(() => {
+      callback();
+      board.classList.remove('is-sliding-out');
+      board.classList.add('is-sliding-in');
+      requestAnimationFrame(() => requestAnimationFrame(() => board.classList.remove('is-sliding-in')));
+    }, 190);
+  };
+  topicLinks.forEach(link => link.addEventListener('click', event => {
+    event.preventDefault();
+    const nextChannel = link.dataset.videoChannel;
+    if (nextChannel === activeChannel) return;
+    animateVideoBoard(() => {
+      activeChannel = nextChannel;
+      expanded = false;
+      renderVideoBoard();
+    });
+  }));
+  sortButtons.forEach(button => button.addEventListener('click', () => {
+    const nextSort = button.dataset.videoSort;
+    if (nextSort === activeSort) return;
+    animateVideoBoard(() => {
+      activeSort = nextSort;
+      renderVideoBoard({ updateUrl: false });
+    });
+  }));
+  loadButton?.addEventListener('click', () => { expanded = true; renderVideoBoard({ updateUrl: false }); });
+  let videoLayoutFrame = 0;
+  addEventListener('resize', () => {
+    cancelAnimationFrame(videoLayoutFrame);
+    videoLayoutFrame = requestAnimationFrame(() => renderVideoBoard({ updateUrl: false }));
+  }, { passive: true });
+  renderVideoBoard({ updateUrl: false });
 });
 
 d.querySelectorAll('[data-words], [data-duration]').forEach(item => {
@@ -613,6 +718,12 @@ d.querySelectorAll('.lede-row .read-time-pill').forEach(pill => {
   link.innerHTML = pill.innerHTML;
   pill.replaceWith(link);
 });
+
+const syncReadTimePillColors = () => d.querySelectorAll('.lede-row .read-time-pill').forEach(pill => {
+  pill.style.setProperty('--read-time-fill', getComputedStyle(pill).color);
+});
+syncReadTimePillColors();
+addEventListener('resize', syncReadTimePillColors, { passive: true });
 
 const desktopCovers = matchMedia('(min-width: 931px)');
 const fitCoverTypography = () => {
@@ -814,8 +925,55 @@ if (articleLayout) {
 
   const pageUrl = encodeURIComponent(location.href);
   const pageTitle = encodeURIComponent(d.title.replace(/ — The China Academy$/, ''));
-  articleLayout.insertAdjacentHTML('afterend', `<section class="article-community shell" id="comments"><nav class="share-ports" aria-label="Share this article"><span class="sr-only">Share this article</span><a href="https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}" target="_blank" rel="noreferrer" aria-label="Share on X">X</a><a href="https://www.facebook.com/sharer.php?u=${pageUrl}" target="_blank" rel="noreferrer" aria-label="Share on Facebook">f</a><a href="https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}" target="_blank" rel="noreferrer" aria-label="Share on LinkedIn">in</a><a href="https://reddit.com/submit?url=${pageUrl}&title=${pageTitle}" target="_blank" rel="noreferrer" aria-label="Share on Reddit">r</a><a href="mailto:?subject=${pageTitle}&body=${pageUrl}" aria-label="Share by email">@</a></nav><div class="comments-head"><h2>Comments</h2><div class="comment-tabs" role="tablist"><button class="active" type="button" role="tab" aria-selected="true" data-comment-sort="latest">Latest</button><button type="button" role="tab" aria-selected="false" data-comment-sort="popular">Popular</button></div></div><div class="comment-list"><article class="comment" data-score="18" data-time="3"><header><strong>Maya L.</strong><time>3 hours ago</time></header><p>The side-by-side historical context makes the policy choices much easier to understand.</p><footer><button type="button" data-vote="1">↑ <span>18</span></button><button type="button" data-vote="-1">↓ <span>2</span></button><button type="button" data-reply>Reply</button></footer></article><article class="comment" data-score="31" data-time="8"><header><strong>Daniel R.</strong><time>8 hours ago</time></header><p>I would like to see the source documents linked directly beside the relevant paragraphs.</p><footer><button type="button" data-vote="1">↑ <span>31</span></button><button type="button" data-vote="-1">↓ <span>4</span></button><button type="button" data-reply>Reply</button></footer></article><article class="comment" data-score="12" data-time="26"><header><strong>Lin Q.</strong><time>Yesterday</time></header><p>The recommended-reading rail works well as a bridge to the wider argument.</p><footer><button type="button" data-vote="1">↑ <span>12</span></button><button type="button" data-vote="-1">↓ <span>1</span></button><button type="button" data-reply>Reply</button></footer></article></div></section>`);
+  articleLayout.insertAdjacentHTML('afterend', `<section class="article-community shell" id="comments"><nav class="share-ports" aria-label="Share this article"><span class="sr-only">Share this article</span><a href="https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}" target="_blank" rel="noreferrer" aria-label="Share on X">X</a><a href="https://www.facebook.com/sharer.php?u=${pageUrl}" target="_blank" rel="noreferrer" aria-label="Share on Facebook">f</a><a href="https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}" target="_blank" rel="noreferrer" aria-label="Share on LinkedIn">in</a><a href="https://reddit.com/submit?url=${pageUrl}&title=${pageTitle}" target="_blank" rel="noreferrer" aria-label="Share on Reddit">r</a><a href="mailto:?subject=${pageTitle}&body=${pageUrl}" aria-label="Share by email">@</a></nav><div class="comments-head"><h2>Comments</h2><div class="comment-tabs" role="tablist"><button class="active" type="button" role="tab" aria-selected="true" data-comment-sort="latest">Latest</button><button type="button" role="tab" aria-selected="false" data-comment-sort="popular">Popular</button></div></div><div class="comment-composer" data-comment-composer><button class="comment-signin" type="button" data-comment-signin>Sign in to add a comment</button><form class="comment-entry" data-comment-entry hidden><span class="comment-avatar" aria-hidden="true"></span><div class="comment-entry-fields"><label class="sr-only" for="article-comment-input">Add a comment</label><textarea id="article-comment-input" name="comment" rows="3" maxlength="1200" placeholder="Add a comment…" required></textarea><div class="comment-entry-actions"><span class="comment-entry-status" aria-live="polite"></span><button type="submit">Post comment</button></div></div></form></div><div class="comment-list"><article class="comment" data-score="18" data-time="3"><header><strong>Maya L.</strong><time>3 hours ago</time></header><p>The side-by-side historical context makes the policy choices much easier to understand.</p><footer><button type="button" data-vote="1">↑ <span>18</span></button><button type="button" data-vote="-1">↓ <span>2</span></button><button type="button" data-reply>Reply</button></footer></article><article class="comment" data-score="31" data-time="8"><header><strong>Daniel R.</strong><time>8 hours ago</time></header><p>I would like to see the source documents linked directly beside the relevant paragraphs.</p><footer><button type="button" data-vote="1">↑ <span>31</span></button><button type="button" data-vote="-1">↓ <span>4</span></button><button type="button" data-reply>Reply</button></footer></article><article class="comment" data-score="12" data-time="26"><header><strong>Lin Q.</strong><time>Yesterday</time></header><p>The recommended-reading rail works well as a bridge to the wider argument.</p><footer><button type="button" data-vote="1">↑ <span>12</span></button><button type="button" data-vote="-1">↓ <span>1</span></button><button type="button" data-reply>Reply</button></footer></article></div></section>`);
   const articleCommunity = d.querySelector('.article-community');
+  const commentSignin = articleCommunity.querySelector('[data-comment-signin]');
+  const commentEntry = articleCommunity.querySelector('[data-comment-entry]');
+  const commentList = articleCommunity.querySelector('.comment-list');
+  const commentStorageKey = `tca-article-comments:${articleKey}`;
+  const readStoredComments = () => {
+    const items = storageRead(commentStorageKey, []);
+    return Array.isArray(items) ? items : [];
+  };
+  const isCommentSignedIn = () => {
+    try { return sessionStorage.getItem('tca-demo-signed-in') === '1'; } catch { return false; }
+  };
+  const renderCommentEntry = () => {
+    const signedIn = isCommentSignedIn();
+    commentSignin.hidden = signedIn;
+    commentEntry.hidden = !signedIn;
+  };
+  const createUserComment = text => {
+    const comment = d.createElement('article');
+    comment.className = 'comment comment-user';
+    comment.dataset.score = '0';
+    comment.dataset.time = '0';
+    comment.innerHTML = '<header><strong>You</strong><time>Just now</time></header><p></p><footer><button type="button" data-vote="1">↑ <span>0</span></button><button type="button" data-vote="-1">↓ <span>0</span></button><button type="button" data-reply>Reply</button></footer>';
+    comment.querySelector('p').textContent = text;
+    return comment;
+  };
+  readStoredComments().forEach(item => {
+    if (typeof item?.text === 'string' && item.text.trim()) commentList.prepend(createUserComment(item.text.trim()));
+  });
+  commentSignin.addEventListener('click', () => {
+    const signin = d.querySelector('[data-site-header] [data-signin]');
+    if (signin) signin.click();
+    else location.href = '../Utility/setting.html?mode=signin';
+  });
+  addEventListener('registrationchange', renderCommentEntry);
+  renderCommentEntry();
+  commentEntry.addEventListener('submit', event => {
+    event.preventDefault();
+    const textarea = commentEntry.elements.comment;
+    const text = textarea.value.trim();
+    if (!text) return;
+    commentList.prepend(createUserComment(text));
+    const saved = readStoredComments();
+    saved.push({ text, createdAt: Date.now() });
+    storageWrite(commentStorageKey, saved);
+    textarea.value = '';
+    commentEntry.querySelector('.comment-entry-status').textContent = 'Comment added.';
+  });
   const recommendations = articleLayout.querySelector('.article-recommendations');
   const recommendationsMarker = d.createComment('desktop-recommendations-position');
   articleLayout.insertBefore(recommendationsMarker, recommendations);
@@ -915,18 +1073,22 @@ if (articleLayout) {
     if (authorDialog.returnValue === 'send') authorDialog.querySelector('.form-status').textContent = 'Demo message prepared. WordPress will handle delivery.';
   });
 
-  d.querySelectorAll('[data-vote]').forEach(button => button.addEventListener('click', () => {
-    if (button.dataset.voted) return;
-    const count = button.querySelector('span');
-    count.textContent = String(Number(count.textContent) + 1);
-    button.dataset.voted = 'true';
-  }));
-  d.querySelectorAll('[data-reply]').forEach(button => button.addEventListener('click', () => {
-    const comment = button.closest('.comment');
+  articleCommunity.addEventListener('click', event => {
+    const vote = event.target.closest('[data-vote]');
+    if (vote && articleCommunity.contains(vote)) {
+      if (vote.dataset.voted) return;
+      const count = vote.querySelector('span');
+      count.textContent = String(Number(count.textContent) + 1);
+      vote.dataset.voted = 'true';
+      return;
+    }
+    const reply = event.target.closest('[data-reply]');
+    if (!reply || !articleCommunity.contains(reply)) return;
+    const comment = reply.closest('.comment');
     if (comment.querySelector('.comment-reply')) return;
     comment.insertAdjacentHTML('beforeend', `<label class="comment-reply"><span class="sr-only">Reply</span><textarea rows="3" placeholder="Write a reply"></textarea><button type="button">Post reply</button></label>`);
     comment.querySelector('textarea').focus();
-  }));
+  });
   d.querySelectorAll('[data-comment-sort]').forEach(button => button.addEventListener('click', () => {
     d.querySelectorAll('[data-comment-sort]').forEach(tab => { tab.classList.toggle('active', tab === button); tab.setAttribute('aria-selected', String(tab === button)); });
     const list = d.querySelector('.comment-list');
@@ -936,7 +1098,27 @@ if (articleLayout) {
   }));
 }
 
-const compactRecommendation = matchMedia('(max-width: 580px)');
+const compactRecommendation = matchMedia('(max-width: 820px)');
+const courseBoard = d.querySelector('.course-board-articles');
+let courseBoardWidth = 0;
+const syncCourseBoardCovers = () => {
+  if (!courseBoard) return;
+  if (!compactRecommendation.matches) {
+    courseBoardWidth = 0;
+    courseBoard.style.removeProperty('--course-card-width');
+    courseBoard.style.removeProperty('--course-card-height');
+    return;
+  }
+  const gap = parseFloat(getComputedStyle(courseBoard).columnGap) || 16;
+  const nextWidth = Math.floor((courseBoard.clientWidth - gap) / 2);
+  if (nextWidth <= 0 || nextWidth === courseBoardWidth) return;
+  courseBoardWidth = nextWidth;
+  courseBoard.style.setProperty('--course-card-width', `${nextWidth}px`);
+  courseBoard.style.setProperty('--course-card-height', `${Math.round(nextWidth * 9 / 16)}px`);
+};
+syncCourseBoardCovers();
+if (courseBoard && 'ResizeObserver' in window) new ResizeObserver(syncCourseBoardCovers).observe(courseBoard);
+else addEventListener('resize', syncCourseBoardCovers, { passive: true });
 const recommendationBoard = d.querySelector('.recommendation-board');
 const mostRead = recommendationBoard?.querySelector('.most-read-column');
 const mostReadMarker = mostRead ? d.createComment('most-read-desktop-position') : null;
@@ -959,6 +1141,7 @@ const updateRecommendationStructure = () => {
 };
 updateRecommendationStructure();
 compactRecommendation.addEventListener?.('change', updateRecommendationStructure);
+compactRecommendation.addEventListener?.('change', syncCourseBoardCovers);
 
 const setupGalleryDots = gallery => {
   let dots = gallery.nextElementSibling?.classList.contains('gallery-dots') ? gallery.nextElementSibling : null;

@@ -3,29 +3,112 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Video — Redesign</title>
+  <title>Video — The China Academy</title>
   <link rel="stylesheet" href="../css/tokens.css">
   <link rel="stylesheet" href="../css/site.css">
   <link rel="stylesheet" href="../css/masters.css">
 </head>
-<body data-page="video">
+<body class="master-section master-video-section video-section" data-page="video">
 <header data-site-header></header>
-<main class="shell">
-  <section class="page-hero">
-    <div class="page-intro">
-      <div><div class="eyebrow">Watch &amp; listen</div><h1 class="display">Video</h1></div>
-      <p class="deck">Series-led browsing replaces the undifferentiated video feed. Duration and format remain visible before you commit.</p>
+<main class="section-page">
+  <header class="section-mast video-section-mast">
+    <div class="section-title-row"><h1 class="section-title">Video</h1></div>
+    <nav class="section-topics video-topics" data-video-topics aria-label="Video channels">
+      <a href="video.html" data-video-channel="All">All</a>
+      <a href="?channel=China%20Currents" data-video-channel="China Currents">China Currents</a>
+      <a href="?channel=China%20Now" data-video-channel="China Now">China Now</a>
+      <a href="?channel=Global%20Arena" data-video-channel="Global Arena">Global Arena</a>
+      <a href="?channel=Speak%20Softly" data-video-channel="Speak Softly">Speak Softly</a>
+      <a href="?channel=Thinkers%20Forum" data-video-channel="Thinkers Forum">Thinkers Forum</a>
+      <a href="?channel=Threshold" data-video-channel="Threshold">Threshold</a>
+      <a href="?channel=Overlap" data-video-channel="Overlap">Overlap</a>
+      <a href="?channel=TOP%20PICKS" data-video-channel="TOP PICKS">TOP PICKS</a>
+      <a href="?channel=Roughly%20Chinese" data-video-channel="Roughly Chinese">Roughly Chinese</a>
+      <a href="?channel=China%20On%20the%20Ground" data-video-channel="China On the Ground">China On the Ground</a>
+      <a href="?channel=The%20Unfiltered" data-video-channel="The Unfiltered">The Unfiltered</a>
+    </nav>
+    <div class="video-sort" role="group" aria-label="Sort videos">
+      <span>Sort by</span>
+      <button type="button" data-video-sort="latest" aria-pressed="true">Latest</button>
+      <button type="button" data-video-sort="popular" aria-pressed="false">Popular</button>
     </div>
-  </section>
-  <nav class="tabs"><a>All</a><a>China Currents</a><a>China Now</a><a>Global Arena</a><a>Thinkers Forum</a><a>Roughly Chinese</a></nav>
-  <section class="section-space feature-grid">
-    <div class="feature-image"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/封面-2.webp" alt="Global South reconstruction"><button class="play" aria-label="Play">▶</button></div>
-    <div class="feature-copy"><div class="kicker">Global Arena · 1:01:13</div><h2>After the Earthquake</h2><p>Why reconstruction—not the initial disaster—is the real challenge for the Global South.</p><a class="button" href="../Videos/video-article.html">Watch episode</a></div>
-  </section>
-  <section class="card-grid section-space">
-    <article class="card"><div class="card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2025/10/万隆会议.jpeg" alt="Bandung"><span class="duration">15:39</span></div><h3>Can the Global South Revive the Third World Movement?</h3></article>
-    <article class="card"><div class="card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2025/09/Screen-Shot-2025-09-30-at-3.32.02-PM.webp" alt="Bridge"><span class="duration">24:36</span></div><h3>Beyond China vs. West</h3></article>
-    <article class="card"><div class="card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2025/01/52e9cfc3-4a31-408f-b5d9-0000d042091d.png" alt="Technology"><span class="duration">38:17</span></div><h3>Europe’s Climate Fight: What Went Wrong?</h3></article>
+  </header>
+  <section class="section-board video-board" data-video-board aria-label="Video library">
+    <div class="section-card-grid video-card-grid" data-video-grid>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="37" data-published="2026-08-18" data-popularity="96" data-video-channel="Roughly Chinese|TOP PICKS|The Unfiltered">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/57ff5cce-a066-45ae-8c72-5a93d3f0f867.webp" alt="Guest speaking in Roughly Chinese episode 33"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>China and socialism</span></a><time datetime="2026-08-18">Aug 18, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/he-came-to-china-looking-for-socialism-what-did-he-find%e3%80%90roughly-chinese-ep33%e3%80%91/">He Came to China Looking for Socialism. What Did He Find?</a></h2>
+        <p class="section-card-lede">A visitor tests inherited ideas about China against the society he encounters.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="61" data-published="2026-08-17" data-popularity="91" data-video-channel="Global Arena|Overlap|China On the Ground">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/封面-2.webp" alt="Reconstruction after an earthquake in the Global South"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Global South</span></a><time datetime="2026-08-17">Aug 17, 2026</time></div>
+        <h2><a href="../Videos/video-article.html">After the Earthquake: Why Reconstruction Is the Real Challenge</a></h2>
+        <p class="section-card-lede">Disaster coverage ends early; sanctions, finance and rebuilding determine what follows.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="16" data-published="2026-08-14" data-popularity="88" data-video-channel="Global Arena|Thinkers Forum|TOP PICKS">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/Farwa-Sial.webp" alt="Farwa Sial discussing China and the Global South"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Development</span></a><time datetime="2026-08-14">Aug 14, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/can-china-and-the-global-south-revive-the-third-world-movement/">Can China and the Global South Revive the Third World Movement?</a></h2>
+        <p class="section-card-lede">The language of sovereignty returns to a debate about production and political power.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="25" data-published="2026-08-07" data-popularity="84" data-video-channel="Global Arena|China Currents|Speak Softly">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/Jose-Barrios-1.webp" alt="José Barrios discussing the Global South and world order"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>World order</span></a><time datetime="2026-08-07">Aug 7, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/beyond-china-vs-west-why-the-global-south-wants-its-own-path/">Beyond China vs. West: Why the Global South Wants Its Own Path</a></h2>
+        <p class="section-card-lede">BRICS and Brazil reveal why a binary geopolitical map misses the argument.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="29" data-published="2026-07-31" data-popularity="78" data-video-channel="Global Arena|Threshold|TOP PICKS">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/07/Limes.webp" alt="European climate policy discussion"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Climate transition</span></a><time datetime="2026-07-31">Jul 31, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/europe-wanted-to-lead-the-climate-fight-what-went-wrong/">Europe Wanted to Lead the Climate Fight. What Went Wrong?</a></h2>
+        <p class="section-card-lede">Heat, energy prices and industry collide with Europe’s preferred climate narrative.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="22" data-published="2026-07-31" data-popularity="67" data-video-channel="China Currents|Speak Softly|Thinkers Forum">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2025/10/万隆会议.jpeg" alt="International cultural exchange in the Bandung era"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Cultural exchange</span></a><time datetime="2026-07-31">Jul 31, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/video/">Rethinking the Global South: China’s International Cultural Exchanges</a></h2>
+        <p class="section-card-lede">Emily Wilcox traces how cultural diplomacy built relationships beyond state ceremony.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="38" data-published="2026-07-30" data-popularity="74" data-video-channel="Thinkers Forum|Global Arena|The Unfiltered">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/Gemini_Generated_Image_df5husdf5husdf5h.png" alt="Illustration of competing development paths"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Development paths</span></a><time datetime="2026-07-30">Jul 30, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/video/">A Different Democracy? China, Rwanda and the Search for New Paths</a></h2>
+        <p class="section-card-lede">Political institutions are compared through the outcomes they organize.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="38" data-published="2026-07-21" data-popularity="82" data-video-channel="Threshold|China Currents|TOP PICKS">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2024/12/959bcb71-d50c-4368-a389-eeb3f8c9c178.webp" alt="Industrial technology and climate transition"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Energy and industry</span></a><time datetime="2026-07-21">Jul 21, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/video/">Europe’s Heatwave, Energy Transition and Climate Realism</a></h2>
+        <p class="section-card-lede">Dieter Helm separates decarbonization targets from the institutions needed to reach them.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="24" data-published="2026-07-16" data-popularity="63" data-video-channel="Speak Softly|Global Arena|China On the Ground">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/Screen-Shot-2026-08-18-at-12.46.40-PM.webp" alt="Discussion of market socialism and economic reform"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Economic reform</span></a><time datetime="2026-07-16">Jul 16, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/video/">Cuba’s Economic Reform: Market Socialism and China’s Model</a></h2>
+        <p class="section-card-lede">William LeoGrande examines what can travel between distinct political economies.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="54" data-published="2026-07-16" data-popularity="86" data-video-channel="Overlap|The Unfiltered|Global Arena">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/封面-2.webp" alt="Sanctions and aid in the Global South"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Sanctions</span></a><time datetime="2026-07-16">Jul 16, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/video/">U.S. Aid? Lift the Sanctions First</a></h2>
+        <p class="section-card-lede">Aid promises are tested against the economic costs imposed by coercive policy.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="54" data-published="2026-07-15" data-popularity="71" data-video-channel="Roughly Chinese|Speak Softly|The Unfiltered">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2026/08/57ff5cce-a066-45ae-8c72-5a93d3f0f867.webp" alt="Roughly Chinese conversation about Tibet and media"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Media and representation</span></a><time datetime="2026-07-15">Jul 15, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/video/">Who Gets to Tell Tibet’s Story?</a></h2>
+        <p class="section-card-lede">A conversation about reporting, political framing and the limits of distant expertise.</p>
+      </article>
+      <article class="section-card" data-video-card data-content-type="video" data-duration="45" data-published="2026-07-08" data-popularity="69" data-video-channel="China Now|China Currents|Thinkers Forum">
+        <figure class="section-card-media"><img src="https://thechinaacademy.org/wp-content/uploads/2025/09/Screen-Shot-2025-09-30-at-3.32.02-PM.webp" alt="Chinese infrastructure seen as an institutional model"></figure>
+        <div class="section-card-meta"><a class="theme-tag kicker" data-auto-theme href="../Utility/search.html"><span>Institutions</span></a><time datetime="2026-07-08">Jul 8, 2026</time></div>
+        <h2><a href="https://thechinaacademy.org/video/">Can the Chinese Model Be Translated?</a></h2>
+        <p class="section-card-lede">Institutional lessons lose meaning when separated from history and political capacity.</p>
+      </article>
+    </div>
+    <div class="section-load-row"><button class="section-load-more" type="button" data-video-load-more>Load More</button></div>
   </section>
 </main>
 <footer data-site-footer></footer>

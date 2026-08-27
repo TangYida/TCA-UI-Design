@@ -1,6 +1,6 @@
 # 开发进度与交接清单
 
-更新日期：2026-08-25
+更新日期：2026-08-27
 
 ## 已完成：结构与共享母版
 
@@ -19,7 +19,7 @@
 - [x] 全站内容最大宽度改为 `1600px`；无衬线字体统一为本地 Roboto 可变字体，移除生产样式中的 Helvetica Neue/Inter 依赖。
 - [x] 统一排版禁区：所有渲染文字行高只能在 `1.2–1.5`；取消统一段间距下限。
 - [x] 主题标签统一为红色可点击 taxonomy 链接，悬浮时渐变切换为 `MORE >>`；普通文章日期独立使用灰色元数据样式。
-- [x] 删除首页所有圆形箭头和说明文字；全局 `.lede-row` 将可点击的 `xx min read/watch` 方框内联在导语行末，方框与 lede 指向同一内容页，高为一字高、内部字号为 lede 的一半；悬浮整个 lede（包括方框）时交换时长标签的背景色与文字色。
+- [x] 删除首页所有圆形箭头和说明文字；全局 `.lede-row` 将可点击的 `xx min read/watch` 方框内联在导语行末，方框与 lede 指向同一内容页，高为一字高、内部字号为 lede 的一半；悬浮整个 lede（包括方框）时，以该 lede／标签当前文字色填充方框背景并切换为纸色文字。
 - [x] 阅读时长继续按 `ceil(英文词数 ÷ 220)` 计算，最低 1 分钟，全站时长标签显示为 `xx min read`。
 - [x] 首页所有封面图和普通文章图均改为不可点击容器；文章只可通过标题或 lede 进入，标题悬浮显示下划线。
 - [x] 首页封面视频与普通视频卡片中的播放按钮已全部删除；视频内容仍通过栏目标签、标题、lede 和 `xx min watch` 识别，实际视频详情页的播放器入口不受影响。
@@ -29,10 +29,10 @@
 - [x] 按最终反馈撤销首页与 Premium Member 封面标题的两端对齐，恢复自然左对齐。
 - [x] 栏目普通文章宽度改为旧宽度的 `4/5`（桌面上限约 `328px`），Trending、Opinion、Premium、Video 每个画廊均扩充为 5 篇演示文章。
 - [x] 移动端菜单固定覆盖完整视口并锁定背景滚动；品牌与关闭按钮保持在顶部，菜单内容独立滚动。Home、Trending、Opinion、Video、Premium、Not Just Travel 及功能入口一级行统一为 `48px`，支持链接／`Escape`／桌面断点关闭与键盘焦点循环。
-- [x] 推荐看板在 `581px` 以上维持 Continue Exploring／Most-read 左右并置；`580px` 以下将 Most-read 移为第三张横向画廊页，禁止上下堆叠。推荐栏目移动端高度由封面、一个 lede 行距的间隔和自动播放控制区共同计算，不再使用旧的固定 `12px` 圆点高度。
+- [x] 推荐看板拆页阈值最终提升到 `820px`：`821px` 以上 Continue Exploring／Most-read 左右并置，`820px` 以下把 Most-read 移为第三张横向画廊页，覆盖 `690–778px` 的 iPad／宽移动窗口，禁止两栏互相覆盖。四张课程卡使用 `minmax(0,1fr)` 等宽网格和硬性 `16:9` 媒体框，标题最多两行、导语最多一行。
 - [x] Selected Reading 已改为 Continue Exploring，并从源站课程页载入 Yin Zhiguang、Fan Yongpeng、Zhang Weiwei、Christopher Kutarna 四门课程的 `16:9` 远程封面、标题和 lede；课程卡不显示日期或阅读时长，但会按内容自动选择主题。主推荐补回日期；Most-read 每条自动选择主题并显示日期，时长从顶部移到 lede 行末且可点击。
 - [x] Continue Exploring 与 Most-read 栏头不使用主题标签；大画廊与小画廊继续按溢出情况显示居中圆点。
-- [x] 全站主题 taxonomy 收束为六项：`China’s Economy & Business`、`China’s Politics`、`U.S.`、`China’s Technology`、`China’s Youth Sentiment`、`China’s Worldview`。共享 `site.js` 统一归并旧标签、重写搜索参数，并把 Article Section 主题栏重构为 `LATEST + 六项主题`。
+- [x] 全站主题 taxonomy 收束为六项：`China’s Economy & Business`、`China’s Politics`、`U.S.`、`China’s Technology`、`China’s Youth Sentiment`、`China’s Worldview`。共享 `site.js` 统一归并旧标签、重写搜索参数，并把 Article Section 主题栏重构为 `ALL + 六项主题`。
 - [x] 删除已被推翻的“圆形箭头导航”“阅读时长置于按钮下方”“封面导语按标题字号 60%→50% 贴底”“手机把推荐看板上下堆叠”等旧设计说明。
 
 ## 已完成：Premium Member
@@ -45,10 +45,11 @@
 ## 每次 UI 修改后的强制复核
 
 - [ ] 检查所有目标断点，确认图片、标题、标签、lede、时长和分页圆点没有堆叠或相互覆盖。
+- [x] 本轮按快速静态方式复核 `1600／900／690／390px` 的断点条件：Homepage 在 `690px` 已进入三屏结构；Video 为四／二／二／一列；Premium Talks 在窄屏回落为单列。新增布局均使用正常 Grid 流，不以负边距或绝对定位拼接正文。
 - [x] 本轮已扫描生产 CSS：显式行高没有超出 `1.2–1.5`，共享母版保留最终护栏。
 - [x] 本轮已做结构检查：首页图片没有被 `<a>` 包裹，标题与 lede 使用独立链接。
 - [ ] 检查 `MORE >>` 不改变主题标签组件宽度，并确认日期始终保持灰色。
-- [ ] 检查有横向溢出的画廊才显示圆点；在 `580px` 两侧确认推荐画廊为两屏/三屏且没有高度突变。
+- [ ] 检查有横向溢出的画廊才显示圆点；在 `820px` 两侧确认推荐画廊为两屏/三屏且没有高度突变。
 - [x] 本轮已同步更新 `MAP.md`、`REDESIGN.md` 和本文件，并删除被新决定推翻的规则。
 - [x] 本轮结构复核：有效 HTML 为 21 个，`MAP.md` 页面行也是 21 条；本地链接缺失为 0，旧目录路径引用为 0，`site.js` 语法及三份 CSS 大括号均通过检查。
 - [x] 本轮 Premium Member 禁区复核：会员主张与卡片只用正常 Grid 流和明确断点，不使用负边距或绝对定位拼接正文；新增文字行高均处于 `1.2–1.5`，10 个远程图片 URL 均返回 HTTP 200。
@@ -74,15 +75,26 @@
 - [x] 三种文章模板共用同一个首字下沉规则：优先使用 `initial-letter: 3 3` 让首字占三行并与右侧首段自动对齐，回退字号为 `3.65em`，行高仍遵守 `1.2` 禁区；分享区与正文之间的布局留白由 `110px` 减半为 `55px`。
 - [x] 三种文章左栏第一项统一为当前文章完整标题，并链接至 `#article-top` 返回标题区；新闻版日期改为灰色，三则新闻标题上下节奏统一，第一则 Chang’e-6 新闻补回完整标题。
 - [x] 主题标签和作者均回收到共享母版：文字版 `.article-tag` 与首页 `.theme-tag` 共用无框红字及 `MORE >>` 动效；文字版作者卡整体保持居中，但头像、姓名和简介复用头图版交互，姓名与简介在卡内左对齐。
-- [x] 本轮文章模板复核：活动目录中的旧模板文件名／引用为 0，三种模板统一命名为 `article-featured-image.html`、`article-news.html`、`article-text.html`；文章 lede 的时长标签取消悬浮换色。`site.js` 语法、三份 CSS 大括号、25 份当前演示 HTML 的本地引用和重复 ID 均通过静态检查。
+- [x] 本轮文章模板复核：活动目录中的旧模板文件名／引用为 0，三种模板统一命名为 `article-featured-image.html`、`article-news.html`、`article-text.html`；文章 lede 的时长标签重新服从全局悬浮填充规则。`site.js` 语法、三份 CSS 大括号、25 份当前演示 HTML 的本地引用和重复 ID 均通过静态检查。
 
 ## 已完成：Article Section 母版（2026-08-24）
 
 - [x] 新建真实 `.master-section` 共享母版并用于 Trending、Opinion、Premium Intelligence；旧的各自独立 Hero／Feature Grid／Card Grid 结构已被统一替换。
 - [x] 栏目标题使用金色斜体，删除标题右侧分割线并把标题上方留白压缩到 `20–38px`（移动端 `18px`）；下方主题条从 `LATEST` 开始排列所有栏目主题，使用单行横向滚动，并以底部分割线结束标题栏。
-- [x] 看板栏统一使用卡片：`16:9` 图片、可点击主题标签、灰色日期、标题和共享 `.lede-row`；所有 lede 恢复行末 `xx min read/watch` 标签。桌面三列、平板两列、移动端一列，卡片之间只有简洁分割线；首行卡片顶部不再绘制横线。
-- [x] Trending 与 Opinion 在首行三张卡片之后插入完整米白色 `Editor's Picks` 卡片看板；每条推荐均增加 `16:9` 图片，Opinion 的条目与 China–Japan 主题参考源站 Thinkers Forum 当前内容。
+- [x] 看板栏统一使用卡片：`16:9` 图片、可点击主题标签、灰色日期、标题和共享 `.lede-row`；所有 lede 恢复行末 `xx min read/watch` 标签。桌面最多四列，并按四／三／二／一列断点动态填满每行；卡片之间只有简洁分割线，首行顶部保留看板边界。
+- [x] Trending 与 Opinion 在 All 的首个满行之后插入完整米白色 `Editor's Picks` 卡片看板；每条推荐均增加 `16:9` 图片，Opinion 的条目与 China–Japan 主题参考源站 Thinkers Forum 当前内容。
 - [x] 三个栏目页均加入 `LOAD MORE`，点击后展开第三批卡片并隐藏按钮；Article Section 不再被全局脚本追加旧的 “Continue exploring” 密度区。
+- [x] 三个 Article Section 的首项由 `Latest` 改为 `All`，并复用 Video Section 的 `Sort by · Latest／Popular` 控件；排序在当前主题看板内生效，All 状态继续保留 Editor's Picks 和满行加载规则。
+
+## 已完成：Video Section 与 Premium Talks（2026-08-27）
+
+- [x] 重新读取源站 Video Archive，使用 `All`、China Currents、China Now、Global Arena、Speak Softly、Thinkers Forum、Threshold、Overlap、TOP PICKS、Roughly Chinese、China On the Ground、The Unfiltered 作为独立视频栏目；不再复用文章的六项主题栏。
+- [x] `Video Sections/video.html` 继承 Article Section 的四／三／二／一列分割线看板、`16:9` 卡片、共享主题标签、lede 与 `xx min watch`，但明确移除 Editor's Picks；默认两行且 `LOAD MORE` 后继续保持满行。只有标题栏主题轨道保留金色线，内容看板分割线恢复为全局 `--line`。
+- [x] 每个 Video 栏目状态均显示 `Latest`／`Popular` 排序控件；导航和栏目链接统一写入 `?channel=栏目名`，页面读取该字段后激活对应栏目，并在本页以横向过渡更新看板。
+- [x] `Video Sections/premium-talks.html` 删除栏目条和旧主视频／三卡片混排，改为逐行长条卡片：左侧 `16:9` Premium 封面，右侧主题、标题、lede 与观看时长；嘉宾改为 lede 开头的 EB Garamond 粗体姓名加冒号。删除价格／Member access、介绍段、会员 CTA，以及该页自动追加的 Continue Exploring 密度区；全部封面继续使用金底白字 Premium 标记。
+- [x] `600px` 以下 Footer 增加包含安全区的末端滚动余量，并解除窄屏根页面的固定高度约束，避免约 `440×956` 时注册横幅截住 Footer 最后一行。
+- [x] 桌面导航的 Video／Premium 标题本身分别链接 Video Archive／Premium Member；Video 下拉每项连接到同一个 Video 页面及对应 `channel` 字段。移动全屏菜单把标题链接和展开按钮拆开，仍保持一级行高 `48px`。
+- [x] 共享逻辑已隔离文章 taxonomy 和 Video channel：文章 Section 继续使用六项内容主题，Video 不会被全局脚本重写为文章主题栏；两类页面继续共用卡片和 lede 组件。
 
 ## 已完成：Homepage 与全局交互（2026-08-24）
 
@@ -107,7 +119,9 @@
 ## 其他视觉微调
 
 - 推荐栏元素统一化
+
 - [x] 全站 lede 时长标签保持在行末，并可作为同一篇内容的入口。
+
 - 文章标题排版
 - 视频lede调整
 - 设计要怎么风格化？（像newyoker那样）
@@ -115,27 +129,35 @@
 ## 已完成：Beta Demo
 
 - [x] 新增 `Beta Demo/homepage.html`，隔离展示桌面端非视频封面模块 `4:3` 与普通文章画廊两行排列；视频封面仍强制 `16:9`。普通卡片宽度由 `328px` 缩至 `246px`（缩小四分之一），正式首页不受影响。
+- [x] 新增 `Beta Demo/discussions-across-platforms-demo.html`：在完整文章 mock 后依次放置 Version B 的 Discussions Across Platforms 与本站 Comments。两区共用标题、说明、头像／平台图标、身份／状态和 divider comment stream；外部区含 X、Wave Media、TF、Guan Video 四条精选讨论及 LinkedIn／Reddit／Facebook 紧凑入口，不使用卡片、第三方 embed 或额外 CTA。
+- [x] Homepage 的 `820px` 以下课程看板使用两条完全相同的固定轨道，并由共享脚本按容器实测宽度向下取整，同步写入所有卡片的像素宽度和 `16:9` 像素高度；针对 `440×956` 消除内容最小宽度、Grid 余数或单卡旧尺寸使 China 101 与前三张不同步的问题。
 
 ## 工作交接
 
-- [ ] 在文章排版页面，把长导语改成 quote（可以增加 AI 一键摘取按钮）
-- [ ] 在渲染页面时，是否可以获取后台的文章长度/视频时长从而计算时长标签？如果不行，可以在上传时新建一个时长字段。
-- [ ] 文章段内<br>自动转换成<p>
 - [ ] 出一个“给编导的**网站使用指南**”，介绍不同文章格式，上传文章的注意事项，网站结构等等。
 - [ ] 完善视频、课程和作者的**站内搜索**，并确认 Contributor Profile 与 WordPress Author Archive 是否继续作为两个内容模型。
 
-几个字段：
-1. quote
-2. 主题
-3. 标签（主题页/搜索页）
-4. 时长
-
-文章上传页面：
-1.
-
-## 设计工作流
+## 注意事项
 
 - 每轮先写一页“不可变约束 + 本轮变量 + 明确删除项”，确认后再改代码；同一组件一次只保留一个有效版本。
 - 建立组件验收矩阵：主封面、栏目封面、普通卡片、主题标签、lede、导航、画廊分别记录 desktop/tablet/mobile 的结构、字号范围、比例和交互。
 - 以 `1600×1000`、`949×849`、`581×900`、`580×900`、`390×844` 作为固定验收视口；每轮只比较目标组件，不顺带重排未授权区域。
 - 把“禁止堆叠、行高 1.2–1.5、图片不可点击”等规则做成自动静态检查；视觉确认后再把任务标为完成。
+
+## 后续工作计划
+
+Workflow: 排版   $$\rightarrow   $$ 美编   $$\rightarrow$$ 动态化   $$\rightarrow $$ 最终敲定
+
+静态网站排版
+
+- [ ] Video Sections(premium-talks.html、video.html) : 本周四
+- [ ] Videos(lesson.html、premium-talk-detail.html、video-article.html): 周五
+- [ ] About(about.html、author.html、contributor-detail.html、contributors.html、hsk.html、premium-courses.html、support.html) : 下周一、周二、周三
+- [ ] Utility(search.html、setting.html): 下周四
+
+网站测试：
+
+- [ ] Video Sections: 下周一
+- [ ] Videos: 下周二
+- [ ] About: 下周三、下周四
+- [ ] Utility: 下周五

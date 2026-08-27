@@ -1,6 +1,6 @@
 # 关键页面映射
 
-更新日期：2026-08-25
+更新日期：2026-08-27
 
 ## 维护规则
 
@@ -20,7 +20,7 @@
 
 1. `css/tokens.css`：颜色、字体、间距和阅读宽度等设计变量。
 2. `css/site.css`：导航、页脚、按钮、基础卡片、弹窗等全站组件。
-3. `css/masters.css`：页面家族母版；`.master-home` 管理首页封面、栏目封面、画廊和悬浮导语，`.master-member` 管理会员主张与三组普通内容卡片，`.master-article` 管理文章标题区、作者、正文和图片渲染。
+3. `css/masters.css`：页面家族母版；`.master-home` 管理首页封面、栏目封面、画廊和悬浮导语，`.master-member` 管理会员主张与三组普通内容卡片，`.master-article` 管理文章标题区、作者、正文和图片渲染，`.master-section`／`.master-video-section` 管理文章与视频栏目看板，`.master-premium-talks` 管理逐行会员视频卡片。
 
 具有全局性的调整必须写入上述共享层。例如，文章正文图片的宽度、灰度/彩色模式和图注统一在 `masters.css` 的 `.master-article .wp-source-content` 规则中修改；不得只在某篇文章里复制一份样式。仅属于单页内容差异的结构或标签可以留在 HTML。若确需单页覆盖，必须在此处记录原因和作用范围。
 
@@ -28,19 +28,19 @@
 
 | # | 源网址 | 对应文件 | 本轮重新设计 |
 |---|---|---|---|
-| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** Continue Exploring 使用源站 Yin／Fan／Zhang／Chris 四门课程的 `16:9` 封面、标题与 lede；主推荐、课程和 Most-read 均由共享逻辑按内容自动选择六项主题，主推荐及 Most-read 显示日期。Most-read 时长位于 lede 行末并可点击；全部封面标题恢复自然左对齐。主推荐保持 10 秒自动轮播；注册提醒使用同一底部色面的伸缩切换；Footer 桌面三列等宽并含 Partners／HSK |
-| 2a | https://thechinaacademy.org/trending/ | `Article Sections/trending.html` | 继承 `.master-section`：低留白金色斜体标题（无右侧横线）、横向主题条、首行无上边界的三列卡片；lede 恢复 `xx min read/watch`，首行后插入每条带图片的米白色 `Editor's Picks`，`LOAD MORE` 展开后续卡片 |
-| 2b | https://thechinaacademy.org/thinkersforum/ | `Article Sections/thinkers-forum.html` | 页面展示名为 Opinion，保留源网址和文件路径；继承 `.master-section`，并在首行后以带图片的米白色 `Editor's Picks` 呈现源站 China–Japan 示例内容 |
-| 3 | https://thechinaacademy.org/video/ | `Video Sections/video.html` | 系列筛选、时长标签、主视频与节目卡片 |
+| 1 | https://thechinaacademy.org/ | `Homepage/index.html` | **首页设计已完成并作为当前视觉基线。** Continue Exploring 的四门课程使用严格等宽 `16:9` 封面；`820px` 以下 Most-read 独立为第三屏，覆盖约 `690–778px` 的窄平板宽度。主推荐保持 10 秒自动轮播；注册提醒使用同一底部色面的伸缩切换；Footer 桌面三列等宽并含 Partners／HSK，手机末端保留可滚动安全余量 |
+| 2a | https://thechinaacademy.org/trending/ | `Article Sections/trending.html` | 继承 `.master-section`：低留白金色斜体标题（无右侧横线）、`All + 六项主题` 横向主题条、Latest／Popular 排序和满行卡片；lede 使用 `xx min read/watch`，All 首行后插入每条带图片的米白色 `Editor's Picks`，`LOAD MORE` 展开后续卡片 |
+| 2b | https://thechinaacademy.org/thinkersforum/ | `Article Sections/thinkers-forum.html` | 页面展示名为 Opinion，保留源网址和文件路径；继承 `.master-section` 的 All／主题与排序逻辑，并在 All 首行后以带图片的米白色 `Editor's Picks` 呈现源站 China–Japan 示例内容 |
+| 3 | https://thechinaacademy.org/video/ | `Video Sections/video.html` | 继承 Article Section 的四／三／二／一列看板但不显示 Editor's Picks；标题下为 `All + 11 个源站视频栏目`，每个栏目状态均提供 Latest／Popular。导航使用 `?channel=` 激活栏目，卡片统一为 `16:9`、视频主题标签、lede 与 `xx min watch`；仅标题栏分割线为金色，内容分割线为全局中性色 |
 | 4a | https://thechinaacademy.org/after-the-earthquake-why-reconstruction-is-the-real-challenge-for-the-global-south/ | `Videos/video-article.html` | 大播放器、章节/文字稿结构、可切换观看与阅读 |
-| 4b | https://thechinaacademy.org/how-mao-zedong-led-china-to-break-though-the-us-blockade/ | `Articles/article-featured-image.html` | 头图固定为页面内容宽和 `16:9`；标题以 `80px` 为上限按换行和可用高度自适应，标签—标题—作者之间各固定一倍标题行距。藏青蒙版保留浅红无框标签、日期和完整作者信息；图下 lede 与正文同字号且时长标签不变色。移动评论区与正文同宽；作者弹窗支持无内容关闭、cookie 草稿、段内 Learn more 和深藏青输入框 |
+| 4b | https://thechinaacademy.org/how-mao-zedong-led-china-to-break-though-the-us-blockade/ | `Articles/article-featured-image.html` | 头图固定为页面内容宽和 `16:9`；标题以 `80px` 为上限按换行和可用高度自适应，标签—标题—作者之间各固定一倍标题行距。藏青蒙版保留浅红无框标签、日期和完整作者信息；图下 lede 与正文同字号，时长标签服从全局同色填充规则。移动评论区与正文同宽；作者弹窗支持无内容关闭、cookie 草稿、段内 Learn more 和深藏青输入框 |
 | 4c | https://thechinaacademy.org/from-tiktok-to-rednote-the-dialectical-transition-into-opposites/ | `Articles/article-text.html` | 文字文章变体：主题标签与日期按文字基线对齐，标题、作者与 lede 居中；正文继承与头图版相同的目录、双组推荐、Editor、分享、评论和作者联系弹窗 |
 | 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块；Intelligence、Courses 继承非推荐栏目结构。Talks 封面及三张卡片进一步统一首页视频语言：`16:9`、红色标签前播放三角、无图中央播放字符、lede 和 `xx min watch` |
 | 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 学习路径首页、课程筛选、清楚的课时信息 |
 | 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 主课程播放器、目标、课纲与进度侧栏 |
 | 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 大搜索框、类型计数、统一结果结构 |
 | 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | 继承 `.master-section`：横向 Intelligence 主题条、带 Premium 状态的分割线卡片看板及 `LOAD MORE`；不插入 Editor's Picks |
-| 10 | https://thechinaacademy.org/premium-talks/ | `Video Sections/premium-talks.html` | 议题化浏览、主谈话、会员状态和系列卡片 |
+| 10 | https://thechinaacademy.org/premium-talks/ | `Video Sections/premium-talks.html` | 删除栏目筛选、价格／介绍／会员 CTA 和追加内容流，改为逐行长卡：左侧 `16:9` 金底白字 Premium 封面，右侧主题、标题、以 EB 粗体嘉宾名开头的 lede 与 `xx min watch`；内容锚定源站 8 条 Premium Talks |
 | 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 视觉简报式详情、章节、预览与付费边界 |
 | 12 | https://thechinaacademy.org/hsk-certified-courses/ | `About/hsk.html` | 按 HSK 能力阶段组织的语言学习路径 |
 | 13 | https://thechinaacademy.org/about-us/ | `About/about.html` | 使命声明、工作方法和明确组织入口 |
@@ -56,24 +56,25 @@
 |---|---|---|
 | 新闻文章模板 | `Articles/article-news.html` | 参考 Chang’e-6 源页：日期／标题居中、左侧简报导航、正文、带导语的右侧推荐、一行 Editor、圆形分享与评论；相邻新闻的章末—分割线与分割线—下章标题留白均为 `1.15em`；这是模板演示，不计入 21 个关键网址 |
 | 首页 Beta | `Beta Demo/homepage.html` | 加载 `Homepage/index.html?demo=beta-4x3`；桌面非视频封面切换为 `4:3`、视频保持 `16:9`，普通文章画廊使用两行和 `246px` 卡片（较原版缩小四分之一），不影响正式首页 |
+| 跨平台讨论 Beta | `Beta Demo/discussions-across-platforms-demo.html` | 完整文章 mock 下依次呈现 Discussions Across Platforms 与 Comments；Version B 使用无卡片单列 comment stream、四条外部精选讨论、无精选评论平台的圆形入口，以及同构的本站评论与输入区 |
 
 ## WordPress 实现映射
 
 ### 本轮全站共享行为
 
 - `js/site.js` 生成双层桌面导航：功能栏为 Support Us、About Us、普通浅色搜索和金色演示登录；标题栏为 Home、Trending、Opinion、品牌、Video、Premium、Not Just Travel。HSK 页面仍保留，但不再占用主导航入口。
-- Video 与 Premium 使用共享下拉菜单；桌面点击页面其他区域会关闭当前菜单，打开其中一个也会关闭另一个。移动端菜单脱离带滤镜的粘性 Header，挂载到页面根层成为独立 `100dvh` 滚动容器，打开时只锁定背景页面，品牌和关闭按钮固定在顶部。Home、Trending、Opinion、Video、Premium、Not Just Travel 和功能入口的一级行盒均固定为 `48px`；Video/Premium 二级项目保留展开动画并按两行横向滑动，`Escape`、菜单链接或返回桌面断点均可关闭菜单。
+- Video 与 Premium 使用共享下拉菜单；桌面标题本身分别连接 Video Archive 与 Premium Member，Video 子项使用 `video.html?channel=...`。移动端把标题链接和展开按钮拆开但保持同一个 `48px` 行盒，二级项目继续按两行横向滑动；全屏菜单仍为独立 `100dvh` 滚动容器并锁定背景页面。
 - 全站内容最大宽度由 `tokens.css` 的 `--max:1600px` 控制；界面无衬线统一为本地 Roboto 可变字体。`masters.css` 的最终排版护栏把所有文本行高限制在 `1.2–1.5`。
 - 除文章母版与 Article Section 母版外的非首页页面由共享脚本追加六个紧凑内容入口；Article Section 使用自身卡片看板，文章页只使用自身的 Continue Exploring／Related Reading，禁止重复追加内容流。
 - 桌面非视频封面文章图片采用 `1:1`，视频封面和全部普通文章图片采用 `16:9`。主推荐标题动态缩放且不超过 `80px`，主推荐 lede 固定为 `30px`；非推荐栏目封面的主题标签、标题和默认 `20px` lede 连续排列、整体垂直居中，标题与 lede 之间固定一倍 lede 行距。仅在发生溢出时依次缩小 lede 与标题；约 `930px` 后移动端封面回落为 `16:9`。
 - 主题标签只允许使用 `China’s Economy & Business`、`China’s Politics`、`U.S.`、`China’s Technology`、`China’s Youth Sentiment`、`China’s Worldview` 六项，并链接到 `Utility/search.html?tag=...`；共享 `site.js` 负责把旧页面标签统一归类、重写查询参数及重建 Article Section 的横向主题栏，悬浮继续切换为 `MORE >>`。正式 WordPress 实现应建立同名 taxonomy terms，并在数据迁移阶段完成旧 term 映射。
-- 首页图片全部改为非链接容器，标题、lede 及 lede 行末的时长标签可进入文章。共享 `.lede-row` 把可点击的 `xx min read/watch` 圆角标签内联在导语末尾，方框高度为一字高，内部字号为 lede 的一半；鼠标进入文字或方框都会触发整个 lede 的换色反馈。阅读时长仍按英文词数除以 `220` 后向上取整。
+- 首页图片全部改为非链接容器，标题、lede 及 lede 行末的时长标签可进入文章。共享 `.lede-row` 把可点击的 `xx min read/watch` 圆角标签内联在导语末尾；鼠标进入整个 lede 后，方框以自身当前文字色填充并切换为纸色文字，因此所有页面都能随组件颜色同步。阅读时长仍按英文词数除以 `220` 后向上取整。
 - 功能栏与标题栏缩小由同一个滚动状态驱动：`3px` 噪声过滤、向下 `30px`／向上 `36px` 的方向累计和切换后的 `560ms` 锁避免状态反转；`overflow-anchor:none` 防止 Header 动画参与浏览器滚动锚定。功能栏在 `280ms` 内收回，同时标题栏从 `82px` 缩到 `58px`、品牌同步缩小。演示登录同时写入当前浏览器会话的注册状态；正式 WordPress 合并时须替换为 WordPress/WooCommerce 登录状态和账户链接。
 - 首页未注册会话进入页面即打开无遮罩的贴底窗口；窗口和 `36px` 横幅共用同一底部色面，`site.js` 测量窗口内容高度，CSS 在 `520ms` 内直接改变外层高度，同时交叉淡化两套内容，不再串行收回／弹出。三列窗口的理论宽度临界点约为 `847px`；`601–860px` 隐藏说明列并为关闭按钮预留空间。Footer 进入视口后当前提示向下收回，离开后恢复；移动端层级低于全屏导航。正式实现应由真实登录／注册状态驱动。
 - 当前页面的 viewport 均启用 `viewport-fit=cover`；共享脚本以白色为默认浏览器主题色，移动全屏菜单打开时同步切为藏青色，使 iPhone 刘海安全区与其下方区域一致。
 - `.master-article` 现在有头图、文字、新闻三种标题区变体；三者共用无框红字主题标签、作者卡、彩色正文图片、对齐首段的首字下沉、左栏导航、Editor、分享、评论和作者联系弹窗。所有正文图片统一使用 `width:100%; max-width:100%; height:auto` 与正文等宽；大章节 `h2` 使用粗体和 `28.5ch` 最大宽度，编号小节 `h3` 使用常规字重。新闻条目清除末项默认 margin，使分割线上下严格对称为 `1.15em`。
 - `js/site.js` 生成的全站 Footer 复用源站官方图标并删除旧宣传句；桌面 About、Follow Us、More 为三个等宽列。About 末尾的 Partners 使用 `<details>`，悬浮、聚焦或点击时平滑展开 Roboto 字体的伙伴列表，当前 HSK 链接到正式课程页。其余平台、账号、邮件和政策规则保持不变。
-- `.master-section` 统一 Trending、Opinion 与 Premium Intelligence：低上留白的金色斜体栏目标题不接右侧横线，taxonomy 条单行横向滚动；首行取消顶部横线，卡片看板在三列／两列／一列断点间切换并恢复共享 lede 与 `xx min read/watch`。三个页面均使用 `LOAD MORE`，Trending／Opinion 在首行后插入每条带 `16:9` 图片的米白色 `Editor's Picks`。
+- `.master-section` 统一 Trending、Opinion 与 Premium Intelligence；`.master-video-section` 复用卡片几何但隔离文章 taxonomy。Video Archive 使用四／三／二／一列、All＋11 个节目栏目、Latest／Popular 与 `?channel=` 状态，不插入 Editor's Picks；Premium Talks 另用 `.master-premium-talks` 的逐行长卡母版。
 - 视频内容以 `data-content-type="video"`、视频页面或 Talks 栏目识别；首页图片中央不呈现播放按钮，所有视频内容改为在红色主题标签前显示留有间距的小型红色播放三角，时长显示 `xx min watch`。主推荐画廊每 10 秒自动前进，圆点用扇形显示进度；播放／暂停控制器不使用字符或圆形底纹，改在 `10px × 10px` 盒中用 CSS 双竖线／三角形绘制并与圆点中心对齐，控制器外边距固定为 `0`。
 
 当前源站可见技术基线：Aardvark 主题、Elementor/Elementor Pro、WooCommerce、WooCommerce Memberships、订阅功能、Sensei LMS 与 Give。最终采用“现有主题子主题”还是“自建主题”，须在取得服务器代码与后台导出后决定。
@@ -128,7 +129,8 @@ flowchart TD
   M --> H[出版首页母版<br/>.master-home]
   M --> PM[会员聚合母版<br/>.master-member]
   M --> AS[Article Section母版<br/>.master-section]
-  M --> L[其他栏目/列表母版]
+  AS --> VS[Video Section扩展<br/>.master-video-section]
+  M --> PT[Premium Talks母版<br/>.master-premium-talks]
   M --> A[文章/详情母版<br/>.master-article]
   M --> S[服务/账户母版]
   H --> Home[Homepage]
@@ -136,8 +138,8 @@ flowchart TD
   AS --> Trend[Trending]
   AS --> TF[Opinion]
   AS --> Intelligence[Premium Intelligence]
-  L --> Video[Video]
-  L --> Talks[Premium Talks]
+  VS --> Video[Video]
+  PT --> Talks[Premium Talks]
   A --> Opinion[观点文章]
   A --> Tech[科技文章]
   A --> NewsTemplate[新闻文章模板]
