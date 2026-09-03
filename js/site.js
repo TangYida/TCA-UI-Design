@@ -943,15 +943,44 @@ if (articleLayout) {
     commentSignin.hidden = signedIn;
     commentEntry.hidden = !signedIn;
   };
+  const commentInitial = name => (name || 'Guest').trim().charAt(0).toUpperCase();
+  const decorateComment = comment => {
+    const header = comment.querySelector(':scope > header');
+    const name = header?.querySelector(':scope > strong');
+    if (!header || !name || header.querySelector('.comment-author')) return;
+    const author = d.createElement('span');
+    author.className = 'comment-author';
+    const avatar = d.createElement('span');
+    avatar.className = 'comment-avatar comment-avatar--initial';
+    avatar.setAttribute('aria-hidden', 'true');
+    avatar.textContent = commentInitial(name.textContent);
+    header.insertBefore(author, name);
+    author.append(avatar, name);
+  };
   const createUserComment = text => {
     const comment = d.createElement('article');
-    comment.className = 'comment comment-user';
+    comment.className = 'comment comment-user comment-root';
     comment.dataset.score = '0';
     comment.dataset.time = '0';
     comment.innerHTML = '<header><strong>You</strong><time>Just now</time></header><p></p><footer><button type="button" data-vote="1">↑ <span>0</span></button><button type="button" data-vote="-1">↓ <span>0</span></button><button type="button" data-reply>Reply</button></footer>';
     comment.querySelector('p').textContent = text;
+    decorateComment(comment);
     return comment;
   };
+  const createReplyComment = (text, targetName) => {
+    const reply = d.createElement('article');
+    reply.className = 'comment comment-user comment--reply';
+    reply.innerHTML = '<header><strong>You</strong><time>Just now</time></header><p><span class="comment-mention"></span><span class="comment-reply-copy"></span></p><footer><button type="button" data-vote="1">↑ <span>0</span></button><button type="button" data-vote="-1">↓ <span>0</span></button><button type="button" data-reply>Reply</button></footer>';
+    reply.querySelector('.comment-mention').textContent = `@${targetName}`;
+    reply.querySelector('.comment-reply-copy').textContent = ` ${text}`;
+    decorateComment(reply);
+    return reply;
+  };
+  commentEntry.querySelector('.comment-avatar').textContent = 'Y';
+  [...commentList.children].forEach(comment => {
+    comment.classList.add('comment-root');
+    decorateComment(comment);
+  });
   readStoredComments().forEach(item => {
     if (typeof item?.text === 'string' && item.text.trim()) commentList.prepend(createUserComment(item.text.trim()));
   });
@@ -1085,9 +1114,31 @@ if (articleLayout) {
     const reply = event.target.closest('[data-reply]');
     if (!reply || !articleCommunity.contains(reply)) return;
     const comment = reply.closest('.comment');
-    if (comment.querySelector('.comment-reply')) return;
-    comment.insertAdjacentHTML('beforeend', `<label class="comment-reply"><span class="sr-only">Reply</span><textarea rows="3" placeholder="Write a reply"></textarea><button type="button">Post reply</button></label>`);
-    comment.querySelector('textarea').focus();
+    const currentForm = comment.querySelector(':scope > .comment-reply');
+    if (currentForm) { currentForm.querySelector('textarea').focus(); return; }
+    const targetName = comment.querySelector(':scope > header strong')?.textContent?.trim() || 'Reader';
+    const safeTargetName = targetName.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    comment.insertAdjacentHTML('beforeend', `<form class="comment-reply" data-comment-reply-form data-reply-to="${safeTargetName}"><label><span class="sr-only">Reply to ${safeTargetName}</span><textarea name="reply" rows="3" maxlength="1200" placeholder="Write a reply…" required></textarea></label><button type="submit">Post reply</button></form>`);
+    comment.querySelector(':scope > .comment-reply textarea').focus();
+  });
+  articleCommunity.addEventListener('submit', event => {
+    const replyForm = event.target.closest('[data-comment-reply-form]');
+    if (!replyForm || !articleCommunity.contains(replyForm)) return;
+    event.preventDefault();
+    const text = replyForm.elements.reply.value.trim();
+    if (!text) return;
+    const comment = replyForm.closest('.comment');
+    const rootComment = comment.classList.contains('comment-root') ? comment : comment.closest('.comment-root');
+    if (!rootComment) return;
+    let replies = [...rootComment.children].find(child => child.classList.contains('comment-replies'));
+    if (!replies) {
+      replies = d.createElement('div');
+      replies.className = 'comment-replies';
+      replies.setAttribute('aria-label', 'Replies');
+      rootComment.append(replies);
+    }
+    replies.append(createReplyComment(text, replyForm.dataset.replyTo || 'Reader'));
+    replyForm.remove();
   });
   d.querySelectorAll('[data-comment-sort]').forEach(button => button.addEventListener('click', () => {
     d.querySelectorAll('[data-comment-sort]').forEach(tab => { tab.classList.toggle('active', tab === button); tab.setAttribute('aria-selected', String(tab === button)); });

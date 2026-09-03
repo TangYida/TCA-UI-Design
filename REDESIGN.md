@@ -31,6 +31,12 @@
 - `Article Sections/`：Trending、Opinion 与 Premium Intelligence。
 - `Video Sections/`：Video 与 Premium Talks 列表。
 - `Videos/`：视频文章、Premium Talk 详情与带播放器的课程详情。
+
+### Videos 详情页母版
+
+- `css/video-details.css` 统一三类详情页的标题节奏、16:9 播放区、来源说明、事实栏、讲师模块及 900／600px 回落；普通视频和 Premium Talk 同时继承 `.master-article` 的主题标签、独立收藏行、左右导轨、同主题推荐、分享与评论。
+- 普通视频页使用源站 Cloudflare 播放器和 Pakistan／Taiwan 视频的真实标题、日期、封面语义与简介；Premium Talk 使用真实播放器、金底白字 Premium 标识、张维为讲师信息和会员边界。
+- Lesson 继续遵守 Sensei LMS 可迁移结构：播放器区域、单课 Course Plan、完成状态和相关推荐各自独立；演示版完成状态写入浏览器本地存储，后续接入 WordPress 时替换为 Sensei 的完成课程接口。
 - `About/`：Courses、HSK 以及组织、支持、贡献者和作者页面。
 
 原需求是 18 个编号组，但包含 21 个独立网址；设计验收按 21 个 HTML 页面进行。

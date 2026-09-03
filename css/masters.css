@@ -295,3 +295,21 @@ body,body *{line-height:1.5!important}
 body h1,body h2,body h3,body h4,body h5,body h6,body .display,body .home-section-title{line-height:1.2!important}
 body .article-body .lede:first-letter{line-height:1.2!important}
 @media(max-width:900px){.mobile-primary,.mobile-utility{padding-block:0;grid-auto-rows:48px}.mobile-primary a,.mobile-group>button,.mobile-utility a,.mobile-utility button{display:flex;align-items:center;width:100%;height:48px;min-height:48px;padding-block:0}}
+
+/* Shared article comments: initial avatars and a single indented reply level. */
+.article-community .comment header{align-items:flex-start}
+.article-community .comment-author{display:flex;align-items:center;min-width:0;gap:12px}
+.article-community .comment-avatar{position:static;display:grid;place-items:center;flex:0 0 auto;width:40px;height:40px;border-radius:50%;background:var(--gold);color:#fff;font:700 14px/1 var(--sans);overflow:hidden}
+.article-community .comment-avatar:before,.article-community .comment-avatar:after{content:none}
+.article-community .comment header time{padding-top:12px}
+.article-community .comment>p,.article-community .comment>footer{margin-left:52px}
+.article-community .comment-mention{color:var(--blue);font-weight:600}
+.article-community .comment-replies{margin:20px 0 0 52px;padding-left:24px;border-left:1px solid var(--gold)}
+.article-community .comment--reply{padding:22px 0 0;border-top:1px;}
+.article-community .comment-reply{display:grid;gap:8px;margin:16px 0 0 52px}
+.article-community .comment-reply label{display:block}
+.article-community .comment-reply textarea{display:block;width:100%;min-height:78px;padding:12px 14px;border:1px solid var(--line);background:#faf7f0;color:var(--blue);font:16px/1.4 var(--sans);resize:vertical}
+.article-community .comment-reply textarea:focus{border-color:var(--gold);outline:1px solid var(--gold)}
+.article-community .comment-reply button{justify-self:start;padding:8px 12px;background:var(--blue);color:#fff;cursor:pointer}
+.article-community .comment-reply button:hover,.article-community .comment-reply button:focus-visible{background:var(--gold);outline:none}
+@media(max-width:600px){.article-community .comment>p,.article-community .comment>footer,.article-community .comment-reply{margin-left:46px}.article-community .comment-replies{margin-left:28px;padding-left:16px}}

@@ -32,16 +32,16 @@
 | 2a | https://thechinaacademy.org/trending/ | `Article Sections/trending.html` | 继承 `.master-section`：低留白金色斜体标题（无右侧横线）、`All + 六项主题` 横向主题条、Latest／Popular 排序和满行卡片；lede 使用 `xx min read/watch`，All 首行后插入每条带图片的米白色 `Editor's Picks`，`LOAD MORE` 展开后续卡片 |
 | 2b | https://thechinaacademy.org/thinkersforum/ | `Article Sections/thinkers-forum.html` | 页面展示名为 Opinion，保留源网址和文件路径；继承 `.master-section` 的 All／主题与排序逻辑，并在 All 首行后以带图片的米白色 `Editor's Picks` 呈现源站 China–Japan 示例内容 |
 | 3 | https://thechinaacademy.org/video/ | `Video Sections/video.html` | 继承 Article Section 的四／三／二／一列看板但不显示 Editor's Picks；标题下为 `All + 11 个源站视频栏目`，每个栏目状态均提供 Latest／Popular。导航使用 `?channel=` 激活栏目，卡片统一为 `16:9`、视频主题标签、lede 与 `xx min watch`；仅标题栏分割线为金色，内容分割线为全局中性色 |
-| 4a | https://thechinaacademy.org/after-the-earthquake-why-reconstruction-is-the-real-challenge-for-the-global-south/ | `Videos/video-article.html` | 大播放器、章节/文字稿结构、可切换观看与阅读 |
+| 4a | https://thechinaacademy.org/how-is-pakistan-helping-china-to-reunify-taiwan-island-2/ | `Videos/video-article.html` | 真实 16:9 Cloudflare 播放器；源站标题、日期与导语；复用文章主题标签、收藏、左右导轨、相关推荐、分享和评论体系 |
 | 4b | https://thechinaacademy.org/how-mao-zedong-led-china-to-break-though-the-us-blockade/ | `Articles/article-featured-image.html` | 头图固定为页面内容宽和 `16:9`；标题以 `80px` 为上限按换行和可用高度自适应，标签—标题—作者之间各固定一倍标题行距。藏青蒙版保留浅红无框标签、日期和完整作者信息；图下 lede 与正文同字号，时长标签服从全局同色填充规则。移动评论区与正文同宽；作者弹窗支持无内容关闭、cookie 草稿、段内 Learn more 和深藏青输入框 |
 | 4c | https://thechinaacademy.org/from-tiktok-to-rednote-the-dialectical-transition-into-opposites/ | `Articles/article-text.html` | 文字文章变体：主题标签与日期按文字基线对齐，标题、作者与 lede 居中；正文继承与头图版相同的目录、双组推荐、Editor、分享、评论和作者联系弹窗 |
 | 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块；Intelligence、Courses 继承非推荐栏目结构。Talks 封面及三张卡片进一步统一首页视频语言：`16:9`、红色标签前播放三角、无图中央播放字符、lede 和 `xx min watch` |
 | 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 学习路径首页、课程筛选、清楚的课时信息 |
-| 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 主课程播放器、目标、课纲与进度侧栏 |
+| 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 16:9 课程主视觉、源站课程介绍与殷之光讲师信息；单课课纲、进度、可持久化完成状态及源站相关推荐 |
 | 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 大搜索框、类型计数、统一结果结构 |
 | 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | 继承 `.master-section`：横向 Intelligence 主题条、带 Premium 状态的分割线卡片看板及 `LOAD MORE`；不插入 Editor's Picks |
 | 10 | https://thechinaacademy.org/premium-talks/ | `Video Sections/premium-talks.html` | 删除栏目筛选、价格／介绍／会员 CTA 和追加内容流，改为逐行长卡：左侧 `16:9` 金底白字 Premium 封面，右侧主题、标题、以 EB 粗体嘉宾名开头的 lede 与 `xx min watch`；内容锚定源站 8 条 Premium Talks |
-| 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 视觉简报式详情、章节、预览与付费边界 |
+| 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 真实 16:9 Cloudflare 播放器和金底白字 Premium 标识；源站标题、日期、导语及张维为讲师信息；复用收藏、推荐、评论并保留清晰会员边界 |
 | 12 | https://thechinaacademy.org/hsk-certified-courses/ | `About/hsk.html` | 按 HSK 能力阶段组织的语言学习路径 |
 | 13 | https://thechinaacademy.org/about-us/ | `About/about.html` | 使命声明、工作方法和明确组织入口 |
 | 14 | https://thechinaacademy.org/support-us/ | `About/support.html` | 支持影响说明、一次性/持续/机构三类路径 |

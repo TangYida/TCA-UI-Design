@@ -71,6 +71,7 @@
 - [x] 作者悬浮改为头像增加半透明藏青蒙版、姓名出现下划线；Contact the Author 弹窗使用藏青色，Learn more 接在作者简介段末，Email／Message 使用深藏青搜索框式输入。`×`、背景点击和 Escape 均不受必填验证影响；输入草稿自动写入 30 天 cookie，并为本地文件演示保留浏览器存储回退。
 - [x] 桌面端只使用正文右栏的 Continue Exploring／Related Reading，删除评论后的旧 Related Reading 与自动追加内容流；`900px` 以下把同一组推荐从评论前移动到评论后，页面中始终只有一组推荐。
 - [x] `900px` 以下评论／分享区取消 `.shell` 的二次内边距，宽度与正文统一为“视口减去左右各一个全局 gutter”。
+- [x] 普通文章评论统一使用用户名首字母头像；Reply 输入框继承 Add a comment 的米白底色，Post Reply 后生成带 `@被评论者` 的缩进二级评论。回复任意二级评论仍追加到同一层，不产生三级嵌套；相同结构与交互已同步到 Discussions demo。
 - [x] 文章正文图片统一保留原始彩色，不再使用灰度滤镜；图片与普通段落维持正文的 `1.15em` 节奏。正式大章节 `h2` 使用粗体，标题最大文本宽度由 `19ch` 提升一半至 `28.5ch`，并在原段落间距之外增加一倍章节标题行距；“1. Purchased…”／“2. Replaced…”一类编号小节 `h3` 使用 `400` 常规字重。Newsletter 条目标题使用高优先级例外，避免被章节间距撑开。
 - [x] 三种文章模板共用同一个首字下沉规则：优先使用 `initial-letter: 3 3` 让首字占三行并与右侧首段自动对齐，回退字号为 `3.65em`，行高仍遵守 `1.2` 禁区；分享区与正文之间的布局留白由 `110px` 减半为 `55px`。
 - [x] 三种文章左栏第一项统一为当前文章完整标题，并链接至 `#article-top` 返回标题区；新闻版日期改为灰色，三则新闻标题上下节奏统一，第一则 Chang’e-6 新闻补回完整标题。
@@ -151,10 +152,10 @@ Workflow: 排版   $$\rightarrow   $$ 美编   $$\rightarrow$$ 动态化   $$\ri
 
 静态网站排版
 
-- [ ] Video Sections(premium-talks.html、video.html) : 本周四
-- [ ] Videos(lesson.html、premium-talk-detail.html、video-article.html): 周五
-- [ ] About(about.html、author.html、contributor-detail.html、contributors.html、hsk.html、premium-courses.html、support.html) : 下周一、周二、周三
-- [ ] Utility(search.html、setting.html): 下周四
+- [x] Video Sections(premium-talks.html、video.html)
+- [x] Videos（`lesson.html`、`premium-talk-detail.html`、`video-article.html`）：完成三类详情页重构。新增共享 `video-details.css` 与 `video-details.js`；普通视频和 Premium Talk 复用文章收藏、相关推荐、分享及评论体系，Lesson 保留 Sensei 课纲与本地演示完成状态。内容分别锚定用户提供的旧 lesson HTML、Pakistan／Taiwan 源视频页及世界最高桥 Premium Talk 源页。
+- [ ] About(about.html、author.html、contributor-detail.html、contributors.html、hsk.html、premium-courses.html、support.html)
+- [ ] Utility(search.html、setting.html)
 
 网站测试：
 
@@ -162,3 +163,17 @@ Workflow: 排版   $$\rightarrow   $$ 美编   $$\rightarrow$$ 动态化   $$\ri
 - [ ] Videos: 下周二
 - [ ] About: 下周三、下周四
 - [ ] Utility: 下周五
+
+
+
+所有video的页面的都要减少主题标签、日期和导航栏之间的距离。
+
+主题标签中只要出现一个播放符号就好了，你有一个出现多次（pakistan）。
+
+日期不要右对齐，放在主题标签的左侧就行。
+
+video-article和article不同，后者更多是深度阅读，每个元素占据的位置可以相对来说更多一点，但是前者要让观众快速地get到关键信息。所以：
+1. 
+
+
+
