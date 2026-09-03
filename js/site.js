@@ -438,26 +438,13 @@ if (['signin', 'register', 'signup'].includes(requestedAuthMode)) {
   if (!alreadySignedIn) requestAnimationFrame(() => openAuthDialog(requestedAuthMode === 'signin' ? 'signin' : 'signup'));
 }
 
-const discovery = [
-  ['History · 28 min', 'How Mao Zedong Shattered the U.S. Trade Blockade', 'How production, barter and diplomacy opened routes around containment.', '../Articles/article-featured-image.html'],
-  ['Technology · 4 min', 'From TikTok to Rednote', 'A platform ban turns into an unexpected digital migration.', '../Articles/article-text.html'],
-  ['Global Arena · 61 min', 'After the Earthquake', 'Why reconstruction is the real challenge for the Global South.', '../Videos/video-article.html'],
-  ['Premium Talks · 24 min', 'How China Builds the World\'s Tallest Bridge', 'Engineering capacity from geology to institutional coordination.', '../Videos/premium-talk-detail.html'],
-  ['Course · 6 lessons', 'Making the World Anew', 'Bandung, de-dependency and China\'s development path.', '../Videos/lesson.html'],
-  ['Research · 10 min', 'What China\'s Platform Shift Reveals', 'Observed migration, market implications and policy inference.', '../Article%20Sections/premium-intelligence.html']
-];
-const main = d.querySelector('main');
-if (main && !d.body.classList.contains('master-home') && !d.body.classList.contains('master-member') && !d.body.classList.contains('master-article') && !d.body.classList.contains('master-section') && !d.body.classList.contains('master-premium-talks')) {
-  main.insertAdjacentHTML('beforeend', `<section class="density-feed shell"><header><div class="kicker">Continue exploring</div><h2 class="display">More context, in less space.</h2></header><div class="density-grid">${discovery.map(([meta, title, copy, href]) => `<article class="density-item"><div class="kicker">${meta}</div><h3><a href="${href}">${title}</a></h3><p>${copy}</p><a class="density-arrow" href="${href}" aria-label="Open ${title}">→</a></article>`).join('')}</div></section>`);
-}
-
 const requestedTag = new URLSearchParams(location.search).get('tag');
 if (requestedTag && location.pathname.endsWith('/search.html')) {
   const heading = d.querySelector('.page-hero h1');
   const input = d.querySelector('.search-box input');
   if (heading) heading.textContent = `Stories tagged "${requestedTag}"`;
   if (input) input.value = requestedTag;
-  const results = [...d.querySelectorAll('main > section')].find(section => !section.classList.contains('page-hero') && !section.classList.contains('density-feed'));
+  const results = [...d.querySelectorAll('main > section')].find(section => !section.classList.contains('page-hero'));
   if (results) {
     const key = requestedTag.toLowerCase();
     const leadIndex = /tiktok|rednote|platform|technology/.test(key) ? 1 : /video|global arena/.test(key) ? 2 : /premium|infrastructure|talk/.test(key) ? 3 : /course|development|global south/.test(key) ? 4 : 0;

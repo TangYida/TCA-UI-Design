@@ -121,6 +121,8 @@
 
 ## Videos
 
+- [x] `video-article.html`、`premium-talk-detail.html` 与 `lesson.html` 共用 Video Detail 母版：顶部单一播放主题标签与相邻日期；桌面标题动态缩至最小 `30px` 并保持一行；主视频与同高可滚动右栏并置。Course 右栏按 Course Plan → Related 排列；每条 Related 固定为 `16:9` 封面、主题标签、标题、lede 和行末时长标签。播放信息行统一承载 views、课程专属 episodes/uploaded 与收藏入口；Talks/Course 显示 Instructor。移动端 Introduction 按 Instructor → Lede → Share → Course Plan → Related 排列，只有具备评论的 Video Article 显示 Introduction／Comments 双标签。
+
 ## 其他视觉微调
 
 - 推荐栏元素统一化
@@ -174,12 +176,3 @@ $$ 最终敲定
 - [ ] Utility: 下周五
 
 
-
-修改pr-courses中每个课程的标题， 让标题大小能够自动适应一让视频标题能够在一行显示。但是标题大小不得小于lede的大小
-
-加一个评论区
-
-
-所有video素材需要重新明确一个统一的结构：
-- 最上方，主题标签，日期（如果有）。所有video的页面的都要减少主题标签、日期和导航栏之间的距离。主题标签中只要出现一个播放符号就好了，你有一个出现多次（pakistan）。日期不要右对齐，放在主题标签的右侧就行。
-- 下一行，标题。video-article和article不同，后者更多是深度阅读，每个元素占据的位置可以相对来说更多一点，但是前者要让观众快速地get到关键信息。所以标题要一行显示完，但是不得小于30px
