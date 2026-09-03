@@ -33,6 +33,105 @@ const dropdown = (label, items, className = '', href = '', key = '') => `<div cl
   <div class="nav-drop-panel">${items.map(item => `<a href="${item[1]}">${item[0]}</a>`).join('')}</div>
 </div>`;
 
+try {
+  if (localStorage.getItem('tca-demo-remembered') === '1') {
+    sessionStorage.setItem('tca-demo-signed-in', '1');
+    sessionStorage.setItem('tca-registration-active', '1');
+  }
+} catch {}
+
+if (!d.querySelector('#auth-dialog')) d.body.insertAdjacentHTML('beforeend', `
+  <dialog class="auth-dialog" id="auth-dialog" aria-labelledby="auth-dialog-title">
+    <section class="auth-dialog-card">
+      <button class="auth-dialog-close" type="button" aria-label="Close sign in">×</button>
+      <div class="auth-tabs" role="tablist" aria-label="Account access">
+        <button type="button" role="tab" data-auth-tab="signin">Sign In</button>
+        <button type="button" role="tab" data-auth-tab="signup">Sign Up</button>
+      </div>
+      <h2 class="sr-only" id="auth-dialog-title">Sign in or create an account</h2>
+      <form class="auth-form" data-auth-form>
+        <div class="auth-fields auth-signin-fields" data-auth-panel="signin">
+          <label>Email<input type="email" name="signinEmail" autocomplete="email" required></label>
+          <label>Password<input type="password" name="signinPassword" autocomplete="current-password" required></label>
+          <div class="auth-options">
+            <label class="auth-remember"><input type="checkbox" name="remember"> Remember Me</label>
+            <a href="https://thechinaacademy.org/wp-login.php?action=lostpassword">Lost Password</a>
+          </div>
+        </div>
+        <div class="auth-fields auth-signup-fields" data-auth-panel="signup" hidden>
+          <label><span class="auth-field-title">Username<output data-username-count>0/50</output></span><input type="text" name="signupUsername" maxlength="50" autocomplete="username" required disabled></label>
+          <label>Email<input type="email" name="signupEmail" autocomplete="email" required disabled></label>
+          <label>Password<input type="password" name="signupPassword" autocomplete="new-password" required disabled></label>
+          <label>Confirm Password<input type="password" name="signupConfirmPassword" autocomplete="new-password" required disabled></label>
+          <label class="auth-invitation">Invitation code (optional)<input type="text" name="invitationCode" autocomplete="off" disabled></label>
+          <label class="auth-country"><span>Country / Region</span><select name="country" required disabled><option value="">--</option><option>China</option><option>United Kingdom</option><option>United States</option><option>Other</option></select></label>
+        </div>
+        <button class="auth-submit" type="submit">Sign In</button>
+        <p class="auth-status" aria-live="polite"></p>
+        <div class="auth-signin-extra" data-auth-signin-extra>
+          <div class="auth-or"><span>Or</span></div>
+          <p class="auth-connect">To connect a sign in method, make sure the email matches the one registered to your account for <em>The China Academy</em></p>
+          <a class="auth-google" href="https://thechinaacademy.org/wp-login.php?loginSocial=google&amp;redirect=https%3A%2F%2Fthechinaacademy.org%2F">Continue with <strong>Google</strong></a>
+          <p class="auth-legal">By continuing, you agree to our <a href="https://thechinaacademy.org/terms-of-use/">Terms &amp; Conditions</a> and acknowledge our <a href="https://thechinaacademy.org/privacy-policy-2/">Privacy Policy</a>.</p>
+        </div>
+      </form>
+    </section>
+  </dialog>`);
+const authDialog = d.querySelector('#auth-dialog');
+const authForm = authDialog?.querySelector('[data-auth-form]');
+const setAuthMode = mode => {
+  const nextMode = mode === 'signup' ? 'signup' : 'signin';
+  authDialog.dataset.mode = nextMode;
+  authDialog.querySelectorAll('[data-auth-tab]').forEach(tab => {
+    const active = tab.dataset.authTab === nextMode;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', String(active));
+    tab.setAttribute('tabindex', active ? '0' : '-1');
+  });
+  authDialog.querySelectorAll('[data-auth-panel]').forEach(panel => {
+    const active = panel.dataset.authPanel === nextMode;
+    panel.hidden = !active;
+    panel.querySelectorAll('input').forEach(input => { input.disabled = !active; });
+    panel.querySelectorAll('select').forEach(select => { select.disabled = !active; });
+  });
+  authDialog.querySelector('[data-auth-signin-extra]').hidden = nextMode === 'signup';
+  authForm.querySelector('.auth-submit').textContent = nextMode === 'signup' ? 'Submit' : 'Sign In';
+  authForm.querySelector('.auth-status').textContent = '';
+};
+const openAuthDialog = (mode = 'signin') => {
+  if (!authDialog) return;
+  dispatchEvent(new CustomEvent('authdialogopen'));
+  setAuthMode(mode);
+  if (!authDialog.open) authDialog.showModal();
+  requestAnimationFrame(() => authDialog.querySelector('[data-auth-panel]:not([hidden]) input')?.focus());
+};
+if (authDialog) {
+  setAuthMode('signin');
+  authDialog.querySelectorAll('[data-auth-tab]').forEach(tab => tab.addEventListener('click', () => setAuthMode(tab.dataset.authTab)));
+  authDialog.querySelector('.auth-dialog-close').addEventListener('click', () => authDialog.close('cancel'));
+  authDialog.addEventListener('click', event => { if (event.target === authDialog) authDialog.close('cancel'); });
+  const usernameInput = authForm.elements.signupUsername;
+  const usernameCount = authForm.querySelector('[data-username-count]');
+  usernameInput.addEventListener('input', () => { usernameCount.textContent = `${usernameInput.value.length}/50`; });
+  authForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (authDialog.dataset.mode === 'signup' && authForm.elements.signupPassword.value !== authForm.elements.signupConfirmPassword.value) {
+      authForm.querySelector('.auth-status').textContent = 'Passwords do not match.';
+      authForm.elements.signupConfirmPassword.focus();
+      return;
+    }
+    const remember = authDialog.dataset.mode === 'signin' && authForm.elements.remember?.checked;
+    try {
+      sessionStorage.setItem('tca-demo-signed-in', '1');
+      sessionStorage.setItem('tca-registration-active', '1');
+      if (remember) localStorage.setItem('tca-demo-remembered', '1');
+      else localStorage.removeItem('tca-demo-remembered');
+    } catch {}
+    authDialog.close('authenticated');
+    dispatchEvent(new CustomEvent('registrationchange', { detail: { active: true, mode: authDialog.dataset.mode } }));
+  });
+}
+
 if (header) {
   header.className = 'site-header';
   header.innerHTML = `
@@ -126,14 +225,13 @@ if (header) {
   });
   signinButtons.forEach(button => button.addEventListener('click', () => {
     if (signedIn) { location.href = '../Utility/setting.html'; return; }
-    signedIn = true;
-    try {
-      sessionStorage.setItem('tca-demo-signed-in', '1');
-      sessionStorage.setItem('tca-registration-active', '1');
-    } catch {}
-    renderSignin();
-    dispatchEvent(new CustomEvent('registrationchange', { detail: { active: true } }));
+    if (header.classList.contains('open')) setMobileMenu(false);
+    openAuthDialog('signin');
   }));
+  addEventListener('registrationchange', () => {
+    try { signedIn = sessionStorage.getItem('tca-demo-signed-in') === '1'; } catch { signedIn = false; }
+    renderSignin();
+  });
   renderSignin();
 
   let utilityHidden = scrollY > 128;
@@ -210,7 +308,7 @@ if (footer) {
   }
 }
 
-if (!d.querySelector('#signup-dialog')) d.body.insertAdjacentHTML('beforeend', `<aside class="signup-dialog" id="signup-dialog" role="dialog" aria-modal="false" aria-label="Follow The China Academy" hidden><div class="signup-panel"><div class="signup-copy"><p class="signup-sheet-message">Follow along with <span class="brand-name">The China Academy</span></p><a class="signup-choice" href="../Homepage/premium-member.html"><strong>Premium Member</strong><em>Gain access to exclusive courses, interviews, and reports on the pivotal driving forces behind China's evolution.</em></a><a class="signup-choice" href="../Utility/setting.html?mode=register"><strong>Free Registration</strong><em>Stay Updated with On-the-Ground Information, Discussions, and Expert Analysis on All Things China and China-Related.</em></a><button class="signup-close" data-close type="button" aria-label="Close">×</button></div></div></aside><aside class="signup-banner" data-signup-banner hidden><span>Follow along with <span class="brand-name">The China Academy</span></span><button type="button" data-expand-signup>Become a Member</button></aside>`);
+if (!d.querySelector('#signup-dialog')) d.body.insertAdjacentHTML('beforeend', `<aside class="signup-dialog" id="signup-dialog" role="dialog" aria-modal="false" aria-label="Follow The China Academy" hidden><div class="signup-panel"><div class="signup-copy"><p class="signup-sheet-message">Follow along with <span class="brand-name">The China Academy</span></p><a class="signup-choice" href="../Homepage/premium-member.html"><strong>Premium Member</strong><em>Gain access to exclusive courses, interviews, and reports on the pivotal driving forces behind China's evolution.</em></a><a class="signup-choice" href="../Utility/setting.html?mode=register" data-open-auth="signup"><strong>Free Registration</strong><em>Stay Updated with On-the-Ground Information, Discussions, and Expert Analysis on All Things China and China-Related.</em></a><button class="signup-close" data-close type="button" aria-label="Close">×</button></div></div></aside><aside class="signup-banner" data-signup-banner hidden><span>Follow along with <span class="brand-name">The China Academy</span></span><button type="button" data-expand-signup>Become a Member</button></aside>`);
 const dialog = d.querySelector('#signup-dialog');
 if (dialog) {
   const banner = d.querySelector('[data-signup-banner]');
@@ -298,6 +396,7 @@ if (dialog) {
   };
   d.querySelectorAll('[data-open-signup]').forEach(x => x.addEventListener('click', openSheet));
   banner?.querySelector('[data-expand-signup]')?.addEventListener('click', openSheet);
+  addEventListener('authdialogopen', hideSignup);
   dialog.querySelector('[data-close]').addEventListener('click', () => closeSheet());
   d.addEventListener('keydown', event => { if (event.key === 'Escape' && sheetOpen()) closeSheet(); });
   if (banner && footer) {
@@ -322,6 +421,21 @@ if (dialog) {
       showBanner();
     }
   }
+}
+
+d.addEventListener('click', event => {
+  const trigger = event.target.closest('[data-open-auth],[data-comment-signin],a[href*="setting.html?mode=signin"],a[href*="setting.html?mode=register"]');
+  if (!trigger) return;
+  event.preventDefault();
+  const href = trigger.getAttribute('href') || '';
+  const mode = trigger.dataset.openAuth || (href.includes('mode=register') ? 'signup' : 'signin');
+  openAuthDialog(mode);
+});
+const requestedAuthMode = new URLSearchParams(location.search).get('mode');
+if (['signin', 'register', 'signup'].includes(requestedAuthMode)) {
+  let alreadySignedIn = false;
+  try { alreadySignedIn = sessionStorage.getItem('tca-demo-signed-in') === '1'; } catch {}
+  if (!alreadySignedIn) requestAnimationFrame(() => openAuthDialog(requestedAuthMode === 'signin' ? 'signin' : 'signup'));
 }
 
 const discovery = [
@@ -983,11 +1097,6 @@ if (articleLayout) {
   });
   readStoredComments().forEach(item => {
     if (typeof item?.text === 'string' && item.text.trim()) commentList.prepend(createUserComment(item.text.trim()));
-  });
-  commentSignin.addEventListener('click', () => {
-    const signin = d.querySelector('[data-site-header] [data-signin]');
-    if (signin) signin.click();
-    else location.href = '../Utility/setting.html?mode=signin';
   });
   addEventListener('registrationchange', renderCommentEntry);
   renderCommentEntry();
