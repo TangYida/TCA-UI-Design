@@ -574,7 +574,7 @@ canonicalThemeTags.forEach(tag => {
   const theme = inferTheme(tag);
   tag.textContent = theme;
   const articleSection = tag.closest('.master-section:not(.master-video-section)');
-  if (tag.matches('a')) tag.href = articleSection ? `#theme=${encodeURIComponent(theme)}` : `../Utility/search.html?tag=${encodeURIComponent(theme)}`;
+  if (tag.matches('a')) tag.href = `../Utility/tag.html?name=${encodeURIComponent(theme)}`;
   tag.dataset.theme = theme;
   if (articleSection) tag.dataset.sectionTheme = theme;
 });
@@ -682,10 +682,6 @@ d.querySelectorAll('.master-section:not(.master-video-section)').forEach(pageRoo
   topicLinks.forEach((link, index) => link.addEventListener('click', event => {
     event.preventDefault();
     applyTheme(link.dataset.sectionTheme, index);
-  }));
-  board.querySelectorAll('.theme-tag[data-section-theme]').forEach(tag => tag.addEventListener('click', event => {
-    event.preventDefault();
-    applyTheme(tag.dataset.sectionTheme);
   }));
   sortButtons.forEach(button => button.addEventListener('click', () => {
     const nextSort = button.dataset.sectionSort;

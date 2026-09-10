@@ -131,6 +131,7 @@
 
     const openTransferDialog = mode => {
       transferMode = mode;
+      transferDialog.dataset.transferMode = mode;
       transferTitle.textContent = mode === 'move' ? 'Move selected' : 'Copy selected';
       const select = transferForm.elements['target-collection'];
       select.replaceChildren(...collectionButtons().filter(button => button.dataset.collection !== 'all').map(button => {

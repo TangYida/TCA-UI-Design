@@ -7,6 +7,14 @@ description: Govern every TCA-Design website change by classifying it as a struc
 
 本技能适用于本项目内所有会修改网站 HTML、CSS、JavaScript、assets、页面模板、导航、交互、内容结构或响应式规则的任务。只要任务涉及网站修改，就必须先执行本流程。
 
+## 0. 分类与写入授权
+
+- 每个新的网站修改请求都必须先完整读取本文件并分类；完成分类前只允许只读检查。
+- Structural Change 实行两步确认：第一步由执行者说明分类、范围与拟执行动作并停止；第二步必须收到用户在该说明之后单独发出的“确认”“开始做”或同等明确答复，才允许写入。原始修改请求本身不等于第二步确认。
+- Surgical Edit 采用 action-biased 流程：用户的原始修改指令即为写入授权。执行者在 commentary 中明确给出 `分类` 和 `Change Radius` 后立即实施，不得要求用户再次确认；只有用户明确要求先提案、先预览或先等待批准时才暂停。
+- 用户追加或改变 Structural Change 的需求后，旧确认立即失效，必须按最新完整范围重新复述并再次等待确认。Surgical Edit 的需求发生变化时，在不越过最新 Change Radius 的前提下直接按新指令继续执行。
+- Structural Change 写入前必须标记 `当前状态：等待确认`；Surgical Edit 写入前标记 `当前状态：开始执行`。
+
 ## 1. 先分类，不先改代码
 
 先把请求归入以下一种类型。用户明确指定的类型优先；未指定时按影响范围判断。
@@ -52,7 +60,7 @@ description: Govern every TCA-Design website change by classifying it as a struc
 5. 在 `TODO.md` 增加本轮步骤，标注待办／进行中／完成；不得先把任务标为完成。
 6. 形成需求矩阵：每一项要求对应目标文件、selector、桌面行为、移动行为和验收方式。
 
-已有组件或 selector 能表达需求时必须复用。没有现行规则时，可以提出新方案，但不得进入 `DO_NOT_REGRESS.md` 的禁区。
+已有组件或 selector 能表达需求时必须复用。没有现行规则时，可以提出新方案。除非用户明确说出“作为禁区”，不得向 `DO_NOT_REGRESS.md` 新增、改写或扩展条目。
 
 ### 阶段 C：实施
 
@@ -69,7 +77,7 @@ description: Govern every TCA-Design website change by classifying it as a struc
 1. **交付完整性**：需求矩阵中的每项是否已经实现。
 2. **移动端完整性**：移动端不是桌面缩小版；检查 DOM 顺序、换行、触控尺寸、滚动和安全区。
 3. **静态非重叠检查**：执行 `DESIGN_RULES.md` 第 6 节，包括断点两侧、最小宽度、定位扫描、末行边界、DOM 顺序与语法检查。
-4. **非回归检查**：本轮改动是否触碰任何禁区；若用户明确推翻禁区，记录为新的设计决定。
+4. **非回归检查**：本轮改动是否触碰任何禁区；用户明确推翻禁区时，以最新决定执行，但除非用户同时说出“作为禁区”，不得改写 `DO_NOT_REGRESS.md`。
 5. **作用域检查**：用 diff 确认没有未授权 selector、页面或文案变化。
 
 静态检查不能证明最终视觉效果。除非用户要求，不进行大规模浏览器尺寸模拟；报告中要准确区分“静态通过”和“视觉已确认”。
@@ -78,7 +86,7 @@ description: Govern every TCA-Design website change by classifying it as a struc
 
 1. 在 `TODO.md` 更新真实进度，未完成项保持未完成。
 2. 本轮产生新的全局设计语法时，更新 `.agent/DESIGN_RULES.md`。
-3. 本轮明确舍弃或被替代的方案，更新 `.agent/DO_NOT_REGRESS.md`。
+3. 仅当用户明确说出“作为禁区”时，才把对应方案写入 `.agent/DO_NOT_REGRESS.md`；其他舍弃、替代或否决不得触发该文件更新。
 4. 页面 URL、文件路径或继承关系变化时，更新 `MAP.md`。
 5. 文件结构变化时，更新 `README.md`。
 6. 最终报告修改文件、关键结果、静态检查与尚未做的视觉验证。
@@ -96,6 +104,8 @@ description: Govern every TCA-Design website change by classifying it as a struc
 - `global`：只在用户明确要求全局变更时使用。
 
 用户给出 Radius 时不得扩大；用户未给出时，选择能完成要求的最小范围并在 commentary 中说明。
+
+确定 Radius 后，用一句话复述将修改的文件／selector／component 及明确不触碰的范围，标记 `当前状态：开始执行`，随后直接实施。用户原始 Surgical Edit 指令即为授权，不再索取第二次确认。
 
 ### 3.2 执行约束
 
@@ -126,9 +136,9 @@ description: Govern every TCA-Design website change by classifying it as a struc
 ## 5. 冲突处理
 
 - 最新、明确的用户决定可以推翻旧规则。
-- 推翻发生在 Structural Change 中：更新规则、禁区和 TODO。
+- 推翻发生在 Structural Change 中：更新现行规则和 TODO；只有用户明确说出“作为禁区”时才更新禁区。
 - Surgical Edit 若明确覆盖旧 selector，可执行该局部替代；不得据此推断其他页面也应变化。
-- 当前实现与文档冲突时，不静默选择。以用户最新确认和当前磁盘证据判断，并把冲突解决结果写回治理文档。
+- 当前实现与文档冲突时，不静默选择。以用户最新确认和当前磁盘证据判断；可更新现行设计规则，但没有“作为禁区”口令时不得借机修改 `DO_NOT_REGRESS.md`。
 
 ## 6. 完成标准
 
@@ -139,5 +149,5 @@ description: Govern every TCA-Design website change by classifying it as a struc
 - 桌面和移动结构均有定义；
 - 静态非重叠与语法检查通过，或明确报告未通过项；
 - diff 没有越过 change radius；
-- Structural Change 的 TODO、设计规则、禁区及必要的 MAP / README 已同步；
+- Structural Change 的 TODO、设计规则及必要的 MAP / README 已同步；`DO_NOT_REGRESS.md` 只在用户明确说出“作为禁区”时同步；
 - 最终报告没有把未执行的浏览器视觉检查说成已验证。

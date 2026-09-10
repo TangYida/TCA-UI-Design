@@ -1,6 +1,27 @@
 # 开发进度与交接清单
 
-更新日期：2026-09-04
+更新日期：2026-09-10
+
+## 进行中：Collection Sidebar 全局组件化（2026-09-10）
+
+- [ ] 将 Saved 页面专属的收藏夹侧栏响应式规则提升为可复用的 `.collection-*` 组件规则，不扩大到无收藏夹侧栏的普通 workbench。
+- [ ] 保持桌面端侧栏随收藏夹长名称自适应，并保持移动端收藏夹列表可横向滚动、动作按钮固定在最右侧。
+- [ ] 同步 `.agent/DESIGN_RULES.md` 并完成 selector、断点、CSS 语法与变更范围复核；不改动 `.agent/DO_NOT_REGRESS.md`。
+
+## 已完成：Account Utility 二级标签统一（2026-09-10）
+
+- [x] 统一 Settings／Saved／History 三页的二级标签结构与 Roboto 字体，以 Settings 二级导航为组件基线。
+- [x] 桌面选中／悬浮状态统一为灰色背景；移动端改为灰色方框状态，并取消 `settings-workbench` 顶部 padding 与 `settings-section-nav` 下分割线。
+- [x] 将 Saved／History 的 Select all／Delete all 等批量操作区下分割线改为灰色。
+- [x] 将全站文本框激活状态背景统一为 `#EBE4D7`，并完成结构、断点、selector 与语法复核。
+
+## 已完成：Tag 内容归档页（2026-09-10）
+
+- [x] 新建 `Utility/tag.html` 与共享 Tag 页面逻辑：标题为当前主题名，混合文章／视频，保留 Latest／Popular 和 Load More，不显示主题导航或 Editor’s Picks。
+- [x] 将全站卡片及视频详情的红色主题标签统一指向 `tag.html?name=...`；Trending／Opinion 顶部主题导航继续作为本页筛选。
+- [x] 在 Search 结果中加入可进入主题归档的 Topic 入口。
+- [x] 删除三种文章详情页标题区上方的红色主题标签，保留日期与现有标题／作者布局。
+- [x] 完成断点、尺寸、定位、末行边界、DOM 顺序、本地引用、重复 ID、CSS 与 JavaScript 语法检查，并同步设计规则、禁区、页面映射与文件说明。
 
 ## 已完成：结构与共享母版
 
@@ -11,7 +32,7 @@
 - [x] 建立出版首页、会员聚合、栏目/列表、文章/详情、服务/账户五类实际母版，并在 `MAP.md` 用 Mermaid 记录继承关系。
 - [x] 图片继续使用源站 URL；资产目录只保留字体。EB Garamond、Libre Baskerville 和 Roboto 均已本地加载并记录来源。
 - [x] 完成桌面双层导航、移动端全屏覆盖菜单、Video/Premium 二级菜单、演示登录、搜索展开和注册弹窗。
-- [x] 观点、科技、视频和 Premium Talk 文章的主题标签可进入标签搜索；观点与科技文章已载入源站正文、作者、正文图片/图注和相关推荐。
+- [x] 观点、科技、视频和 Premium Talk 内容的主题标签可进入 Tag Archive；观点与科技文章已载入源站正文、作者、正文图片/图注和相关推荐。
 - [x] 文章母版中的正文图片按固有宽度渲染：不足正文栏一半时提升到 `50%`，介于一半与整栏之间时保留固有宽度，超出正文栏时限制到 `100%`，并始终使用 `height:auto`；桌面文章封面与标题顶部对齐。
 
 ## 已完成：2026-08-21 首页与全局 UI
@@ -33,7 +54,7 @@
 - [x] 推荐看板拆页阈值最终提升到 `820px`：`821px` 以上 Continue Exploring／Most-read 左右并置，`820px` 以下把 Most-read 移为第三张横向画廊页，覆盖 `690–778px` 的 iPad／宽移动窗口，禁止两栏互相覆盖。四张课程卡使用 `minmax(0,1fr)` 等宽网格和硬性 `16:9` 媒体框，标题最多两行、导语最多一行。
 - [x] Selected Reading 已改为 Continue Exploring，并从源站课程页载入 Yin Zhiguang、Fan Yongpeng、Zhang Weiwei、Christopher Kutarna 四门课程的 `16:9` 远程封面、标题和 lede；课程卡不显示日期或阅读时长，但会按内容自动选择主题。主推荐补回日期；Most-read 每条自动选择主题并显示日期，时长从顶部移到 lede 行末且可点击。
 - [x] Continue Exploring 与 Most-read 栏头不使用主题标签；大画廊与小画廊继续按溢出情况显示居中圆点。
-- [x] 全站主题 taxonomy 收束为六项：`China’s Economy & Business`、`China’s Politics`、`U.S.`、`China’s Technology`、`China’s Youth Sentiment`、`China’s Worldview`。共享 `site.js` 统一归并旧标签、重写搜索参数，并把 Article Section 主题栏重构为 `ALL + 六项主题`。
+- [x] 全站主题 taxonomy 收束为六项：`China’s Economy & Business`、`China’s Politics`、`U.S.`、`China’s Technology`、`China’s Youth Sentiment`、`China’s Worldview`。共享 `site.js` 统一归并旧标签、重写 Tag Archive 参数，并把 Article Section 主题栏重构为 `ALL + 六项主题`。
 - [x] 删除已被推翻的“圆形箭头导航”“阅读时长置于按钮下方”“封面导语按标题字号 60%→50% 贴底”“手机把推荐看板上下堆叠”等旧设计说明。
 
 ## 已完成：Premium Member
@@ -64,8 +85,8 @@
 ## 已完成：文章母版与文章内交互（2026-08-24）
 
 - [x] 文章桌面／移动断点统一为 `900px`。两个关键文章文件分别展示头图版（`Articles/article-featured-image.html`）和文字版（`Articles/article-text.html`）；另增 `Articles/article-news.html` 作为新闻模板演示，因此不改变原 21 个关键网址的映射口径。
-- [x] 头图版固定为页面内容宽度和 `16:9`；藏青半透明蒙版始终覆盖浅红色无框主题标签、日期、同宽标题和作者区。标题从最大 `80px` 开始按实际换行与剩余高度逐级缩小，标签—标题、标题—作者的间距同步固定为一倍标题行距。作者可排一至两行，头像、姓名和最多两行简介始终呈现；图下 lede 与正文同字号、同宽。
-- [x] 文字版把标签／日期、标题、作者和 lede 居中，并以文字基线对齐主题标签与日期；新闻版参考 Chang’e-6 简报，以日期和标题居中的轻标题区进入新闻正文。
+- [x] 头图版固定为页面内容宽度和 `16:9`；藏青半透明蒙版覆盖日期、同宽标题和作者区，不显示红色主题标签。标题从最大 `80px` 开始按实际换行与剩余高度逐级缩小，标题—作者的间距固定为一倍标题行距。作者可排一至两行，头像、姓名和最多两行简介始终呈现；图下 lede 与正文同字号、同宽。
+- [x] 文字版把日期、标题、作者和 lede 居中且不显示主题标签；新闻版参考 Chang’e-6 简报，以日期和标题居中的轻标题区进入新闻正文。
 - [x] 非新闻正文保留中间阅读栏；左侧目录用红色标出当前章节，右侧拆为 Continue Exploring 与 Related Reading，每条推荐增加一行小导语，两侧均设置视口内独立滚动。正文末尾 Editor 精简为右对齐的一行灰色小字。
 - [x] 新闻版保留左侧简报目录和右侧推荐，移动端把新闻目录变为横向可滚动入口。
 - [x] 分享入口直接接在文末，不使用分割线；X、Facebook、LinkedIn、Reddit、Email 改为圆形图标。Comments 标题缩小，保留 Latest／Popular、顶、踩和回复。
@@ -77,7 +98,7 @@
 - [x] 文章正文图片统一保留原始彩色，不再使用灰度滤镜；图片与普通段落维持正文的 `1.15em` 节奏。正式大章节 `h2` 使用粗体，标题最大文本宽度由 `19ch` 提升一半至 `28.5ch`，并在原段落间距之外增加一倍章节标题行距；“1. Purchased…”／“2. Replaced…”一类编号小节 `h3` 使用 `400` 常规字重。Newsletter 条目标题使用高优先级例外，避免被章节间距撑开。
 - [x] 三种文章模板共用同一个首字下沉规则：优先使用 `initial-letter: 3 3` 让首字占三行并与右侧首段自动对齐，回退字号为 `3.65em`，行高仍遵守 `1.2` 禁区；分享区与正文之间的布局留白由 `110px` 减半为 `55px`。
 - [x] 三种文章左栏第一项统一为当前文章完整标题，并链接至 `#article-top` 返回标题区；新闻版日期改为灰色，三则新闻标题上下节奏统一，第一则 Chang’e-6 新闻补回完整标题。
-- [x] 主题标签和作者均回收到共享母版：文字版 `.article-tag` 与首页 `.theme-tag` 共用无框红字及 `MORE >>` 动效；文字版作者卡整体保持居中，但头像、姓名和简介复用头图版交互，姓名与简介在卡内左对齐。
+- [x] 作者回收到共享文章母版；三种文章标题区均不显示 `.article-tag`。文字版作者卡整体保持居中，但头像、姓名和简介复用头图版交互，姓名与简介在卡内左对齐。
 - [x] 本轮文章模板复核：活动目录中的旧模板文件名／引用为 0，三种模板统一命名为 `article-featured-image.html`、`article-news.html`、`article-text.html`；文章 lede 的时长标签重新服从全局悬浮填充规则。`site.js` 语法、三份 CSS 大括号、25 份当前演示 HTML 的本地引用和重复 ID 均通过静态检查。
 
 ## 已完成：Article Section 母版（2026-08-24）
@@ -130,13 +151,6 @@
 - [ ] signup-banner在移动端模式下会消失/部分显示。但是在桌面模式的同等宽度下则不会。你觉得会是什么原因？
 - [ ] 在一个特定宽度的情况，文章显示有问题
 
-Structural change.
-
-添加一个Utility/tag.html
-
-页面结构基本仿照Trending页面。
-
-不同的是：section-title 变成 主题标签的名字。既有视频又有文章。没有editor'picks。没有主题导航栏
 
 ## 已完成：Beta Demo
 

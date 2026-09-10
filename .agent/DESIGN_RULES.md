@@ -9,7 +9,7 @@
 3. `.agent/DO_NOT_REGRESS.md` 中的禁区与已废弃方案。
 4. 当前页面的局部实现。
 
-用户明确改变全局设计语法时，应更新本文件，并把被替代的旧方案写入 `DO_NOT_REGRESS.md`。局部实现不得私自覆盖全局规则。
+用户明确改变全局设计语法时，应更新本文件。只有用户明确说出“作为禁区”时，才把对应方案写入 `DO_NOT_REGRESS.md`；普通的替代、否决或修改不得进入禁区。局部实现不得私自覆盖全局规则。
 
 ## 2. 全局设计语法
 
@@ -61,6 +61,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 | 出版首页 | `.master-home` | 主推荐画廊；Continue Exploring；Most-read；Trending／Opinion／Premium／Video | `css/masters.css`、`js/site.js` |
 | Premium Member | `.master-member` | 会员权益主卡；Intelligence／Courses／Talks 非推荐栏目 | `css/masters.css`、`js/site.js` |
 | Article Section | `.master-section` | 栏目标题；主题栏；排序；满行卡片看板；可选 Editor’s Picks；Load More | `css/masters.css`、`js/site.js` |
+| Tag Archive | `.master-section.tag-archive-page` | 当前主题标题；Latest／Popular；文章／视频混合看板；Load More | `css/masters.css`、`js/tag.js` |
 | Video Section | `.master-video-section` | Video channel 栏；Latest／Popular；视频卡片看板；Load More | `css/masters.css`、`js/site.js` |
 | Premium Talks 列表 | `.master-premium-talks` | 无 channel 的长条 Premium 视频卡片流 | `css/masters.css`、`js/site.js` |
 | 文章 | `.master-article` | 头图版／文字版／新闻版；正文；侧栏；分享；评论 | `css/masters.css`、`js/site.js` |
@@ -77,7 +78,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - `Articles/`：三类文章模板。
 - `Videos/`：Video Article、Premium Talk Detail、Lesson / Course Detail。
 - `About/`：About、Support、Contributors、Author、HSK、Premium Courses。
-- `Utility/`：Search、Setting。
+- `Utility/`：Tag Archive、Search、Setting、Saved、History。
 - `Beta Demo/`：隔离实验，不得反向污染正式页面。
 
 ## 4. 全站共享组件与 selector 契约
@@ -94,7 +95,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 
 ### 4.2 主题标签、Premium 与日期
 
-- `.theme-tag`、`.article-tag`：浅红／红色无框可点击 taxonomy；hover / focus 时原文退出并显示 `MORE >>`，组件宽度不得因此跳动。
+- `.theme-tag`：浅红／红色无框可点击 taxonomy；统一进入 `Utility/tag.html?name=...`，hover / focus 时原文退出并显示 `MORE >>`，组件宽度不得因此跳动。文章详情标题区不显示 `.article-tag`。
 - 视频内容只在主题标签前显示一个红色播放符号；同一标签不得重复播放符号。
 - 日期使用灰色元数据，并与主题标签同行、紧邻标签；不得伪装成主题标签或推到最右侧。
 - `.premium-cover > .premium-badge`、`.premium-cover > .lock`：所有 Premium 内容封面左上角必须显示金底白字 Premium 标签。
@@ -152,9 +153,9 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 
 - 三种模板文件：`article-featured-image.html`、`article-text.html`、`article-news.html`。
 - 正文图片始终彩色、与正文栏等宽、`height:auto`；图片与段落保持普通正文节奏。
-- 头图版封面为页面内容宽度、`16:9`；藏青半透明蒙版内放标签、日期、标题和作者。标题最大 `80px`，按实际空间缩小；各组间距为一倍标题行距。
+- 头图版封面为页面内容宽度、`16:9`；藏青半透明蒙版内放日期、标题和作者，不显示主题标签。标题最大 `80px`，按实际空间缩小；各组间距为一倍标题行距。
 - 头图版 lede 与正文同字号并居中；收藏按钮居中、另起一行。
-- 文字版标签和作者复用头图版共享组件；作者组件整体居中，姓名与简介左对齐。
+- 文字版标题区依次显示日期、标题、作者和 lede，不显示主题标签；作者组件整体居中，姓名与简介左对齐。
 - 正式章节 `h2` 加粗，编号小节 `h3` 使用 `400` 常规字重。
 - 左栏首项是完整文章标题并返回 `#article-top`；左右栏相对正文起点下移约 `10px`。
 - 正文末尾 Editor 是一行右对齐灰字；分享入口直接接在正文末尾，使用圆形平台图标且不加分割线。
@@ -166,7 +167,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 
 - 栏目标题为金色斜体；标题上方 padding 保持紧凑，不显示标题右侧分割线。
 - 主题栏为 `All + 六项主题`，可横向滚动；标题／主题栏下方分割线为金色。
-- 选择主题后在本页用左右滑动过渡展示同主题看板，不跳转搜索页；主题子页不显示 Editor’s Picks。
+- 顶部 `.section-topics` 选择主题后在本页用左右滑动过渡展示同主题看板；卡片中的 `.theme-tag` 则进入 Tag Archive，不触发本地筛选。主题子页不显示 Editor’s Picks。
 - 卡片统一使用 `16:9` 图片、主题、灰色日期、标题和 lede。普通区单行最多 4 张，按 4／3／2／1 列切换。
 - 每行必须由后续内容前移填满；不足满行的最后一行不放大卡片，且每张实际卡片自己绘制完整右／下边界。
 - 普通卡片区与 Editor’s Picks 内部各自统一尺寸；Editor’s Picks 图片比例仍为 `16:9`，每条必须有 lede。
@@ -197,20 +198,30 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 
 - Utility 不是单一母版：`.utility-settings-page`、`.utility-saved-page`、`.utility-history-page` 组成 Account Utility；`.utility-search-page` 是内容发现页面。它们只共享 `.utility-shell`、`.utility-mast`、`.account-destinations` 和全站 tokens。
 - 四页主标题统一使用金色斜体 `h1.section-title`，不增加 kicker 或解释性副标题。
+- Account Utility 三页的二级入口统一使用 `.utility-secondary-nav`，字体为 Roboto。桌面选中／hover／focus 以 `--paper-2` 灰色背景填充；`900px` 以下变为横向可滚动入口，取消上下分割线，并以独立灰色方框表示选中／hover／focus。
 - Settings 顶层入口固定为 Settings／Saved／History；内部入口固定为 Personal Information／Account Security／Help and support。
 - Personal Information 保留真正的 Profile photo 上传、Username、Country / Region、只读 Email 和 Sign Out。顶部冗余身份摘要和 `.settings-panel-heading` 不属于现行结构；Premium 账户在 Profile 面板左上角显示金底白字 Premium 标签，当前演示默认为 Premium。
 - Username 与 Country / Region 各自使用字段右上方的小号灰色 `EDIT`；编辑后原位置切换为 `SAVE · CANCEL`，不得改变字段行高或推动相邻内容。
 - Settings 与 Search 的文字输入采用无封闭框的底线样式；原背景状态保持不变，focus 时底线变金色。Account Security 保留 Old Password／New Password／Confirm Password、显示隐藏、Edit／Save／Cancel；Show／Hide 位于输入框右上方，字段为空或未进入编辑状态时禁用。
-- Settings 桌面为较窄的左侧内部导航＋右侧任务面板；`900px` 以下变为单列并把内部导航转为横向可滚动入口，同时缩小 workbench 顶部留白且不显示底部 border。Sign Out 区域不显示顶部 border。
-- Saved 桌面为左侧收藏夹分组与右侧内容列表；收藏夹支持 Create／Rename／Delete，内容支持 Select all／Unfavorite／Move to／Copy to。移动端收藏夹进入内容上方的横向入口，批量工具栏自然换行。
+- Settings 桌面为较窄的左侧内部导航＋右侧任务面板；`900px` 以下变为单列并把内部导航转为横向可滚动入口，workbench 顶部 padding 为 `0`，二级导航不显示下分割线。Sign Out 区域不显示顶部 border。
+- Saved 桌面为左侧收藏夹分组与右侧内容列表；收藏夹支持 Create／Rename／Delete，内容支持 Select all／Unfavorite／Move to／Copy to。移动端收藏夹进入内容上方的横向入口，批量工具栏自然换行。Saved／History 批量工具栏的下分割线使用全局灰色 `--line`。
+- Collection Sidebar 是全局可复用组件，不依赖 `.utility-saved-page` 页面前缀：桌面端侧栏宽度随收藏夹名称自适应，最小 `180px`、最大 `min(36vw, 420px)`，长名称允许换行；`900px` 以下由可独立横向滚动的 `.collection-list` 与固定在最右侧的 `.collection-actions` 组成。没有 `.collection-actions` 的实例只呈现收藏夹入口，不凭样式生成动作区。
 - History 使用 All／Article／Video 二级标签、紧凑记录列表、单条 Delete 与当前筛选范围内的 Delete all；二级回复式层级和大型媒体卡不适用于浏览记录。
-- Search 从 `?s=` 或 `?tag=` 读取查询词；保留结果数量、Article／Author tabs 和 Load More。
+- Search 从 `?s=` 或兼容字段 `?tag=` 读取查询词；保留结果数量、Article／Author tabs 和 Load More。查询词匹配六项 taxonomy 时，在结果区上方显示可进入 Tag Archive 的 Topic 入口。
 - Latest／Popular 只排序 Article 主结果；Author 不显示排序器。切换 Author 后再返回 Article 时保留排序状态。
 - Search 主结果复用标准 `16:9` section card、六项 taxonomy、灰色日期、标题、lede、行末时长和 Premium 状态。结果图片不可点击。
 - Author 使用人物结果行：圆形头像、姓名、职务简介和作者页入口；当前演示样例为 Zhang Weiwei。
 - Search 按钮是带可访问名称的搜索 SVG 图标；标题不显示 “The Archive”。
 - Editor’s Picks 是不随 tab、排序或 Load More 变化的固定四项右栏，复用 Video Detail Related 的 `16:9` 封面、主题、日期、标题和短 lede，背景与页面一致。桌面 rail 依据实时 Header 高度粘在导航栏下方，占满剩余视口并允许自身纵向滚动。
 - `900px` 以下 Editor’s Picks 按 DOM 顺序移动到主结果和 Load More 之后，取消 sticky、固定高度和内部滚动；`601–900px` 为两列，`600px` 以下为单列，并使用 Trending 卡片看板的逐卡完整分割线。
+- 全站文字型 `input` 与 `textarea` 获得焦点时，背景统一变为 `#EBE4D7`，文字切换为 `--blue`；checkbox、radio、file 与按钮型 input 不在此规则内。
+
+### 5.7 Tag Archive
+
+- 使用 `Utility/tag.html?name={主题名}` 表示主题归档；`h1.section-title` 显示当前主题名。
+- 同一看板混合展示文章与视频；文章使用 `xx min read`，视频保留播放符号并使用 `xx min watch`。
+- 页面不显示 `.section-topics` 或 Editor’s Picks；只保留 Latest／Popular、标准 section cards 与 Load More。
+- 看板继承 Article Section 的 `16:9` 媒体、逐卡闭合边界及四／三／二／一列断点；首次只显示一个完整响应式行，Load More 展开余下内容。
 
 ## 6. 不用浏览器模拟的非重叠检查
 
@@ -236,5 +247,6 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - `js/settings.js`：资料字段编辑、头像预览、安全切换和演示退出。
 - `js/account-library.js`：Saved 收藏夹／批量操作与 History 筛选／删除。
 - `js/search.js`：搜索 tabs、Article 排序、Load More、查询状态和结果渲染。
+- `js/tag.js`：Tag Archive 查询状态、文章／视频混合数据、排序与 Load More。
 - 页面 HTML 只承载内容与语义结构；已有共享 selector 能表达需求时，不新增同义 selector。
 - 全局规则只在共享层修改；页面例外必须以页面根 class 限定作用域，并在本文件记录原因。
