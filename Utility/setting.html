@@ -1,1 +1,140 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Account Settings — Redesign</title><link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/site.css"><link rel="stylesheet" href="../css/masters.css"></head><body><header data-site-header></header><main class="shell"><section class="page-hero"><div class="eyebrow">Personal center</div><h1 class="display">Your account</h1></section><section class="settings"><nav class="settings-nav"><button>Profile</button><button>Membership</button><button>Saved articles</button><button>Course progress</button><button>Newsletters</button><button>Security</button></nav><div class="settings-panel"><div class="kicker">Profile</div><h2 class="display settings-heading">Account details</h2><div class="field"><label for="name">Display name</label><input id="name" value="Reader"></div><div class="field"><label for="email">Email</label><input id="email" type="email" value="reader@example.com"></div><div class="field"><label for="region">Country / Region</label><select id="region"><option>China</option><option>United Kingdom</option><option>United States</option></select></div><div class="field"><label for="language">Language preference</label><select id="language"><option>English</option><option>中文</option></select></div><button class="button primary">Save changes</button></div></section></main><footer data-site-footer></footer><script src="../js/site.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Settings — The China Academy</title>
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/site.css">
+  <link rel="stylesheet" href="../css/masters.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+</head>
+<body class="utility-page utility-settings-page" data-page="setting" data-demo-member="premium">
+<header data-site-header></header>
+
+<main class="utility-shell">
+  <header class="utility-mast">
+    <h1 class="section-title">Settings</h1>
+  </header>
+
+  <nav class="account-destinations" aria-label="Account destinations">
+    <a href="setting.html" aria-current="page">Settings</a>
+    <a href="settings-saved.html">Saved</a>
+    <a href="settings-history.html">History</a>
+  </nav>
+
+  <section class="settings-workbench" aria-label="Account settings">
+    <nav class="settings-section-nav" role="tablist" aria-label="Settings sections">
+      <button type="button" role="tab" aria-selected="true" aria-controls="personal-information" id="personal-information-tab" data-settings-tab="personal-information">Personal Information</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="account-security" id="account-security-tab" data-settings-tab="account-security">Account Security</button>
+      <a href="mailto:hello@thechinaacademy.org">Help and support</a>
+    </nav>
+
+    <div class="settings-panel-stack">
+      <section class="settings-task-panel premium-cover" id="personal-information" role="tabpanel" aria-labelledby="personal-information-tab" data-settings-panel="personal-information">
+        <span class="premium-badge">Premium</span>
+
+        <div class="profile-photo-control">
+          <span class="profile-photo-preview" data-profile-preview aria-hidden="true">R</span>
+          <div>
+            <strong>Profile photo</strong>
+            <label class="profile-upload-button" for="profile-photo">Upload photo</label>
+            <input id="profile-photo" type="file" accept="image/*" data-profile-upload>
+          </div>
+        </div>
+
+        <form class="settings-form" data-profile-form>
+          <div class="settings-field" data-editable-field>
+            <div class="settings-field-heading">
+              <label for="account-username">Username</label>
+              <span class="settings-inline-actions">
+                <button type="button" data-field-edit>Edit</button>
+                <button type="button" data-field-save hidden>Save</button>
+                <button type="button" data-field-cancel hidden>Cancel</button>
+              </span>
+            </div>
+            <input id="account-username" name="username" type="text" value="Reader" maxlength="50" disabled>
+            <small class="settings-field-status" data-field-status aria-live="polite"></small>
+          </div>
+
+          <div class="settings-field" data-editable-field>
+            <div class="settings-field-heading">
+              <label for="account-country">Country / Region</label>
+              <span class="settings-inline-actions">
+                <button type="button" data-field-edit>Edit</button>
+                <button type="button" data-field-save hidden>Save</button>
+                <button type="button" data-field-cancel hidden>Cancel</button>
+              </span>
+            </div>
+            <select id="account-country" name="country" disabled>
+              <option value="">--</option>
+              <option>Brazil</option>
+              <option selected>China</option>
+              <option>Germany</option>
+              <option>India</option>
+              <option>Singapore</option>
+              <option>South Africa</option>
+              <option>United Kingdom</option>
+              <option>United States</option>
+            </select>
+            <small class="settings-field-status" data-field-status aria-live="polite"></small>
+          </div>
+
+          <div class="settings-field settings-field-readonly">
+            <div class="settings-field-heading">
+              <label for="account-email">Email</label>
+              <span>Read only</span>
+            </div>
+            <input id="account-email" name="email" type="email" value="reader@example.com" disabled>
+          </div>
+        </form>
+
+        <div class="settings-session-actions">
+          <button class="button" type="button" data-sign-out>Sign Out</button>
+          <span aria-live="polite" data-sign-out-status></span>
+        </div>
+      </section>
+
+      <section class="settings-task-panel" id="account-security" role="tabpanel" aria-labelledby="account-security-tab" data-settings-panel="account-security" hidden>
+        <div class="settings-panel-tools">
+          <button class="settings-panel-edit" type="button" data-security-edit>Edit</button>
+        </div>
+
+        <form class="settings-form" data-security-form>
+          <div class="settings-field settings-password-field">
+            <label for="old-password">Old Password</label>
+            <div class="password-input-row">
+              <input id="old-password" name="old-password" type="password" value="password1234" disabled>
+              <button type="button" data-toggle-password aria-label="Show old password" disabled>Show</button>
+            </div>
+          </div>
+          <div class="settings-field settings-password-field">
+            <label for="new-password">New Password</label>
+            <div class="password-input-row">
+              <input id="new-password" name="new-password" type="password" disabled>
+              <button type="button" data-toggle-password aria-label="Show new password" disabled>Show</button>
+            </div>
+          </div>
+          <div class="settings-field settings-password-field">
+            <label for="confirm-password">Confirm Password</label>
+            <div class="password-input-row">
+              <input id="confirm-password" name="confirm-password" type="password" disabled>
+              <button type="button" data-toggle-password aria-label="Show confirmed password" disabled>Show</button>
+            </div>
+          </div>
+          <div class="settings-security-actions" data-security-actions hidden>
+            <button class="button primary" type="submit">Save</button>
+            <button class="button" type="button" data-security-cancel>Cancel</button>
+          </div>
+          <p class="settings-form-status" data-security-status aria-live="polite"></p>
+        </form>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer data-site-footer></footer>
+<script src="../js/site.js"></script>
+<script src="../js/settings.js"></script>
+</body>
+</html>

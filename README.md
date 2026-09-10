@@ -13,7 +13,7 @@
 
 2. 在 `TODO.md` 中更新进度及尚未完成的产品/技术工作。
 
-3. 按 `tokens.css` → `site.css` → `masters.css` 的顺序复用样式；全局页面家族规则写入 `masters.css`，不要在单页重新内联或复制。
+3. 按 `tokens.css` → `site.css` → 页面家族样式的顺序复用；出版内容母版写入 `masters.css`，Settings／Saved／History／Search 写入 `utilities.css`，不要在单页重新内联或复制。
 
 4. 新图片使用源站的完整 URL，并填写准确 `alt`；生产上线前仍需确认图片版权与长期可用性。
 
@@ -28,7 +28,10 @@
 ```text
 Design/
 ├── README.md             # 目录与使用说明
-├── REDESIGN.md           # 视觉、组件和交互决策
+├── .agent/
+│   ├── DESIGN_RULES.md   # 现行页面母版、组件与 selector 设计宪法
+│   ├── DO_NOT_REGRESS.md # 已明确舍弃、不得回归的设计禁区
+│   └── SKILL.md          # 每次网站修改必须遵循的工作流
 ├── MAP.md                # 源网址 → 设计文件的唯一映射
 ├── TODO.md               # 当前进度与开发交接清单
 ├── Homepage/             # 首页 + Premium Member
@@ -38,11 +41,11 @@ Design/
 ├── Video Sections/       # Video 列表 + Premium Talks 列表
 ├── Videos/               # 视频文章、Premium Talk 详情、课程详情
 ├── About/                # Courses、HSK、About、Support、贡献者与作者
-├── Utility/              # 搜索与个人中心
-├── css/                  # tokens.css + site.css + masters.css；独立 demo 样式另存同目录
-├── js/                   # 导航/栏目字段、文章交互与独立 demo 的轻量交互
+├── Utility/              # Search、Settings、Saved 与 History
+├── css/                  # tokens、全站、母版、Video Detail 与两类 Utility 共享样式
+├── js/                   # 全站交互及 Video Detail、Settings、Saved/History、Search 的隔离逻辑
 ├── assets/fonts/         # 可本地部署的 EB Garamond / Libre Baskerville / Roboto
 └── references/           # 早期衬线、导航与文章排版研究
 ```
 
-当前仍有 **21 个关键网址对应的 HTML 页面**。此外有 `Articles/article-news.html` 新闻模板、`Beta Demo/homepage.html` 首页实验和 `Beta Demo/discussions-across-platforms-demo.html` 跨平台讨论实验，均不计入关键网址数量。原需求清单虽然编号至 18，但第 2 项包含 2 个一级菜单页、第 4 项包含 3 种关键文章网址，因此是 18 个编号组、21 个实际网址。
+当前仍有 **21 个原始关键网址对应的 HTML 页面**；另新增 `Utility/settings-saved.html` 与 `Utility/settings-history.html` 两个账户子页面。此外有 `Articles/article-news.html` 新闻模板、`Beta Demo/homepage.html` 首页实验和 `Beta Demo/discussions-across-platforms-demo.html` 跨平台讨论实验，均不计入原始关键网址数量。

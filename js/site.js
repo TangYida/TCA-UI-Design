@@ -215,8 +215,8 @@ if (header) {
     button.querySelector('span').textContent = open ? '−' : '＋';
   }));
 
-  let signedIn = false;
-  try { signedIn = sessionStorage.getItem('tca-demo-signed-in') === '1'; } catch {}
+  let signedIn = d.body.dataset.demoMember === 'premium';
+  try { signedIn = signedIn || sessionStorage.getItem('tca-demo-signed-in') === '1'; } catch {}
   const signinButtons = [...header.querySelectorAll('[data-signin]'), ...mobileDrawer.querySelectorAll('[data-signin]')];
   const renderSignin = () => signinButtons.forEach(button => {
     button.classList.toggle('signed-in', signedIn);
@@ -313,6 +313,7 @@ const dialog = d.querySelector('#signup-dialog');
 if (dialog) {
   const banner = d.querySelector('[data-signup-banner]');
   const registrationActive = () => {
+    if (d.body.dataset.demoMember === 'premium') return true;
     try { return sessionStorage.getItem('tca-registration-active') === '1'; } catch { return false; }
   };
   const panel = dialog.querySelector('.signup-panel');
@@ -439,7 +440,7 @@ if (['signin', 'register', 'signup'].includes(requestedAuthMode)) {
 }
 
 const requestedTag = new URLSearchParams(location.search).get('tag');
-if (requestedTag && location.pathname.endsWith('/search.html')) {
+if (requestedTag && location.pathname.endsWith('/search.html') && !d.body.classList.contains('utility-search-page')) {
   const heading = d.querySelector('.page-hero h1');
   const input = d.querySelector('.search-box input');
   if (heading) heading.textContent = `Stories tagged "${requestedTag}"`;

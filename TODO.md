@@ -1,10 +1,11 @@
 # 开发进度与交接清单
 
-更新日期：2026-08-27
+更新日期：2026-09-04
 
 ## 已完成：结构与共享母版
 
-- [x] 建立并持续维护 `README.md`、`REDESIGN.md`、`MAP.md`、`TODO.md`；21 个源站网址均已有对应静态设计文件和 WordPress 实现建议。
+- [x] 建立并持续维护 `README.md`、`MAP.md`、`TODO.md` 与 `.agent/` 设计治理层；21 个源站网址均已有对应静态设计文件和 WordPress 实现建议。
+- [x] 将旧 `REDESIGN.md` 拆分迁移为 `.agent/DESIGN_RULES.md`（现行设计宪法）、`.agent/DO_NOT_REGRESS.md`（已舍弃方案）与 `.agent/SKILL.md`（网站修改工作流），并删除活动目录中的旧文件。
 - [x] 按内容职责重整 21 个页面：Video 列表／Premium Talks 进入 `Video Sections`，Trending／Opinion／Premium Intelligence 进入 `Article Sections`，视频文章／Talk 详情／课程详情进入 `Videos`，Courses／HSK 进入 `About`，Premium Member 进入 `Homepage`；旧的 `Sections`、`Premium`、`Courses` 空目录已移除。
 - [x] 抽离 `tokens.css`、`site.css`、`masters.css` 和 `site.js`；全局规则进入共享层，单页只保留内容结构。
 - [x] 建立出版首页、会员聚合、栏目/列表、文章/详情、服务/账户五类实际母版，并在 `MAP.md` 用 Mermaid 记录继承关系。
@@ -50,7 +51,7 @@
 - [x] 本轮已做结构检查：首页图片没有被 `<a>` 包裹，标题与 lede 使用独立链接。
 - [ ] 检查 `MORE >>` 不改变主题标签组件宽度，并确认日期始终保持灰色。
 - [ ] 检查有横向溢出的画廊才显示圆点；在 `820px` 两侧确认推荐画廊为两屏/三屏且没有高度突变。
-- [x] 本轮已同步更新 `MAP.md`、`REDESIGN.md` 和本文件，并删除被新决定推翻的规则。
+- [x] 当前设计治理已改由 `.agent/DESIGN_RULES.md` 与 `.agent/DO_NOT_REGRESS.md` 承担；页面映射继续由 `MAP.md` 维护。
 - [x] 本轮结构复核：有效 HTML 为 21 个，`MAP.md` 页面行也是 21 条；本地链接缺失为 0，旧目录路径引用为 0，`site.js` 语法及三份 CSS 大括号均通过检查。
 - [x] 本轮 Premium Member 禁区复核：会员主张与卡片只用正常 Grid 流和明确断点，不使用负边距或绝对定位拼接正文；新增文字行高均处于 `1.2–1.5`，10 个远程图片 URL 均返回 HTTP 200。
 - [x] 本轮封面文字组复核：共享 `.home-feature` 在桌面使用正常 Flex 流垂直居中，标题下边距和 lede 上边距均为 `0`；移动端恢复顶部顺序流，不使用负边距或定位叠放。
@@ -121,17 +122,21 @@
 
 ## Videos
 
-- [x] `video-article.html`、`premium-talk-detail.html` 与 `lesson.html` 共用 Video Detail 母版：顶部单一播放主题标签与相邻日期；桌面标题动态缩至最小 `30px` 并保持一行；主视频与同高可滚动右栏并置。Course 右栏按 Course Plan → Related 排列；每条 Related 固定为 `16:9` 封面、主题标签、标题、lede 和行末时长标签。播放信息行统一承载 views、课程专属 episodes/uploaded 与收藏入口；Talks/Course 显示 Instructor。移动端 Introduction 按 Instructor → Lede → Share → Course Plan → Related 排列，只有具备评论的 Video Article 显示 Introduction／Comments 双标签。
+- [x] `video-article.html`、`premium-talk-detail.html` 与 `lesson.html` 共用 Video Detail 母版：顶部为单一播放主题标签与相邻日期；标题固定 `50px` 并允许多行；主视频与同高可滚动右栏并置。Course 右栏按 Course Plan → Related 排列；每条 Related 固定为 `16:9` 封面、主题标签、标题和 lede，不显示时长标签。播放信息与分享入口以主视频左右边缘为锚点合并为同一响应式行，宽屏两端对齐，空间不足时换为两行并左对齐；播放信息上下内边距均为 `11px`，分享入口统一为 `20px × 20px` 圆形并同步缩小内部字形。Talks/Course 显示 Instructor，Instructor 与 lede 均无顶部边框；只有具备评论的 Video Article 显示 Introduction／Comments 双标签。
+- [x] Course Plan 删除旧金色进度 span 与 lesson-complete 按钮；当前原型不读取后台或真实播放数据，进度由鼠标在播放页面中的水平位置正向映射，未完成时灰色填充无色背景，完成后平滑转为金色。Related 区顶部不使用金色分割线。
 
 ## 其他视觉微调
-
-- 推荐栏元素统一化
-
 - [x] 全站 lede 时长标签保持在行末，并可作为同一篇内容的入口。
+- [ ] signup-banner在移动端模式下会消失/部分显示。但是在桌面模式的同等宽度下则不会。你觉得会是什么原因？
+- [ ] 在一个特定宽度的情况，文章显示有问题
 
-- 文章标题排版
-- 视频lede调整
-- 设计要怎么风格化？（像newyoker那样）
+Structural change.
+
+添加一个Utility/tag.html
+
+页面结构基本仿照Trending页面。
+
+不同的是：section-title 变成 主题标签的名字。既有视频又有文章。没有editor'picks。没有主题导航栏
 
 ## 已完成：Beta Demo
 
@@ -143,6 +148,24 @@
 
 - [ ] 出一个“给编导的**网站使用指南**”，介绍不同文章格式，上传文章的注意事项，网站结构等等。
 - [ ] 完善视频、课程和作者的**站内搜索**，并确认 Contributor Profile 与 WordPress Author Archive 是否继续作为两个内容模型。
+
+## 已完成：Utility 页面重构（2026-09-04）
+
+- [x] 重构 `Utility/setting.html`：保留 Settings／Saved／History、Personal Information、Account Security、Help and support、Profile photo、Username、Country / Region、Email、密码修改和 Sign Out；删除冗余身份摘要与非源站入口。
+- [x] 将 Username、Country / Region 改为字段级 `EDIT → SAVE · CANCEL`；Email 只读，Profile photo 与 Account Security 保留各自操作。
+- [x] 重构 `Utility/search.html`：保留查询、结果数量、Article／Author、Load More，加入 Article 的 Latest／Popular 排序；Author 使用 Weiwei 搜索结果中的 Zhang Weiwei 样例。
+- [x] 将 TOP PICKS 改为固定四项的右栏 Editor’s Picks；不随 tab／排序变化。其后续桌面滚动与移动边界规则见下方 Utility 工作台扩展。
+- [x] 新增 Utility 专用共享 CSS 与页面脚本，并复用全站 Header、Footer、主题标签、lede、时长和 Premium 组件。
+- [x] 完成静态断点、非重叠、末行边界、重复 ID、本地链接、CSS 与 JavaScript 语法检查；同步 `MAP.md` 与 `.agent` 设计治理文档。
+
+## 已完成：Utility 工作台扩展（2026-09-04）
+
+- [x] 精简 Settings 页首与任务面板，增加默认 Premium 身份标识，并把二级导航栏收窄。
+- [x] 统一 Settings／Search 底线输入框；完善密码 Show／Hide 的位置、空值禁用与编辑状态。
+- [x] 将 Search 标题改为 `h1.section-title`、搜索按钮改为图标，并重构 Editor’s Picks 的桌面粘性滚动与移动分割线。
+- [x] 新增 `Utility/settings-saved.html`：收藏夹 Create／Rename／Delete、批量选择、Unfavorite／Move／Copy。
+- [x] 新增 `Utility/settings-history.html`：All／Article／Video 筛选、单条删除与 Delete all。
+- [x] 同步 Utility 导航、设计规则、禁区、MAP／README，并完成静态非重叠、重复 ID、本地链接和语法检查。
 
 ## 注意事项
 
@@ -164,9 +187,9 @@ $$ 最终敲定
 静态网站排版
 
 - [x] Video Sections(premium-talks.html、video.html)
-- [x] Videos（`lesson.html`、`premium-talk-detail.html`、`video-article.html`）：完成三类详情页重构。新增共享 `video-details.css` 与 `video-details.js`；普通视频和 Premium Talk 复用文章收藏、相关推荐、分享及评论体系，Lesson 保留 Sensei 课纲与本地演示完成状态。内容分别锚定用户提供的旧 lesson HTML、Pakistan／Taiwan 源视频页及世界最高桥 Premium Talk 源页。
+- [x] Videos（`lesson.html`、`premium-talk-detail.html`、`video-article.html`）：完成三类详情页重构。新增共享 `video-details.css` 与 `video-details.js`；普通视频和 Premium Talk 复用文章收藏、相关推荐、分享及评论体系，Lesson 保留 Sensei 课纲，并以鼠标水平位置正向驱动演示进度。内容分别锚定用户提供的旧 lesson HTML、Pakistan／Taiwan 源视频页及世界最高桥 Premium Talk 源页。
 - [ ] About(about.html、author.html、contributor-detail.html、contributors.html、hsk.html、premium-courses.html、support.html)
-- [ ] Utility(search.html、setting.html)
+- [x] Utility（search.html、setting.html、settings-saved.html、settings-history.html）
 
 网站测试：
 
@@ -174,5 +197,3 @@ $$ 最终敲定
 - [ ] Videos: 下周二
 - [ ] About: 下周三、下周四
 - [ ] Utility: 下周五
-
-

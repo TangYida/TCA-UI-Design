@@ -1,6 +1,6 @@
 # 关键页面映射
 
-更新日期：2026-08-27
+更新日期：2026-09-10
 
 ## 维护规则
 
@@ -21,6 +21,7 @@
 1. `css/tokens.css`：颜色、字体、间距和阅读宽度等设计变量。
 2. `css/site.css`：导航、页脚、按钮、基础卡片、弹窗等全站组件。
 3. `css/masters.css`：页面家族母版；`.master-home` 管理首页封面、栏目封面、画廊和悬浮导语，`.master-member` 管理会员主张与三组普通内容卡片，`.master-article` 管理文章标题区、作者、正文和图片渲染，`.master-section`／`.master-video-section` 管理文章与视频栏目看板，`.master-premium-talks` 管理逐行会员视频卡片。
+4. `css/utilities.css`：Utility 共享层，并明确拆分 Account Utility（`.utility-settings-page`、`.utility-saved-page`、`.utility-history-page`）与 Search Utility（`.utility-search-page`）两种母版；二者共享视觉令牌和全站壳层，但不强行共享业务布局。
 
 具有全局性的调整必须写入上述共享层。例如，文章正文图片的宽度、灰度/彩色模式和图注统一在 `masters.css` 的 `.master-article .wp-source-content` 规则中修改；不得只在某篇文章里复制一份样式。仅属于单页内容差异的结构或标签可以留在 HTML。若确需单页覆盖，必须在此处记录原因和作用范围。
 
@@ -38,7 +39,7 @@
 | 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块；Intelligence、Courses 继承非推荐栏目结构。Talks 封面及三张卡片进一步统一首页视频语言：`16:9`、红色标签前播放三角、无图中央播放字符、lede 和 `xx min watch` |
 | 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 学习路径首页、课程筛选、清楚的课时信息 |
 | 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 16:9 课程主视觉、源站课程介绍与殷之光讲师信息；单课课纲、进度、可持久化完成状态及源站相关推荐 |
-| 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 大搜索框、类型计数、统一结果结构 |
+| 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 独立 Search Utility：金色斜体栏目标题、底线查询框和 SVG 搜索图标；保留结果数量、Article／Author、Load More 与 Article 的 Latest／Popular。固定四项 Editor’s Picks 与页面同背景，桌面按实时 Header 高度粘附并在剩余视口内滚动，移动端回到主结果之后并复用 Trending 分割线 |
 | 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | 继承 `.master-section`：横向 Intelligence 主题条、带 Premium 状态的分割线卡片看板及 `LOAD MORE`；不插入 Editor's Picks |
 | 10 | https://thechinaacademy.org/premium-talks/ | `Video Sections/premium-talks.html` | 删除栏目筛选、价格／介绍／会员 CTA 和追加内容流，改为逐行长卡：左侧 `16:9` 金底白字 Premium 封面，右侧主题、标题、以 EB 粗体嘉宾名开头的 lede 与 `xx min watch`；内容锚定源站 8 条 Premium Talks |
 | 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 真实 16:9 Cloudflare 播放器和金底白字 Premium 标识；源站标题、日期、导语及张维为讲师信息；复用收藏、推荐、评论并保留清晰会员边界 |
@@ -48,7 +49,7 @@
 | 15 | https://thechinaacademy.org/contributors-2/ | `About/contributors.html` | 专业领域筛选、统一人物卡片 |
 | 16 | https://thechinaacademy.org/contributors_aleksandr-dugin/ | `About/contributor-detail.html` | 人物简介与精选内容，区别于作者归档 |
 | 17 | https://thechinaacademy.org/column_aleksandr-dugin/ | `About/author.html` | 按内容类型筛选的作者时间线 |
-| 18 | https://thechinaacademy.org/setting/ | `Utility/setting.html` | 账户导航、资料表单、会员/收藏/课程入口 |
+| 18 | https://thechinaacademy.org/setting/ | `Utility/setting.html` | Account Utility 设置页：删除冗余页首、面板标题和原生文件名；默认 Premium Profile 显示金底白字标签。Username 与 Country / Region 保持字段级 `EDIT → SAVE · CANCEL`，所有输入改为聚焦金色的底线样式，密码 Show／Hide 位于右上且空值禁用；移动端压缩 workbench 留白 |
 
 ### 非关键网址模板与实验入口
 
@@ -57,6 +58,13 @@
 | 新闻文章模板 | `Articles/article-news.html` | 参考 Chang’e-6 源页：日期／标题居中、左侧简报导航、正文、带导语的右侧推荐、一行 Editor、圆形分享与评论；相邻新闻的章末—分割线与分割线—下章标题留白均为 `1.15em`；这是模板演示，不计入 21 个关键网址 |
 | 首页 Beta | `Beta Demo/homepage.html` | 加载 `Homepage/index.html?demo=beta-4x3`；桌面非视频封面切换为 `4:3`、视频保持 `16:9`，普通文章画廊使用两行和 `246px` 卡片（较原版缩小四分之一），不影响正式首页 |
 | 跨平台讨论 Beta | `Beta Demo/discussions-across-platforms-demo.html` | 完整文章 mock 下依次呈现 Discussions Across Platforms 与 Comments；Version B 使用无卡片单列 comment stream，精选流上方放 LinkedIn／Reddit／Facebook 主题色阴纹启动行，YouTube 以 SVG 播放符号呈现，并保留同构的本站评论与输入区 |
+
+### 账户辅助页面
+
+| 源网址／功能 | 对应文件 | 本轮重新设计 |
+|---|---|---|
+| https://thechinaacademy.org/collect | `Utility/settings-saved.html` | 左侧收藏夹支持 Create／Rename／Delete；右侧示例内容支持 Select all／Unfavorite／Move to／Copy to，移动端收藏夹移到内容上方 |
+| https://thechinaacademy.org/history-2 | `Utility/settings-history.html` | All／Article／Video 本页筛选、紧凑浏览记录、单条 Delete 与当前筛选范围的 Delete all |
 
 ## WordPress 实现映射
 
@@ -76,6 +84,7 @@
 - `js/site.js` 生成的全站 Footer 复用源站官方图标并删除旧宣传句；桌面 About、Follow Us、More 为三个等宽列。About 末尾的 Partners 使用 `<details>`，悬浮、聚焦或点击时平滑展开 Roboto 字体的伙伴列表，当前 HSK 链接到正式课程页。其余平台、账号、邮件和政策规则保持不变。
 - `.master-section` 统一 Trending、Opinion 与 Premium Intelligence；`.master-video-section` 复用卡片几何但隔离文章 taxonomy。Video Archive 使用四／三／二／一列、All＋11 个节目栏目、Latest／Popular 与 `?channel=` 状态，不插入 Editor's Picks；Premium Talks 另用 `.master-premium-talks` 的逐行长卡母版。
 - 视频内容以 `data-content-type="video"`、视频页面或 Talks 栏目识别；首页图片中央不呈现播放按钮，所有视频内容改为在红色主题标签前显示留有间距的小型红色播放三角，时长显示 `xx min watch`。主推荐画廊每 10 秒自动前进，圆点用扇形显示进度；播放／暂停控制器不使用字符或圆形底纹，改在 `10px × 10px` 盒中用 CSS 双竖线／三角形绘制并与圆点中心对齐，控制器外边距固定为 `0`。
+- 三个 Video Detail 页的播放信息与分享入口合并为以主视频左右边缘为锚点的响应式行：宽度足够时两端对齐，宽度不足时换为两行并左对齐；播放信息上下内边距均为 `11px`，分享图标高度为 `20px`。Lesson 的 Course Plan 进度仅作原型展示，由鼠标在页面中的水平位置正向映射；未完成时灰色进度逐渐填充无色背景，完成后平滑转为金色，不模拟或保存真实播放进度。
 
 当前源站可见技术基线：Aardvark 主题、Elementor/Elementor Pro、WooCommerce、WooCommerce Memberships、订阅功能、Sensei LMS 与 Give。最终采用“现有主题子主题”还是“自建主题”，须在取得服务器代码与后台导出后决定。
 
@@ -132,7 +141,13 @@ flowchart TD
   AS --> VS[Video Section扩展<br/>.master-video-section]
   M --> PT[Premium Talks母版<br/>.master-premium-talks]
   M --> A[文章/详情母版<br/>.master-article]
-  M --> S[服务/账户母版]
+  M --> S[其他服务页面]
+  DS --> U[Utility共享层<br/>utilities.css]
+  U --> Search[Search Utility<br/>.utility-search-page]
+  U --> Account[Account Utility]
+  Account --> Settings[Settings<br/>.utility-settings-page]
+  Account --> Saved[Saved<br/>.utility-saved-page]
+  Account --> History[History<br/>.utility-history-page]
   H --> Home[Homepage]
   Home --> Beta[Homepage Beta<br/>4:3 + two-row galleries]
   AS --> Trend[Trending]
@@ -148,8 +163,6 @@ flowchart TD
   PM --> Member[Premium Member]
   S --> Courses[课程列表 / HSK]
   Courses --> Lesson[课程详情]
-  S --> Search[搜索]
-  S --> Account[个人中心]
   S --> Org[About / Support / Contributors]
   Org --> Profile[Contributor 详情]
   Profile --> Archive[作者页]

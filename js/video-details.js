@@ -25,31 +25,16 @@
 
   const lessonProgress = d.querySelector('[data-lesson-progress]');
   if (lessonProgress) {
-    const storageKey = `tca-lesson-longest-time:${location.pathname}`;
-    const lessonDuration = Number(lessonProgress.dataset.lessonDuration) || 0;
-    let longestTime = 0;
-    try { longestTime = Number(localStorage.getItem(storageKey)) || 0; } catch {}
-    const renderProgress = () => {
-      const percent = lessonDuration ? Math.min(100, Math.max(0, longestTime / lessonDuration * 100)) : 0;
+    const renderProgress = pointerX => {
+      const rawPercent = Math.min(100, Math.max(0, pointerX / innerWidth * 100));
+      const complete = rawPercent >= 99;
+      const percent = complete ? 100 : rawPercent;
       lessonProgress.style.setProperty('--lesson-progress', `${percent}%`);
-      lessonProgress.classList.toggle('is-complete', percent >= 100);
+      lessonProgress.classList.toggle('is-complete', complete);
       lessonProgress.setAttribute('aria-label', `Lesson progress ${Math.round(percent)}%`);
     };
-    const recordProgress = currentTime => {
-      const nextTime = Number(currentTime);
-      if (!Number.isFinite(nextTime) || nextTime <= longestTime) return;
-      longestTime = Math.min(nextTime, lessonDuration || nextTime);
-      try { localStorage.setItem(storageKey, String(longestTime)); } catch {}
-      renderProgress();
-    };
-    d.querySelector('.video-stage video')?.addEventListener('timeupdate', event => recordProgress(event.currentTarget.currentTime));
-    addEventListener('tca:video-progress', event => recordProgress(event.detail?.currentTime));
-    addEventListener('message', event => {
-      let message = event.data;
-      if (typeof message === 'string') { try { message = JSON.parse(message); } catch { return; } }
-      recordProgress(message?.currentTime ?? message?.time);
-    });
-    renderProgress();
+    addEventListener('mousemove', event => renderProgress(event.clientX), { passive: true });
+    renderProgress(0);
   }
 
   const bookmark = d.querySelector('[data-video-bookmark]');
