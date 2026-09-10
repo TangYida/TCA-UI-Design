@@ -34,7 +34,9 @@
 .settings-field-heading>span:not(.settings-inline-actions){color:var(--muted);font:600 9px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase}
 .settings-inline-actions{display:flex;gap:12px;min-height:11px}
 .settings-inline-actions [hidden]{display:none}
-.settings-field input,.settings-field select{width:100%;min-width:0;min-height:46px;padding:11px 2px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:var(--white);color:var(--blue);font:16px/1.4 var(--sans);outline:0}
+.settings-field input,.settings-field select{width:100%;min-width:0;min-height:46px;padding:11px 2px;border:0;border-bottom:1px solid var(--line);border-radius:0;color:var(--blue);font:16px/1.4 var(--sans);outline:0}
+.settings-field input{background:var(--text-field-background);color:var(--text-field-color)}
+.settings-field select{background:var(--paper-2)}
 .settings-field input:focus,.settings-field select:focus{border-bottom-color:var(--gold);box-shadow:inset 0 -1px 0 var(--gold)}
 .settings-field input:disabled,.settings-field select:disabled{background:var(--paper-2);color:var(--muted);opacity:1}
 .settings-field-status,.settings-form-status{min-height:1.3em;margin:0;color:var(--red);font:11px/1.3 var(--sans)}
@@ -51,7 +53,7 @@
 /* Search: results plus a viewport-bound editorial rail on desktop. */
 .search-mast{display:grid;grid-template-columns:auto minmax(280px,560px);align-items:end;gap:clamp(24px,4vw,64px);padding-bottom:0}
 .utility-search-form{display:grid;grid-template-columns:minmax(0,1fr) 46px;align-items:stretch;justify-self:end;width:100%;margin-top:0;background:transparent}
-.utility-search-form input{grid-column:1/-1;grid-row:1;width:100%;min-width:0;min-height:46px;padding:11px 52px 11px 2px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:var(--paper-2);color:var(--blue);font:16px/1.4 var(--sans);outline:0}
+.utility-search-form input{grid-column:1/-1;grid-row:1;width:100%;min-width:0;min-height:46px;padding:11px 52px 11px 2px;border:0;border-bottom:1px solid var(--text-field-line);border-radius:0;background:var(--text-field-background);color:var(--text-field-color);font:16px/1.4 var(--sans);outline:0}
 .utility-search-form input:focus{border-bottom-color:var(--gold);box-shadow:inset 0 -1px 0 var(--gold)}
 .utility-search-form input::-webkit-search-cancel-button{appearance:none}
 .utility-search-form button{z-index:1;grid-column:2;grid-row:1;display:grid;place-items:center;align-self:stretch;width:46px;padding:0;border:0;background:transparent;color:var(--muted);cursor:pointer}
@@ -153,7 +155,9 @@
 .utility-dialog-form{display:grid;gap:20px;padding:28px}
 .utility-dialog-form h2{margin:0;color:var(--gold);font:italic 600 30px/1.2 var(--serif)}
 .utility-dialog-form label{display:grid;gap:8px;color:var(--blue);font:700 10px/1.2 var(--sans);letter-spacing:.1em;text-transform:uppercase}
-.utility-dialog-form input,.utility-dialog-form select{width:100%;min-height:44px;padding:10px 2px;border:0;border-bottom:1px solid var(--line);background:var(--white);color:var(--blue);outline:0}
+.utility-dialog-form input,.utility-dialog-form select{width:100%;min-height:44px;padding:10px 2px;border:0;border-bottom:1px solid var(--line);color:var(--blue);outline:0}
+.utility-dialog-form input{background:var(--text-field-background);color:var(--text-field-color)}
+.utility-dialog-form select{background:var(--white)}
 .utility-dialog-form input:focus,.utility-dialog-form select:focus{border-bottom-color:var(--gold);box-shadow:inset 0 -1px 0 var(--gold)}
 .utility-dialog[data-transfer-mode="copy"] select{background:var(--paper-2)}
 .utility-dialog-actions{display:flex;justify-content:flex-end;gap:10px}

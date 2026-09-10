@@ -31,6 +31,7 @@
 - `--red`：主题 taxonomy 与视频主题播放符号。
 - `--muted`：日期、辅助说明和非主导元数据。
 - `--line`：普通内容分割线；金色分割线只用于被明确规定的标题／主题栏与 Editor’s Picks 边界。
+- 全站文字型 `input` 与 `textarea` 从父组件继承 `--text-field-background`：浅色父组件固定为 `#EBE4D7`，深色 `.utility`、`.auth-dialog-card` 与 `.author-dialog-card` 固定为 `#0D192B`；不得使用纯白、透明或第三种文本框背景。focus 前后背景与文字颜色不变，只把底部线条切换为金色。checkbox、radio、file、button 与 select 不属于本规则。
 
 ### 2.3 内容 taxonomy
 
@@ -214,7 +215,6 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - Search 按钮是带可访问名称的搜索 SVG 图标；标题不显示 “The Archive”。
 - Editor’s Picks 是不随 tab、排序或 Load More 变化的固定四项右栏，复用 Video Detail Related 的 `16:9` 封面、主题、日期、标题和短 lede，背景与页面一致。桌面 rail 依据实时 Header 高度粘在导航栏下方，占满剩余视口并允许自身纵向滚动。
 - `900px` 以下 Editor’s Picks 按 DOM 顺序移动到主结果和 Load More 之后，取消 sticky、固定高度和内部滚动；`601–900px` 为两列，`600px` 以下为单列，并使用 Trending 卡片看板的逐卡完整分割线。
-- 全站文字型 `input` 与 `textarea` 获得焦点时，背景统一变为 `#EBE4D7`，文字切换为 `--blue`；checkbox、radio、file 与按钮型 input 不在此规则内。
 
 ### 5.7 Tag Archive
 

@@ -2,6 +2,13 @@
 
 更新日期：2026-09-10
 
+## 已完成：全站文本框颜色与 focus 状态统一（2026-09-10）
+
+- [x] 建立父组件继承的文本框颜色规则：浅色父组件使用 `#EBE4D7`，深色父组件使用 `#0D192B`。
+- [x] 移除 focus 时强制切换背景的全局规则，并统一为背景不变、只将底部线条切换为金色。
+- [x] 清除文本输入与 textarea 中的纯白、透明、`#FAF7F0`、`var(--ink)` 等第三种背景值，不改变 checkbox／radio／file／button／select 与表单逻辑。
+- [x] 同步 `.agent/DESIGN_RULES.md`，完成全站 selector、颜色、focus、断点与 CSS 语法复核；本轮未获得“作为禁区”口令，不修改 `.agent/DO_NOT_REGRESS.md`。
+
 ## 进行中：Collection Sidebar 全局组件化（2026-09-10）
 
 - [ ] 将 Saved 页面专属的收藏夹侧栏响应式规则提升为可复用的 `.collection-*` 组件规则，不扩大到无收藏夹侧栏的普通 workbench。
@@ -13,7 +20,7 @@
 - [x] 统一 Settings／Saved／History 三页的二级标签结构与 Roboto 字体，以 Settings 二级导航为组件基线。
 - [x] 桌面选中／悬浮状态统一为灰色背景；移动端改为灰色方框状态，并取消 `settings-workbench` 顶部 padding 与 `settings-section-nav` 下分割线。
 - [x] 将 Saved／History 的 Select all／Delete all 等批量操作区下分割线改为灰色。
-- [x] 将全站文本框激活状态背景统一为 `#EBE4D7`，并完成结构、断点、selector 与语法复核。
+- [x] 当轮曾将全站文本框 focus 背景统一为 `#EBE4D7`；该状态切换已被后续“父组件双色、focus 背景不变”规则取代。
 
 ## 已完成：Tag 内容归档页（2026-09-10）
 

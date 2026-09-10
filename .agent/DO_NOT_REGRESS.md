@@ -16,6 +16,7 @@
 - 不得把普通内容主题扩展到六项 taxonomy 之外；Video channel 除外。
 - 不得恢复任何 `.density-feed`、自动附加的 “More context. In less space.” 或重复 Continue Exploring 内容流。
 - 不得把 Premium 内容的金底白字标识移除或改成普通主题标签。
+- 不得让文字型 `input` 或 `textarea` 在 focus、active 等交互状态切换背景颜色。浅色父组件中的文本框必须始终为 `#EBE4D7`，深色父组件中的文本框必须始终为 `#0D192B`；交互状态只能改变底部线条。
 
 ## 2. Header 与导航禁区
 
@@ -125,6 +126,7 @@
 - Username 与 Country / Region 不得恢复大型全表单 `Edit details`；必须由字段右上方的小号 `EDIT → SAVE · CANCEL` 独立控制。
 - Email 不得在当前 Settings 原型中变成可编辑字段。
 - Utility 文字输入不得恢复四周封闭边框；使用保留原背景状态的底线输入，focus 底线为金色。密码 Show／Hide 不得移回输入框外或在空值时可点击。
+- Settings 的 `#account-country` 不得在选择、focus、保存或 disabled 状态切换为白色；背景始终保持 `#EBE4D7`，交互状态只允许改变底部线条。
 - 不得恢复 Settings 移动 workbench 的大顶部留白或底部 border，也不得恢复 Sign Out 区域顶部 border。
 - Saved 不得移除收藏夹 Create／Rename／Delete 或批量 Select all／Unfavorite／Move／Copy；History 不得把 All／Article／Video 改成页面跳转，也不得移除单条 Delete／Delete all。
 - Search 不得恢复 All／Videos／Courses／Contributors 五项虚构 tabs；源站交互是 Article／Author。
