@@ -65,12 +65,11 @@
   const cardMarkup = item => {
     const minutes = item.duration || Math.max(1, Math.ceil(item.words / 220));
     const kind = item.video ? 'watch' : 'read';
-    const videoClass = item.video ? ' video-theme-label' : '';
     const mediaClass = item.premium ? 'section-card-media premium-cover' : 'section-card-media';
     const premium = item.premium ? '<span class="premium-badge">Premium</span>' : '';
     return `<article class="section-card"${item.video ? ' data-content-type="video"' : ''}>
       <figure class="${mediaClass}">${premium}<img src="${item.image}" alt="${escapeHtml(item.alt)}"></figure>
-      <div class="section-card-meta"><a class="theme-tag kicker${videoClass}" href="tag.html?name=${encodeURIComponent(item.theme)}"><span>${escapeHtml(item.theme)}</span></a><time datetime="${item.date}">${item.dateLabel}</time></div>
+      <div class="section-card-meta"><time datetime="${item.date}">${item.dateLabel}</time></div>
       <h2><a href="${item.href}">${escapeHtml(item.title)}</a></h2>
       <p class="section-card-lede lede-row"><a class="lede-link" href="${item.href}">${escapeHtml(item.lede)}</a><a class="read-time-pill" href="${item.href}"><span>${minutes} min ${kind}</span></a></p>
     </article>`;
