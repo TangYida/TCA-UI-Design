@@ -560,7 +560,7 @@ const inferTheme = tag => {
   return 'China’s Politics';
 };
 
-d.querySelectorAll('.section-topics:not([data-video-topics])').forEach(topics => {
+d.querySelectorAll('.section-topics:not([data-video-topics]):not([data-author-work-filters])').forEach(topics => {
   const allStories = topics.closest('.master-section')?.querySelector('.section-board');
   if (allStories && !allStories.id) allStories.id = 'all';
   topics.innerHTML = `<a href="#all" data-section-theme="All">All</a>${themeTaxonomy.map(theme => `<a href="#theme=${encodeURIComponent(theme)}" data-section-theme="${theme}">${theme}</a>`).join('')}`;
@@ -794,33 +794,36 @@ d.querySelectorAll('.master-video-section').forEach(pageRoot => {
   renderVideoBoard({ updateUrl: false });
 });
 
-d.querySelectorAll('[data-words], [data-duration]').forEach(item => {
-  const words = Number(item.dataset.words) || 0;
-  const video = item.matches('[data-content-type="video"]') || item.closest('[data-content-type="video"]');
-  const minutes = Number(item.dataset.duration) || Math.max(1, Math.ceil(words / 220));
-  const output = item.querySelector('[data-read-time]');
-  if (output) output.innerHTML = `<span>${minutes} min ${video ? 'watch' : 'read'}</span>`;
-});
-
-d.querySelectorAll('.lede-row .read-time-pill').forEach(pill => {
-  const lede = pill.closest('.lede-row');
-  const destination = lede?.querySelector('.lede-link')?.getAttribute('href') || lede?.closest('article')?.querySelector('h1 a, h2 a, h3 a')?.getAttribute('href');
-  if (!destination) return;
-  if (pill.matches('a')) {
-    if (!pill.getAttribute('href')) pill.setAttribute('href', destination);
-    return;
-  }
-  const link = d.createElement('a');
-  [...pill.attributes].forEach(attribute => link.setAttribute(attribute.name, attribute.value));
-  link.setAttribute('href', destination);
-  link.innerHTML = pill.innerHTML;
-  pill.replaceWith(link);
-});
-
 const syncReadTimePillColors = () => d.querySelectorAll('.lede-row .read-time-pill').forEach(pill => {
   pill.style.setProperty('--read-time-fill', getComputedStyle(pill).color);
 });
-syncReadTimePillColors();
+const hydrateReadTimePills = (scope = d) => {
+  scope.querySelectorAll('[data-words], [data-duration]').forEach(item => {
+    const words = Number(item.dataset.words) || 0;
+    const video = item.matches('[data-content-type="video"]') || item.closest('[data-content-type="video"]');
+    const minutes = Number(item.dataset.duration) || Math.max(1, Math.ceil(words / 220));
+    const output = item.querySelector('[data-read-time]');
+    if (output) output.innerHTML = `<span>${minutes} min ${video ? 'watch' : 'read'}</span>`;
+  });
+
+  scope.querySelectorAll('.lede-row .read-time-pill').forEach(pill => {
+    const lede = pill.closest('.lede-row');
+    const destination = lede?.querySelector('.lede-link')?.getAttribute('href') || lede?.closest('article')?.querySelector('h1 a, h2 a, h3 a')?.getAttribute('href');
+    if (!destination || pill.matches('a')) {
+      if (destination && pill.matches('a') && !pill.getAttribute('href')) pill.setAttribute('href', destination);
+      return;
+    }
+    const link = d.createElement('a');
+    [...pill.attributes].forEach(attribute => link.setAttribute(attribute.name, attribute.value));
+    link.setAttribute('href', destination);
+    link.innerHTML = pill.innerHTML;
+    pill.replaceWith(link);
+  });
+
+  syncReadTimePillColors();
+};
+window.tcaHydrateReadTimePills = hydrateReadTimePills;
+hydrateReadTimePills();
 addEventListener('resize', syncReadTimePillColors, { passive: true });
 
 const desktopCovers = matchMedia('(min-width: 931px)');
@@ -884,6 +887,45 @@ const createCollectionBookmark = ({ id = '', saved = false, label = 'Save this a
   control.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="bookmark saved11${saved ? '' : ' active'}" viewBox="0 0 431.15 510.2" aria-hidden="true"><path class="saved1" d="${collectionBookmarkPath}" transform="translate(-2.75 -2.5)"></path></svg><svg xmlns="http://www.w3.org/2000/svg" class="bookmark saved22${saved ? ' active' : ''}" viewBox="0 0 431.15 510.2" aria-hidden="true"><path class="saved2" d="${collectionBookmarkPath}" transform="translate(-2.75 -2.5)"></path></svg>`;
   return control;
 };
+
+const authorDialogController = (() => {
+  if (!d.querySelector('.master-article .author-chip, [data-author-contact]')) return null;
+  if (!d.querySelector('#author-dialog')) d.body.insertAdjacentHTML('beforeend', `<dialog class="author-dialog" id="author-dialog"><form method="dialog" class="author-dialog-card"><button class="author-dialog-close" type="button" aria-label="Close">×</button><div class="kicker">Contact the author</div><h2 data-author-name></h2><p data-author-bio></p><label>Email<input type="email" name="email" required placeholder="you@example.com"></label><label>Message<textarea name="message" required rows="5" placeholder="Write your message"></textarea></label><button class="button" value="send">Send message</button><p class="form-status" aria-live="polite"></p></form></dialog>`);
+  const dialog = d.querySelector('#author-dialog');
+  const form = dialog.querySelector('form');
+  const readCookie = name => d.cookie.split('; ').find(part => part.startsWith(`${name}=`))?.slice(name.length + 1);
+  const draftFields = { email: form.elements.email, message: form.elements.message };
+  Object.entries(draftFields).forEach(([name, field]) => {
+    const cookieName = `tca-author-${name}`;
+    let saved = readCookie(cookieName);
+    try { saved ||= localStorage.getItem(cookieName); } catch {}
+    if (saved) {
+      try { field.value = decodeURIComponent(saved); } catch { field.value = saved; }
+    }
+    field.addEventListener('input', () => {
+      const value = encodeURIComponent(field.value);
+      d.cookie = `${cookieName}=${value}; Max-Age=2592000; Path=/; SameSite=Lax`;
+      try { localStorage.setItem(cookieName, value); } catch {}
+    });
+  });
+  dialog.querySelector('.author-dialog-close').addEventListener('click', () => dialog.close('cancel'));
+  dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close('cancel'); });
+  const open = ({ name = 'The author', bio = '', learnMoreHref = '' } = {}) => {
+    dialog.querySelector('[data-author-name]').textContent = name;
+    const bioNode = dialog.querySelector('[data-author-bio]');
+    bioNode.replaceChildren(d.createTextNode(bio ? `${bio} ` : ''));
+    if (learnMoreHref) {
+      const learnMore = d.createElement('a');
+      learnMore.href = learnMoreHref;
+      learnMore.textContent = 'Learn more.';
+      bioNode.append(learnMore);
+    }
+    dialog.querySelector('.form-status').textContent = '';
+    dialog.showModal();
+  };
+  return { open };
+})();
+if (authorDialogController) window.tcaAuthorDialog = authorDialogController;
 
 const articleLayout = d.querySelector('.master-article .article-layout');
 if (articleLayout) {
@@ -1145,7 +1187,8 @@ if (articleLayout) {
     headings.forEach(heading => observer.observe(heading));
   }
 
-  d.querySelectorAll('.author-chip').forEach(chip => {
+  const articleAuthorChips = d.querySelectorAll('.master-article .author-chip');
+  articleAuthorChips.forEach(chip => {
     const image = chip.querySelector(':scope > img');
     if (image) {
       const avatar = d.createElement('span');
@@ -1157,42 +1200,18 @@ if (articleLayout) {
     chip.setAttribute('tabindex', '0');
     chip.setAttribute('aria-label', `Contact ${chip.querySelector('strong')?.textContent || 'the author'}`);
   });
-  d.body.insertAdjacentHTML('beforeend', `<dialog class="author-dialog" id="author-dialog"><form method="dialog" class="author-dialog-card"><button class="author-dialog-close" type="button" aria-label="Close">×</button><div class="kicker">Contact the author</div><h2 data-author-name></h2><p data-author-bio></p><label>Email<input type="email" name="email" required placeholder="you@example.com"></label><label>Message<textarea name="message" required rows="5" placeholder="Write your message"></textarea></label><button class="button" value="send">Send message</button><p class="form-status" aria-live="polite"></p></form></dialog>`);
-  const authorDialog = d.querySelector('#author-dialog');
-  const authorForm = authorDialog.querySelector('form');
-  const readCookie = name => d.cookie.split('; ').find(part => part.startsWith(`${name}=`))?.slice(name.length + 1);
-  const draftFields = { email: authorForm.elements.email, message: authorForm.elements.message };
-  Object.entries(draftFields).forEach(([name, field]) => {
-    const cookieName = `tca-author-${name}`;
-    let saved = readCookie(cookieName);
-    try { saved ||= localStorage.getItem(cookieName); } catch {}
-    if (saved) {
-      try { field.value = decodeURIComponent(saved); } catch { field.value = saved; }
-    }
-    field.addEventListener('input', () => {
-      const value = encodeURIComponent(field.value);
-      d.cookie = `${cookieName}=${value}; Max-Age=2592000; Path=/; SameSite=Lax`;
-      try { localStorage.setItem(cookieName, value); } catch {}
-    });
-  });
-  authorDialog.querySelector('.author-dialog-close').addEventListener('click', () => authorDialog.close('cancel'));
-  authorDialog.addEventListener('click', event => { if (event.target === authorDialog) authorDialog.close('cancel'); });
   const openAuthor = chip => {
-    authorDialog.querySelector('[data-author-name]').textContent = chip.querySelector('strong')?.textContent || 'The author';
-    const bio = authorDialog.querySelector('[data-author-bio]');
-    bio.textContent = `${chip.querySelector('.author-chip span:not(.author-avatar)')?.textContent || ''} `;
-    const learnMore = d.createElement('a');
-    learnMore.href = '../About/contributors.html';
-    learnMore.textContent = 'Learn more.';
-    bio.append(learnMore);
-    authorDialog.showModal();
+    const name = chip.querySelector('strong')?.textContent || 'The author';
+    const columnHref = chip.dataset.columnUrl || (name === 'Zhang Weiwei' ? '../About/author.html?name=zhang-weiwei' : '');
+    authorDialogController.open({
+      name,
+      bio: chip.querySelector('.author-chip span:not(.author-avatar)')?.textContent || '',
+      learnMoreHref: columnHref
+    });
   };
-  d.querySelectorAll('.author-chip').forEach(chip => {
+  articleAuthorChips.forEach(chip => {
     chip.addEventListener('click', () => openAuthor(chip));
     chip.addEventListener('keydown', event => { if (['Enter', ' '].includes(event.key)) { event.preventDefault(); openAuthor(chip); } });
-  });
-  authorDialog.addEventListener('close', () => {
-    if (authorDialog.returnValue === 'send') authorDialog.querySelector('.form-status').textContent = 'Demo message prepared. WordPress will handle delivery.';
   });
 
   articleCommunity.addEventListener('click', event => {

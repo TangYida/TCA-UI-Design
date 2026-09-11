@@ -1,6 +1,6 @@
 # 关键页面映射
 
-更新日期：2026-09-10
+更新日期：2026-09-11
 
 ## 维护规则
 
@@ -10,7 +10,7 @@
 2. 本轮 UI 改动摘要。
 3. WordPress 请求类型、建议模板、数据来源和插件依赖。
 4. 实现状态：`拟定`、`已确认`、`已接入`、`已验收`。
-5. 本页顶部的更新日期，并在 `TODO.md` 更新相关任务状态。
+5. 本页顶部的更新日期。`TODO.md` 不属于网页修改工作流，除非用户明确点名，否则不得读取或修改。
 
 页面数量口径：下表保留原来的 18 个源站编号组，但 `2a/2b` 与 `4a/4b/4c` 分别代表独立网址；再加通用 Tag Archive，当前共有 **22 个正式 HTML 页面**。
 
@@ -37,7 +37,7 @@
 | 4b | https://thechinaacademy.org/how-mao-zedong-led-china-to-break-though-the-us-blockade/ | `Articles/article-featured-image.html` | 头图固定为页面内容宽和 `16:9`；标题以 `80px` 为上限按换行和可用高度自适应。藏青蒙版保留日期、标题和完整作者信息，不再显示红色主题标签；图下 lede 与正文同字号，时长标签服从全局同色填充规则。移动评论区与正文同宽；作者弹窗支持无内容关闭、cookie 草稿、段内 Learn more 和深藏青输入框 |
 | 4c | https://thechinaacademy.org/from-tiktok-to-rednote-the-dialectical-transition-into-opposites/ | `Articles/article-text.html` | 文字文章变体：标题区不再显示主题标签，日期、标题、作者与 lede 居中；正文继承与头图版相同的目录、双组推荐、Editor、分享、评论和作者联系弹窗 |
 | 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块；Intelligence、Courses 继承非推荐栏目结构。Talks 封面及三张卡片进一步统一首页视频语言：`16:9`、红色标签前播放三角、无图中央播放字符、lede 和 `xx min watch` |
-| 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 学习路径首页、课程筛选、清楚的课时信息 |
+| 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 继承 `.master-section` 的金色标题与内容分类栏；删除价格／会员 Banner，只在分类栏下保留一个会员入口。九门课程保留源站左右人物构图和桌面／移动专用封面，桌面 hover／focus 切换源站详情，移动端把详情置于封面下方 |
 | 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 16:9 课程主视觉、源站课程介绍与殷之光讲师信息；单课课纲、进度、可持久化完成状态及源站相关推荐 |
 | 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 独立 Search Utility：金色斜体栏目标题、底线查询框和 SVG 搜索图标；保留结果数量、Article／Author、Load More 与 Article 的 Latest／Popular。查询匹配六项 taxonomy 时显示 Topic 入口。固定四项 Editor’s Picks 与页面同背景，桌面按实时 Header 高度粘附并在剩余视口内滚动，移动端回到主结果之后并复用 Trending 分割线 |
 | 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | 继承 `.master-section`：横向 Intelligence 主题条、带 Premium 状态的分割线卡片看板及 `LOAD MORE`；不插入 Editor's Picks |
@@ -46,9 +46,9 @@
 | 12 | https://thechinaacademy.org/hsk-certified-courses/ | `About/hsk.html` | 按 HSK 能力阶段组织的语言学习路径 |
 | 13 | https://thechinaacademy.org/about-us/ | `About/about.html` | 使命声明、工作方法和明确组织入口 |
 | 14 | https://thechinaacademy.org/support-us/ | `About/support.html` | 支持影响说明、一次性/持续/机构三类路径 |
-| 15 | https://thechinaacademy.org/contributors-2/ | `About/contributors.html` | 专业领域筛选、统一人物卡片 |
-| 16 | https://thechinaacademy.org/contributors_aleksandr-dugin/ | `About/contributor-detail.html` | 人物简介与精选内容，区别于作者归档 |
-| 17 | https://thechinaacademy.org/column_aleksandr-dugin/ | `About/author.html` | 按内容类型筛选的作者时间线 |
+| 15 | https://thechinaacademy.org/contributors-2/ | `About/contributors.html` | 删除虚构专业领域筛选，使用源站人物姓名／职务和圆形作者组件组成高密度人物看板；桌面头像按鼠标距离缩放并同步下方身份带，移动端为三列稳定触控网格 |
+| 16 | https://thechinaacademy.org/contributors_zhang-weiwei/ | `About/contributor-detail.html?name=zhang-weiwei` | 源站人物身份、简介、Featured Works、Experiences 与 Recent Events；Contact 复用全站作者弹窗并隐藏 Learn More |
+| 17 | https://thechinaacademy.org/column_zhang-weiwei/ | `About/author.html?name=zhang-weiwei` | 紧凑人物头部与 All／Article／Video 看板；与 Contributor Details 的 Recent Events 共用同一作品数据、卡片、筛选和 Load More |
 | 18 | https://thechinaacademy.org/setting/ | `Utility/setting.html` | Account Utility 设置页：删除冗余页首、面板标题和原生文件名；默认 Premium Profile 显示金底白字标签。Username 与 Country / Region 保持字段级 `EDIT → SAVE · CANCEL`，所有输入保留聚焦金色底线并以 `#EBE4D7` 填充激活背景，密码 Show／Hide 位于右上且空值禁用；三页二级入口统一为 Roboto 灰底状态，移动端 workbench 无顶部 padding、二级导航无下分割线 |
 | 19 | `/tag/{term}/` | `Utility/tag.html?name={term}` | 通用主题归档：标题直接显示当前主题名，在同一四／三／二／一列看板中混合文章与视频，保留 Latest／Popular 和 Load More，不显示主题导航栏或 Editor’s Picks |
 
@@ -87,6 +87,7 @@
 - `.master-section` 统一 Trending、Opinion 与 Premium Intelligence；`.master-video-section` 复用卡片几何但隔离文章 taxonomy。Video Archive 使用四／三／二／一列、All＋11 个节目栏目、Latest／Popular 与 `?channel=` 状态，不插入 Editor's Picks；Premium Talks 另用 `.master-premium-talks` 的逐行长卡母版。
 - 视频内容以 `data-content-type="video"`、视频页面或 Talks 栏目识别；首页图片中央不呈现播放按钮，所有视频内容改为在红色主题标签前显示留有间距的小型红色播放三角，时长显示 `xx min watch`。主推荐画廊每 10 秒自动前进，圆点用扇形显示进度；播放／暂停控制器不使用字符或圆形底纹，改在 `10px × 10px` 盒中用 CSS 双竖线／三角形绘制并与圆点中心对齐，控制器外边距固定为 `0`。
 - 三个 Video Detail 页的播放信息与分享入口合并为以主视频左右边缘为锚点的响应式行：宽度足够时两端对齐，宽度不足时换为两行并左对齐；播放信息上下内边距均为 `11px`，分享图标高度为 `20px`。Lesson 的 Course Plan 进度仅作原型展示，由鼠标在页面中的水平位置正向映射；未完成时灰色进度逐渐填充无色背景，完成后平滑转为金色，不模拟或保存真实播放进度。
+- `js/about.js` 管理四个 About 内容页面：Courses 使用源站九门课程与 art-directed 封面；Contributors 使用源站人物名录和距离响应头像看板；Zhang Weiwei 的 Contributor Details 与 Column 共用同一份十项作品目录。全站 `.author-dialog` 由 `site.js` 单例管理，Contributor／Column 调用不显示 Learn More，文章作者仅在具有真实 Column 地址时显示。
 
 当前源站可见技术基线：Aardvark 主题、Elementor/Elementor Pro、WooCommerce、WooCommerce Memberships、订阅功能、Sensei LMS 与 Give。最终采用“现有主题子主题”还是“自建主题”，须在取得服务器代码与后台导出后决定。
 
@@ -109,7 +110,7 @@
 | 12 | HSK Landing / Course Archive | HSK 专用 Page Template，加 Sensei Course 查询；不要另建一套课程进度系统 | Sensei Course、HSK Level taxonomy | 拟定 |
 | 13 | About Page | `page-about-us.php` 或通用 Page Template + 可编辑 patterns/Elementor sections | Page 内容、组织信息 | 拟定 |
 | 14 | Support Page | 专用 Page Template；捐赠表单与支付交给 Give | Give Form、金额、支付和回执状态 | 拟定 |
-| 15 | Contributor Archive | Contributor CPT 的 `archive-contributor.php` | Contributor CPT、专业领域 taxonomy、头像 | 拟定 |
+| 15 | Contributor Archive | Contributor CPT 的 `archive-contributor.php` | Contributor CPT、姓名、职务、头像或由姓名生成的 initials | 拟定 |
 | 16 | Contributor Single | `single-contributor.php`，展示简介与精选内容 | Contributor 字段、关联作者/文章/视频 | 拟定 |
 | 17 | Author Archive | `author.php`；若 Contributor 与 WP User 分离，建立明确关联字段 | WP User、Posts、Video/Talk 关联查询 | 拟定 |
 | 18 | Account / Settings | 优先定制 WooCommerce My Account 或会员账户端点，不另造账户数据库 | 用户资料、Membership、订单、收藏、课程进度 | 拟定 |

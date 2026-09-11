@@ -11,7 +11,7 @@
 
 1. 在 `MAP.md` 中登记源网址、对应文件、改动摘要、WordPress 请求类型、模板建议、数据/插件依赖及实现状态。
 
-2. 在 `TODO.md` 中更新进度及尚未完成的产品/技术工作。
+2. `TODO.md` 不属于网页修改工作流；除非用户明确点名，否则不得读取或修改。
 
 3. 按 `tokens.css` → `site.css` → 页面家族样式的顺序复用；出版内容与 Tag Archive 母版写入 `masters.css`，Settings／Saved／History／Search 写入 `utilities.css`，不要在单页重新内联或复制。
 
@@ -21,7 +21,7 @@
 
 ## 母版如何工作
 
-`css/masters.css` 是真实文件，也是页面家族的继承入口。首页通过 `<body class="master-home">` 继承封面、栏目封面、画廊和悬浮导语；Trending、Opinion、Premium Intelligence 通过 `<body class="master-section">` 继承栏目标题、横向主题条、分割线卡片看板和 Load More；Tag Archive 叠加 `.tag-archive-page`，保留同一混合内容看板但不显示主题栏或 Editor’s Picks；Video Archive 叠加 `.master-video-section`，复用卡片几何但改用独立视频栏目和排序；Premium Talks 使用 `.master-premium-talks` 的逐行长卡；文章通过 `<body class="master-article">` 继承正文宽度、作者区、图片显示模式、推荐和社区层，再由 `.article-featured-image`、`.article-text`、`.article-news` 选择头图、文字或新闻标题区。Account Utility 三页则通过 `.utility-secondary-nav` 共用 Roboto 二级入口及桌面／移动状态。以后若某个页面家族需要全局调整，只改对应共享母版即可同步全部同类页面。
+`css/masters.css` 是真实文件，也是页面家族的继承入口。首页通过 `<body class="master-home">` 继承封面、栏目封面、画廊和悬浮导语；Trending、Opinion、Premium Intelligence 通过 `<body class="master-section">` 继承栏目标题、横向主题条、分割线卡片看板和 Load More；Tag Archive 叠加 `.tag-archive-page`，保留同一混合内容看板但不显示主题栏或 Editor’s Picks；Video Archive 叠加 `.master-video-section`，复用卡片几何但改用独立视频栏目和排序；Premium Talks 使用 `.master-premium-talks` 的逐行长卡；文章通过 `<body class="master-article">` 继承正文宽度、作者区、图片显示模式、推荐和社区层，再由 `.article-featured-image`、`.article-text`、`.article-news` 选择头图、文字或新闻标题区。Courses、Contributors、Contributor Details 与 Column 复用 `.master-section` 的标题、分类栏和作品看板，并由 `js/about.js` 管理 About 专属数据与交互。Account Utility 三页则通过 `.utility-secondary-nav` 共用 Roboto 二级入口及桌面／移动状态。以后若某个页面家族需要全局调整，只改对应共享母版即可同步全部同类页面。
 
 ## 文件结构
 
@@ -43,7 +43,7 @@ Design/
 ├── About/                # Courses、HSK、About、Support、贡献者与作者
 ├── Utility/              # Tag Archive、Search、Settings、Saved 与 History
 ├── css/                  # tokens、全站、母版、Video Detail 与两类 Utility 共享样式
-├── js/                   # 全站交互及 Video Detail、Settings、Saved/History、Search、Tag Archive 的隔离逻辑
+├── js/                   # 全站交互及 Video Detail、Settings、Saved/History、Search、Tag Archive、About 的隔离逻辑
 ├── assets/fonts/         # 可本地部署的 EB Garamond / Libre Baskerville / Roboto
 └── references/           # 早期衬线、导航与文章排版研究
 ```

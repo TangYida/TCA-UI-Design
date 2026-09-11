@@ -69,7 +69,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 | 视频详情 | `.video-detail-page` | Meta；标题；视频＋侧栏；播放信息；Instructor；lede；分享；可选评论 | `css/video-details.css`、`js/video-details.js` |
 | Account Utility | `.utility-settings-page`、`.utility-saved-page`、`.utility-history-page` | Settings／Saved／History；资料；安全；收藏夹；浏览记录；支持；退出 | `css/utilities.css`、`js/settings.js`、`js/account-library.js` |
 | Search Utility | `.utility-search-page` | 查询；Article／Author；排序；结果；Editor’s Picks；Load More | `css/utilities.css`、`js/search.js` |
-| 其他服务页面 | 页面自身 class | About、作者、贡献者等服务页面 | `css/masters.css`、`css/site.css` |
+| About 服务页面 | `.about-courses-page`、`.contributors-directory-page`、`.contributor-detail-page`、`.author-column-page` | Courses；人物目录；Contributor 详情；Column 作品目录 | `css/masters.css`、`css/site.css`、`js/about.js` |
 
 页面文件的职责目录固定为：
 
@@ -223,6 +223,15 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - 页面不显示 `.section-topics` 或 Editor’s Picks；只保留 Latest／Popular、标准 section cards 与 Load More。
 - 看板继承 Article Section 的 `16:9` 媒体、逐卡闭合边界及四／三／二／一列断点；首次只显示一个完整响应式行，Load More 展开余下内容。
 
+### 5.8 About：Courses、Contributors、Contributor Details 与 Column
+
+- Courses 使用金色斜体 `.section-title`、内容型 `.section-topics` 和源站桌面／移动专用课程封面；不显示价格或会员 Banner，只在分类栏下方保留一个 `Become a member`。每张 Premium 课程封面继续显示金底白字 Premium 标识。
+- 桌面课程封面保留源站左右人物构图，默认显示分类、标题、讲者和职务，hover／focus 显示同一课程的源站简介与拍摄时间；`600px` 以下切换源站移动封面并把简介置于封面下方，不依赖 hover。
+- Contributors 使用现有 `.author-avatar`／`.author-chip` 语言组成可收缩的圆形人物看板。桌面端头像大小和明度由鼠标距离决定，当前人物姓名与源站职务同步显示在下方信息带；键盘 focus 与移动端保留明确金色状态，移动端不依赖指针距离。
+- Contributor Details 依次显示源站人物身份、简介、Featured Works、Experiences 与 Recent Events。`Contact the Author` 复用全站 `.author-dialog`，但此处不显示 Learn More。
+- Contributor Details 的 Recent Events 与 Column 必须读取 `js/about.js` 中同一份作者作品数据，并共用 `.section-topics`、`.section-card-grid`、`.section-card` 与 `.section-load-more`；Column 只保留紧凑人物头部和 All／Article／Video 作品目录。
+- 文章作者弹窗只在作者具有真实 Column 链接时显示 Learn More，并进入对应 Column；没有 Column 链接时不生成该入口。
+
 ## 6. 不用浏览器模拟的非重叠检查
 
 结构性修改完成后，至少执行下列静态检查。它们用于发现结构性风险，不声称替代真实视觉验收。
@@ -248,5 +257,6 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - `js/account-library.js`：Saved 收藏夹／批量操作与 History 筛选／删除。
 - `js/search.js`：搜索 tabs、Article 排序、Load More、查询状态和结果渲染。
 - `js/tag.js`：Tag Archive 查询状态、文章／视频混合数据、排序与 Load More。
+- `js/about.js`：Courses 分类、Contributors 距离响应、Contributor 资料折叠，以及 Contributor Details／Column 共用的作者作品数据与筛选。
 - 页面 HTML 只承载内容与语义结构；已有共享 selector 能表达需求时，不新增同义 selector。
 - 全局规则只在共享层修改；页面例外必须以页面根 class 限定作用域，并在本文件记录原因。
