@@ -6,13 +6,7 @@
   const input = d.querySelector('[data-search-form] input');
   const loadMore = d.querySelector('[data-search-load-more]');
   const sortControls = d.querySelector('[data-search-sort-controls]');
-  const topicResults = d.querySelector('[data-search-topic-results]');
   const pageSize = 4;
-
-  const topics = [
-    'China’s Economy & Business', 'China’s Politics', 'U.S.',
-    'China’s Technology', 'China’s Youth Sentiment', 'China’s Worldview'
-  ];
 
   const articles = [
     {title:'Beijing Is Finessing Its Real Estate Strategy',theme:'China’s Economy & Business',date:'2026-08-20',dateLabel:'Aug 20, 2026',lede:'Housing consumption is being restored to a central role in expanding domestic demand.',image:'https://thechinaacademy.org/wp-content/uploads/2026/08/Screen-Shot-2026-08-18-at-12.46.40-PM.webp',alt:'Housing development in Beijing',href:'https://thechinaacademy.org/beijing-is-finessing-its-real-estate-strategy/',words:1080,popularity:88},
@@ -55,26 +49,12 @@
     ? b.popularity - a.popularity
     : b.date.localeCompare(a.date));
 
-  const renderTopicResults = () => {
-    if (!topicResults) return;
-    const normalize = value => value.toLowerCase().replace(/[’'.,&]/g, ' ').replace(/\s+/g, ' ').trim();
-    const query = normalize(state.query);
-    const queryTerms = query.split(' ').filter(Boolean);
-    const matches = query && query !== 'all' ? topics.filter(topic => {
-      const normalizedTopic = normalize(topic);
-      return queryTerms.every(term => normalizedTopic.includes(term));
-    }) : [];
-    topicResults.hidden = matches.length === 0;
-    topicResults.innerHTML = matches.length ? `<span>Topics</span>${matches.map(topic => `<a href="tag.html?name=${encodeURIComponent(topic)}">${escapeHtml(topic)}</a>`).join('')}` : '';
-  };
-
   const syncPillColors = () => d.querySelectorAll('.search-card-grid .read-time-pill').forEach(pill => {
     pill.style.setProperty('--read-time-fill', getComputedStyle(pill).color);
   });
 
   const render = () => {
     const articleMode = state.tab === 'article';
-    renderTopicResults();
     d.querySelector('[data-search-panel="article"]').hidden = !articleMode;
     d.querySelector('[data-search-panel="author"]').hidden = articleMode;
     sortControls.hidden = !articleMode;

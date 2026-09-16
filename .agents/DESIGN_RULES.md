@@ -225,8 +225,8 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 
 ### 5.8 About：Courses、Contributors、Contributor Details 与 Column
 
-- Courses 使用金色斜体 `.section-title`、内容型 `.section-topics` 和源站桌面／移动专用课程封面；不显示价格或会员 Banner，只在分类栏下方保留一个 `Become a member`。每张 Premium 课程封面继续显示金底白字 Premium 标识。
-- 桌面课程封面保留源站左右人物构图，默认显示分类、标题、讲者和职务，hover／focus 显示同一课程的源站简介与拍摄时间；`600px` 以下切换源站移动封面并把简介置于封面下方，不依赖 hover。
+- Courses 使用金色斜体 `.section-title`、内容型 `.section-topics` 和源站桌面／移动专用课程封面；不显示价格或会员 Banner，只在 `.section-title-row` 内右对齐保留一个 `.member-cta`，并在该项下方加金色分割线。`.course-cover-position` 与 `.course-cover-name` 共用 `--course-cover-copy-size`。源站封面自带的白色渐变底纹经 `.course-cover-picture img{mix-blend-mode:multiply}` 与 `.course-cover-link{background:var(--paper-2)}` 消解为 `#ebe4d7`，移动端 `.course-cover-details` 背景同为此色。每张 Premium 课程封面继续显示金底白字 Premium 标识。
+- 桌面课程封面保留源站左右人物构图，默认显示分类、标题、讲者和职务，hover／focus 时源站简介从右侧滑入（`transform:translateX`）并显示拍摄时间；`820px` 以下切换源站移动封面并把简介置于封面下方，不依赖 hover。
 - Contributors 使用现有 `.author-avatar`／`.author-chip` 语言组成可收缩的圆形人物看板。桌面端头像大小和明度由鼠标距离决定，当前人物姓名与源站职务同步显示在下方信息带；键盘 focus 与移动端保留明确金色状态，移动端不依赖指针距离。
 - Contributor Details 依次显示源站人物身份、简介、Featured Works、Experiences 与 Recent Events。`Contact the Author` 复用全站 `.author-dialog`，但此处不显示 Learn More。
 - Contributor Details 的 Recent Events 与 Column 必须读取 `js/about.js` 中同一份作者作品数据，并共用 `.section-topics`、`.section-card-grid`、`.section-card` 与 `.section-load-more`；Column 只保留紧凑人物头部和 All／Article／Video 作品目录。
