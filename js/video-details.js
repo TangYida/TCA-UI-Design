@@ -23,20 +23,6 @@
     setMobilePanel('introduction');
   }
 
-  const lessonProgress = d.querySelector('[data-lesson-progress]');
-  if (lessonProgress) {
-    const renderProgress = pointerX => {
-      const rawPercent = Math.min(100, Math.max(0, pointerX / innerWidth * 100));
-      const complete = rawPercent >= 99;
-      const percent = complete ? 100 : rawPercent;
-      lessonProgress.style.setProperty('--lesson-progress', `${percent}%`);
-      lessonProgress.classList.toggle('is-complete', complete);
-      lessonProgress.setAttribute('aria-label', `Lesson progress ${Math.round(percent)}%`);
-    };
-    addEventListener('mousemove', event => renderProgress(event.clientX), { passive: true });
-    renderProgress(0);
-  }
-
   const bookmark = d.querySelector('[data-video-bookmark]');
   if (bookmark) {
     const key = `tca-video-saved:${location.pathname}`;

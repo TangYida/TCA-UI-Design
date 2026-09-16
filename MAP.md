@@ -38,11 +38,11 @@
 | 4c | https://thechinaacademy.org/from-tiktok-to-rednote-the-dialectical-transition-into-opposites/ | `Articles/article-text.html` | 文字文章变体：标题区不再显示主题标签，日期、标题、作者与 lede 居中；正文继承与头图版相同的目录、双组推荐、Editor、分享、评论和作者联系弹窗 |
 | 5 | https://thechinaacademy.org/premium-member/ | `Homepage/premium-member.html` | 重新抓取源页会员主张与 12 条内容；`$10 MONTHLY`、权益说明和 CTA 置于亮米白区块；Intelligence、Courses 继承非推荐栏目结构。Talks 封面及三张卡片进一步统一首页视频语言：`16:9`、红色标签前播放三角、无图中央播放字符、lede 和 `xx min watch` |
 | 6 | https://thechinaacademy.org/courses-2/ | `About/premium-courses.html` | 继承 `.master-section` 的金色标题与内容分类栏；删除价格／会员 Banner，只在分类栏下保留一个会员入口。九门课程保留源站左右人物构图和桌面／移动专用封面，桌面 hover／focus 切换源站详情，移动端把详情置于封面下方 |
-| 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 16:9 课程主视觉、源站课程介绍与殷之光讲师信息；单课课纲、进度、可持久化完成状态及源站相关推荐 |
+| 7 | https://thechinaacademy.org/lesson/making-the-world-anew-bandung-spirit-and-the-de-dependency-development-of-china/ | `Videos/lesson.html` | 课程主视觉改为与 Premium Talk Detail 相同的 16:9 Cloudflare 播放器；非会员限播 60s 并显示会员门，会员完整播放。课纲进度由真实播放位置驱动；源站课程介绍、殷之光讲师信息与相关推荐 |
 | 8 | https://thechinaacademy.org/?s=y | `Utility/search.html` | 独立 Search Utility：金色斜体栏目标题、底线查询框和 SVG 搜索图标；保留结果数量、Article／Author、Load More 与 Article 的 Latest／Popular。查询匹配六项 taxonomy 时显示 Topic 入口。固定四项 Editor’s Picks 与页面同背景，桌面按实时 Header 高度粘附并在剩余视口内滚动，移动端回到主结果之后并复用 Trending 分割线 |
 | 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | 继承 `.master-section`：横向 Intelligence 主题条、带 Premium 状态的分割线卡片看板及 `LOAD MORE`；不插入 Editor's Picks |
 | 10 | https://thechinaacademy.org/premium-talks/ | `Video Sections/premium-talks.html` | 删除栏目筛选、价格／介绍／会员 CTA 和追加内容流，改为逐行长卡：左侧 `16:9` 金底白字 Premium 封面，右侧主题、标题、以 EB 粗体嘉宾名开头的 lede 与 `xx min watch`；内容锚定源站 8 条 Premium Talks |
-| 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 真实 16:9 Cloudflare 播放器和金底白字 Premium 标识；源站标题、日期、导语及张维为讲师信息；复用收藏、推荐、评论并保留清晰会员边界 |
+| 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 真实 16:9 Cloudflare 播放器和金底白字 Premium 标识；非会员限播 60s 并显示 `To watch full video` 会员门，会员完整播放；源站标题、日期、导语及张维为讲师信息；复用收藏、推荐、评论 |
 | 12 | https://thechinaacademy.org/hsk-certified-courses/ | `About/hsk.html` | 按 HSK 能力阶段组织的语言学习路径 |
 | 13 | https://thechinaacademy.org/about-us/ | `About/about.html` | 使命声明、工作方法和明确组织入口 |
 | 14 | https://thechinaacademy.org/support-us/ | `About/support.html` | 支持影响说明、一次性/持续/机构三类路径 |
@@ -56,6 +56,8 @@
 
 | 用途 | 文件 | 作用范围 |
 |---|---|---|
+| Premium 头图文章 | `Articles/premium-article-featured-image.html` | 继承 `article-featured-image.html` 的头图文章样式；非会员正文只显示前两段并显示 `To get full access`，会员全文；不计入关键网址 |
+| Premium 文字文章 | `Articles/premium-article-text.html` | 继承 `article-text.html` 的文字文章样式；同样 20% 正文门控；不计入关键网址 |
 | 新闻文章模板 | `Articles/article-news.html` | 参考 Chang’e-6 源页：日期／标题居中、左侧简报导航、正文、带导语的右侧推荐、一行 Editor、圆形分享与评论；相邻新闻的章末—分割线与分割线—下章标题留白均为 `1.15em`；这是模板演示，不计入 21 个关键网址 |
 | 首页 Beta | `Beta Demo/homepage.html` | 加载 `Homepage/index.html?demo=beta-4x3`；桌面非视频封面切换为 `4:3`、视频保持 `16:9`，普通文章画廊使用两行和 `246px` 卡片（较原版缩小四分之一），不影响正式首页 |
 | 跨平台讨论 Beta | `Beta Demo/discussions-across-platforms-demo.html` | 完整文章 mock 下依次呈现 Discussions Across Platforms 与 Comments；Version B 使用无卡片单列 comment stream，精选流上方放 LinkedIn／Reddit／Facebook 主题色阴纹启动行，YouTube 以 SVG 播放符号呈现，并保留同构的本站评论与输入区 |

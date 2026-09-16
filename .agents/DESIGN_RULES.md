@@ -135,6 +135,12 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - Footer 进入视口时窗口／横幅向下收回；从 Footer 上滑离开后恢复。不得把它们并入 Footer DOM。
 - 移动端全屏菜单层级高于注册窗口。
 
+### 4.7 付费门（Premium Gate）
+
+- `.premium-gate` 是视频与文章共用的付费覆盖层（明确的覆盖层，允许绝对定位）：`--video` 变体覆盖整个 `.video-stage`，`--article` 变体固定在 `.article-body` 底部并向上渐隐到页面底色。
+- 覆盖层含指定文案与 `.member-cta`（指向 `Homepage/premium-member.html`）。
+- 测试阶段会员判定 = 已登录（`sessionStorage['tca-demo-signed-in'] === '1'`）；会员不显示覆盖层、不截断内容。
+
 ## 5. 页面级现行规则
 
 ### 5.1 Homepage 与 Premium Member
@@ -163,6 +169,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - 桌面只显示正文右栏 Continue Exploring / Related Reading；移动端把同一组内容移到评论后，页面内不得重复。
 - Article 右栏 Related Reading 不显示时长标签；Continue Exploring 取首页课程中的两项。
 - 所有旧 `.density-feed` 内容已移除。
+- Premium 文章在 `Articles/` 下为 `premium-article-featured-image.html`、`premium-article-text.html`，继承对应普通文章模板；非会员的 `.article-body` 只显示前两段并在底部显示 `.premium-gate--article`（金色斜体文案 `To get full access`，下方为白字无下划线 `.member-cta`），会员不截断。
 
 ### 5.3 Article Section
 
@@ -193,6 +200,8 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - 播放栏之后的播放信息、Instructor、lede、分享和评论按整个“视频＋sidebar”宽度对齐，而不是只对齐主视频。
 - Course Plan 不显示旧金色进度 span 和 lesson-complete 按钮。每个 `li` 通过从左到右的背景填充表示由最长播放位置决定的进度：未完成余量为灰色，完全完成为金色。
 - 相邻 `.video-side-section` 之间不得出现金色顶部边框。
+- `premium-talk-detail.html` 与 `lesson.html` 使用同一 Cloudflare Stream iframe 播放组件；非会员播放到 60s 暂停并显示 `.premium-gate--video`（金色斜体文案 `To watch full video`，下方为白字无下划线 `.member-cta`），会员完整播放。
+- Lesson 的 `.course-plan` 进度由播放器真实进度驱动：取最长播放位置写入 `--lesson-progress`，≥99% 置 `is-complete`；不再使用鼠标位置模拟。
 - 移动端 Introduction 内容顺序：Instructor（如有）→ Lede → Share → Course Plan（仅 Course）→ Related。只有 Video Article 显示 Introduction / Comments 双标签。
 
 ### 5.6 Utility：Settings、Saved、History 与 Search
@@ -258,5 +267,6 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - `js/search.js`：搜索 tabs、Article 排序、Load More、查询状态和结果渲染。
 - `js/tag.js`：Tag Archive 查询状态、文章／视频混合数据、排序与 Load More。
 - `js/about.js`：Courses 分类、Contributors 距离响应、Contributor 资料折叠，以及 Contributor Details／Column 共用的作者作品数据与筛选。
+- `js/premium-access.js`：Premium 门控（会员判定、Cloudflare Stream SDK 60s 视频限制、文章 20% 截断）与 lesson 真实播放进度。
 - 页面 HTML 只承载内容与语义结构；已有共享 selector 能表达需求时，不新增同义 selector。
 - 全局规则只在共享层修改；页面例外必须以页面根 class 限定作用域，并在本文件记录原因。
