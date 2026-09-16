@@ -310,15 +310,9 @@
     });
 
     const nodes = [...orbit.querySelectorAll('.contributor-node')];
-    const focus = d.querySelector('[data-contributor-focus]');
-    const focusName = focus.querySelector('[data-contributor-focus-name]');
-    const focusPosition = focus.querySelector('[data-contributor-focus-position]');
     const selectNode = node => {
       nodes.forEach(item => item.classList.toggle('is-active', item === node));
       node.style.setProperty('--node-opacity', '1');
-      focus.href = node.href;
-      focusName.textContent = node.dataset.name;
-      focusPosition.textContent = node.dataset.position;
     };
     const scaleFromPoint = (clientX, clientY) => {
       let nearest = nodes[0];
@@ -347,6 +341,24 @@
     nodes.forEach(node => {
       node.addEventListener('focus', () => selectNode(node));
       node.addEventListener('pointerenter', () => selectNode(node));
+    });
+    const normalizePrefix = value => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+    let typeBuffer = '';
+    let typeTimer = 0;
+    addEventListener('keydown', event => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      const target = event.target;
+      if (target instanceof HTMLElement && (target.isContentEditable || target.closest('input, textarea, select'))) return;
+      if (!/^[a-z]$/i.test(event.key)) return;
+      typeBuffer += event.key;
+      clearTimeout(typeTimer);
+      typeTimer = setTimeout(() => { typeBuffer = ''; }, 1000);
+      const prefix = normalizePrefix(typeBuffer);
+      const match = nodes.find(node => normalizePrefix(node.dataset.name).startsWith(prefix));
+      if (!match) return;
+      cancelAnimationFrame(orbitFrame);
+      selectNode(match);
+      match.style.setProperty('--node-scale', '1.16');
     });
     addEventListener('resize', resetOrbit, { passive: true });
     requestAnimationFrame(resetOrbit);
