@@ -1,6 +1,6 @@
 # 关键页面映射
 
-更新日期：2026-09-11
+更新日期：2026-09-17
 
 ## 维护规则
 
@@ -12,7 +12,7 @@
 4. 实现状态：`拟定`、`已确认`、`已接入`、`已验收`。
 5. 本页顶部的更新日期。`TODO.md` 不属于网页修改工作流，除非用户明确点名，否则不得读取或修改。
 
-页面数量口径：下表保留原来的 18 个源站编号组，但 `2a/2b` 与 `4a/4b/4c` 分别代表独立网址；再加通用 Tag Archive，当前共有 **22 个正式 HTML 页面**。
+页面数量口径：下表保留原来的 18 个源站编号组，但 `2a/2b` 与 `4a/4b/4c` 分别代表独立网址；再加通用 Tag Archive 与新增的 `Policies/` 三个政策文档，当前共有 **25 个正式 HTML 页面**。
 
 ### 母版与样式继承规则
 
@@ -43,14 +43,17 @@
 | 9 | https://thechinaacademy.org/premium-intelligence/ | `Article Sections/premium-intelligence.html` | 继承 `.master-section`：横向 Intelligence 主题条、带 Premium 状态的分割线卡片看板及 `LOAD MORE`；不插入 Editor's Picks |
 | 10 | https://thechinaacademy.org/premium-talks/ | `Video Sections/premium-talks.html` | 删除栏目筛选、价格／介绍／会员 CTA 和追加内容流，改为逐行长卡：左侧 `16:9` 金底白字 Premium 封面，右侧主题、标题、以 EB 粗体嘉宾名开头的 lede 与 `xx min watch`；内容锚定源站 8 条 Premium Talks |
 | 11 | https://thechinaacademy.org/how-china-builds-the-worlds-tallest-bridge/ | `Videos/premium-talk-detail.html` | 真实 16:9 Cloudflare 播放器和金底白字 Premium 标识；非会员限播 60s 并显示 `To watch full video` 会员门，会员完整播放；源站标题、日期、导语及张维为讲师信息；复用收藏、推荐、评论 |
-| 12 | https://thechinaacademy.org/hsk-certified-courses/ | `About/hsk.html` | 按 HSK 能力阶段组织的语言学习路径 |
-| 13 | https://thechinaacademy.org/about-us/ | `About/about.html` | 使命声明、工作方法和明确组织入口 |
-| 14 | https://thechinaacademy.org/support-us/ | `About/support.html` | 支持影响说明、一次性/持续/机构三类路径 |
+| 12 | https://thechinaacademy.org/hsk-certified-courses/ | `About/hsk.html` | 源站标题与 HSK 标识；四张证书课程卡（Buy／Trial 暂链源站）；两组可点击标签在 `Introduction to Certified Courses`（Requirements／Certificate／Benefits／What you learn）与 `Introduction to the Learning Experience`（How it works／Along the way／At the top）间切换 |
+| 13 | https://thechinaacademy.org/about-us/ | `About/about.html` | `China Content Syndicate / In Search of New Global Narratives` 作 h1，右侧藏青数字块（Trusted by 150 M／Subscribers from 86／Countries）；Introduction 正文；What we offer 纵向列表；Original Production 4-2-1 看板；Follow Us 品牌徽标；不含 Advisors |
+| 14 | https://thechinaacademy.org/support-us/ | `About/cooperation.html` | 由 `support.html` 更名；页标题 `Cooperation`，`Way to Support` 纵向列表与四类 CTA；Header／Footer 的 Support Us 改为打开源站 Give 表单弹窗 |
 | 15 | https://thechinaacademy.org/contributors-2/ | `About/contributors.html` | 删除虚构专业领域筛选，使用源站人物姓名／职务和圆形作者组件组成高密度人物看板；桌面头像按鼠标距离缩放并同步下方身份带，移动端为三列稳定触控网格 |
 | 16 | https://thechinaacademy.org/contributors_zhang-weiwei/ | `About/contributor-detail.html?name=zhang-weiwei` | 源站人物身份、简介、Featured Works、Experiences 与 Recent Events；Contact 复用全站作者弹窗并隐藏 Learn More |
 | 17 | https://thechinaacademy.org/column_zhang-weiwei/ | `About/author.html?name=zhang-weiwei` | 紧凑人物头部与 All／Article／Video 看板；与 Contributor Details 的 Recent Events 共用同一作品数据、卡片、筛选和 Load More |
 | 18 | https://thechinaacademy.org/setting/ | `Utility/setting.html` | Account Utility 设置页：删除冗余页首、面板标题和原生文件名；默认 Premium Profile 显示金底白字标签。Username 与 Country / Region 保持字段级 `EDIT → SAVE · CANCEL`，所有输入保留聚焦金色底线并以 `#EBE4D7` 填充激活背景，密码 Show／Hide 位于右上且空值禁用；三页二级入口统一为 Roboto 灰底状态，移动端 workbench 无顶部 padding、二级导航无下分割线 |
 | 19 | `/tag/{term}/` | `Utility/tag.html?name={term}` | 通用主题归档：标题直接显示当前主题名，在同一四／三／二／一列看板中混合文章与视频，保留 Latest／Popular 和 Load More，不显示主题导航栏或 Editor’s Picks |
+| 20 | https://thechinaacademy.org/terms-of-use/ | `Policies/terms-of-use.html` | `.policy-page` 母版：金色斜体页标题、源站目录（桌面 sticky、移动横排）与 `h2/h3` 阅读正文；正文逐字取自源站 |
+| 21 | https://thechinaacademy.org/privacy-policy-2/ | `Policies/privacy-policy.html` | 同上母版，无源站目录；正文层级归一化为 `h2/h3`，术语与链接文案保持不变 |
+| 22 | https://thechinaacademy.org/cookies-policy/ | `Policies/cookies-policy.html` | 同上母版；保留源站 “Why Cookies are important” 下的条目清单与 Google Analytics 链接 |
 
 ### 非关键网址模板与实验入口
 
@@ -73,7 +76,7 @@
 
 ### 本轮全站共享行为
 
-- `js/site.js` 生成双层桌面导航：功能栏为 Support Us、About Us、普通浅色搜索和金色演示登录；标题栏为 Home、Trending、Opinion、品牌、Video、Premium、Not Just Travel。HSK 页面仍保留，但不再占用主导航入口。
+- `js/site.js` 生成双层桌面导航：功能栏为 Support Us（打开 Give 弹窗）、About Us（进入 `About/about.html`）、普通浅色搜索和金色演示登录；标题栏为 Home、Trending、Opinion、品牌、Video、Premium、Not Just Travel。HSK 页面仍保留，但不再占用主导航入口，改由 Footer 的 Partners 进入。
 - Video 与 Premium 使用共享下拉菜单；桌面标题本身分别连接 Video Archive 与 Premium Member，Video 子项使用 `video.html?channel=...`。移动端把标题链接和展开按钮拆开但保持同一个 `48px` 行盒，二级项目继续按两行横向滑动；全屏菜单仍为独立 `100dvh` 滚动容器并锁定背景页面。
 - 全站内容最大宽度由 `tokens.css` 的 `--max:1600px` 控制；界面无衬线统一为本地 Roboto 可变字体。`masters.css` 的最终排版护栏把所有文本行高限制在 `1.2–1.5`。
 - 除文章母版与 Article Section 母版外的非首页页面由共享脚本追加六个紧凑内容入口；Article Section 使用自身卡片看板，文章页只使用自身的 Continue Exploring／Related Reading，禁止重复追加内容流。
@@ -85,7 +88,7 @@
 - 当前页面的 viewport 均启用 `viewport-fit=cover`；共享脚本以白色为默认浏览器主题色，移动全屏菜单打开时同步切为藏青色，使 iPhone 刘海安全区与其下方区域一致。
 - Settings／Saved／History 的页内二级入口统一为 `.utility-secondary-nav` 与 Roboto：桌面选中／悬浮使用 `--paper-2` 灰底，移动端使用无分割线的灰色方框状态，workbench 顶部 padding 为 `0`。Saved／History 批量工具栏下线使用 `--line`；所有文字型 input 和 textarea 聚焦时统一填充 `#EBE4D7` 并使用蓝色文字。
 - `.master-article` 现在有头图、文字、新闻三种标题区变体；三者标题区均不显示红色主题标签，并共用作者卡、彩色正文图片、对齐首段的首字下沉、左栏导航、Editor、分享、评论和作者联系弹窗。所有正文图片统一使用 `width:100%; max-width:100%; height:auto` 与正文等宽；大章节 `h2` 使用粗体和 `28.5ch` 最大宽度，编号小节 `h3` 使用常规字重。新闻条目清除末项默认 margin，使分割线上下严格对称为 `1.15em`。
-- `js/site.js` 生成的全站 Footer 复用源站官方图标并删除旧宣传句；桌面 About、Follow Us、More 为三个等宽列。About 末尾的 Partners 使用 `<details>`，悬浮、聚焦或点击时平滑展开 Roboto 字体的伙伴列表，当前 HSK 链接到正式课程页。其余平台、账号、邮件和政策规则保持不变。
+- `js/site.js` 生成的全站 Footer 复用源站官方图标并删除旧宣传句；桌面 About、Follow Us、More 为三个等宽列。About 列的 About Us → `../About/about.html`、Cooperation → `../About/cooperation.html`，并新增同样打开 Give 弹窗的 Support Us；Partners 使用 `<details>`，悬浮、聚焦或点击时平滑展开 Roboto 字体的伙伴列表，HSK 链接到 `../About/hsk.html`。More 列与登录弹窗的 Terms of Use／Privacy Policy／Cookie Policy 均指向本地 `Policies/` 三页；其余平台、账号与邮件规则保持不变。
 - `.master-section` 统一 Trending、Opinion 与 Premium Intelligence；`.master-video-section` 复用卡片几何但隔离文章 taxonomy。Video Archive 使用四／三／二／一列、All＋11 个节目栏目、Latest／Popular 与 `?channel=` 状态，不插入 Editor's Picks；Premium Talks 另用 `.master-premium-talks` 的逐行长卡母版。
 - 视频内容以 `data-content-type="video"`、视频页面或 Talks 栏目识别；首页图片中央不呈现播放按钮，所有视频内容改为在红色主题标签前显示留有间距的小型红色播放三角，时长显示 `xx min watch`。主推荐画廊每 10 秒自动前进，圆点用扇形显示进度；播放／暂停控制器不使用字符或圆形底纹，改在 `10px × 10px` 盒中用 CSS 双竖线／三角形绘制并与圆点中心对齐，控制器外边距固定为 `0`。
 - 三个 Video Detail 页的播放信息与分享入口合并为以主视频左右边缘为锚点的响应式行：宽度足够时两端对齐，宽度不足时换为两行并左对齐；播放信息上下内边距均为 `11px`，分享图标高度为 `20px`。Lesson 的 Course Plan 进度仅作原型展示，由鼠标在页面中的水平位置正向映射；未完成时灰色进度逐渐填充无色背景，完成后平滑转为金色，不模拟或保存真实播放进度。
@@ -110,13 +113,16 @@
 | 10 | Premium Talks Archive | `archive-premium_talk.php` 或 Elementor Archive 模板 | Premium Talk CPT、系列、会员权限 | 拟定 |
 | 11 | Premium Talk Single | `single-premium_talk.php`；展示公开预览，正文和播放由会员权限控制 | Talk CPT、播放器、章节、会员状态 | 拟定 |
 | 12 | HSK Landing / Course Archive | HSK 专用 Page Template，加 Sensei Course 查询；不要另建一套课程进度系统 | Sensei Course、HSK Level taxonomy | 拟定 |
-| 13 | About Page | `page-about-us.php` 或通用 Page Template + 可编辑 patterns/Elementor sections | Page 内容、组织信息 | 拟定 |
-| 14 | Support Page | 专用 Page Template；捐赠表单与支付交给 Give | Give Form、金额、支付和回执状态 | 拟定 |
+| 13 | About Page | `page-about-us.php` 或通用 Page Template + 可编辑 patterns/Elementor sections | Page 内容、组织信息、源站社媒链接 | 拟定 |
+| 14 | Cooperation Page | 专用 Page Template；Support Us 弹窗与捐赠交给 Give（源站为 iframe 内嵌 Give 表单） | Give Form、金额、支付和回执状态 | 拟定 |
 | 15 | Contributor Archive | Contributor CPT 的 `archive-contributor.php` | Contributor CPT、姓名、职务、头像或由姓名生成的 initials | 拟定 |
 | 16 | Contributor Single | `single-contributor.php`，展示简介与精选内容 | Contributor 字段、关联作者/文章/视频 | 拟定 |
 | 17 | Author Archive | `author.php`；若 Contributor 与 WP User 分离，建立明确关联字段 | WP User、Posts、Video/Talk 关联查询 | 拟定 |
 | 18 | Account / Settings | 优先定制 WooCommerce My Account 或会员账户端点，不另造账户数据库 | 用户资料、Membership、订单、收藏、课程进度 | 拟定 |
 | 19 | Topic Term Archive | `taxonomy-topic.php` 或对应自定义 taxonomy archive 模板 | 六项 topic terms、文章与 Video CPT 混合查询、分页、排序 | 拟定 |
+| 20 | Terms of Use | 通用 Page Template 或独立政策模板，保留 `h2/h3` 语义 | Page 内容、政策互链 | 拟定 |
+| 21 | Privacy Policy | 同上 | Page 内容、政策互链 | 拟定 |
+| 22 | Cookies Policy | 同上 | Page 内容、政策互链 | 拟定 |
 
 ### 设计文件到 WordPress 的关系
 
@@ -170,7 +176,8 @@ flowchart TD
   PM --> Member[Premium Member]
   S --> Courses[课程列表 / HSK]
   Courses --> Lesson[课程详情]
-  S --> Org[About / Support / Contributors]
+  S --> Org[About / Cooperation / Contributors]
   Org --> Profile[Contributor 详情]
   Profile --> Archive[作者页]
+  S --> Policies[Policies 政策文档]
 ```

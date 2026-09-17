@@ -30,7 +30,7 @@
 - `--gold`：栏目标题、Premium 状态和关键操作。
 - `--red`：主题 taxonomy 与视频主题播放符号。
 - `--muted`：日期、辅助说明和非主导元数据。
-- `--line`：普通内容分割线；金色分割线只用于被明确规定的标题／主题栏与 Editor’s Picks 边界。
+- `--line`：普通内容与分节分割线。三页 service 页的页标题下划线、以及 HSK 指定的章节线使用金色；其余分节线与主题栏使用 `--line`。金色还保留给 Editor’s Picks 外框、组件强调与交互态。
 - 全站文字型 `input` 与 `textarea` 从父组件继承 `--text-field-background`：浅色父组件固定为 `#EBE4D7`，深色 `.utility`、`.auth-dialog-card` 与 `.author-dialog-card` 固定为 `#0D192B`；不得使用纯白、透明或第三种文本框背景。focus 前后背景与文字颜色不变，只把底部线条切换为金色。checkbox、radio、file、button 与 select 不属于本规则。
 
 ### 2.3 内容 taxonomy
@@ -70,6 +70,8 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 | Account Utility | `.utility-settings-page`、`.utility-saved-page`、`.utility-history-page` | Settings／Saved／History；资料；安全；收藏夹；浏览记录；支持；退出 | `css/utilities.css`、`js/settings.js`、`js/account-library.js` |
 | Search Utility | `.utility-search-page` | 查询；Article／Author；排序；结果；Editor’s Picks；Load More | `css/utilities.css`、`js/search.js` |
 | About 服务页面 | `.about-courses-page`、`.contributors-directory-page`、`.contributor-detail-page`、`.author-column-page` | Courses；人物目录；Contributor 详情；Column 作品目录 | `css/masters.css`、`css/site.css`、`js/about.js` |
+| 机构服务页 | `.about-org-page`、`.hsk-page`、`.cooperation-page` | About 使命与数据、Original Production 4-2-1 看板、Follow Us 品牌徽标；Certified Courses 课程卡与两组可切换标签；Cooperation 支持路径列表 | `css/masters.css`、`css/site.css`、`js/hsk.js` |
+| Policy 文档 | `.policy-page` | 金色斜体页标题；源站目录（桌面 sticky、移动横排）；统一 `h2/h3` 层级与阅读宽度 | `css/masters.css`、`css/site.css` |
 
 页面文件的职责目录固定为：
 
@@ -78,7 +80,8 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - `Video Sections/`：Video Archive、Premium Talks。
 - `Articles/`：三类文章模板。
 - `Videos/`：Video Article、Premium Talk Detail、Lesson / Course Detail。
-- `About/`：About、Support、Contributors、Author、HSK、Premium Courses。
+- `About/`：About、Cooperation、Contributors、Author、HSK、Premium Courses。
+- `Policies/`：Terms of Use、Privacy Policy、Cookies Policy。
 - `Utility/`：Tag Archive、Search、Setting、Saved、History。
 - `Beta Demo/`：隔离实验，不得反向污染正式页面。
 
@@ -141,6 +144,20 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - 覆盖层含指定文案与 `.member-cta`（指向 `Homepage/premium-member.html`）。
 - 测试阶段会员判定 = 已登录（`sessionStorage['tca-demo-signed-in'] === '1'`）；会员不显示覆盖层、不截断内容。
 
+### 4.8 服务页组件
+
+- `.service-section` / `.service-heading` / `.service-prose` / `.service-list` / `.service-item` / `.service-grid` / `.service-card`：About、Certified Courses、Cooperation 三页共用的内容组件。`.service-section` 只做垂直留白（全局 `padding-bottom:0`），节与节之间不画金色分割线；三页的页标题下方保留金色分割线（About 的线在 hero 底部、包含数字）。`.service-grid` 为 4／2／1 列看板，`.service-grid--rows` 为每项独占一行的单列看板。
+- `.service-heading` 与首页 `.home-section-head` 视觉一致：金色斜体 `clamp(18px,2vw,27px)`、右侧一条 `--line` 细线。
+- `.service-prose`、`.service-item-body`、`.service-card-body`、`.hsk-course-intr` 为三页正文，宽度与 `.section-page` 等宽（不设阅读宽度上限），字号 `22px`、行高 `1.5`。
+- 不得在服务页复用 `.section-card`、`.section-topics`：`js/site.js` 会读取这些 selector 注入阅读时长与文章筛选排序，会引入源站没有的文字与行为。服务页使用 `.service-*` 与 `.about-*` 自有组件。
+- `.about-platform`：Follow Us 的“品牌徽标＋平台名”入口，仅在 `.about-org-page` 作用域内定义，不提升为全局组件；徽标为 44px 圆、品牌色实底、纸色内联品牌 SVG，hover／focus 变为透明底＋品牌色并上浮 2px。品牌 SVG 由本项目手绘，不使用源站图片或第三方图标库。
+- `.hsk-switch` / `.hsk-switch-option` / `.hsk-group`：Certified Courses 的两组标签切换，激活项用红色文字，轨道底线为金色；由 `js/hsk.js` 管理 `aria-selected` 与面板显隐，支持左右方向键。
+
+### 4.9 Support Us 弹窗
+
+- `.support-dialog` 为全站单例（由 `js/site.js` 注入），Header 功能栏、移动菜单与 Footer 的 Support Us 均通过 `[data-support-dialog]` 触发，`[data-support-close]`、遮罩点击或 Escape 关闭。
+- 弹窗内容为源站 Give 表单的 iframe（`.support-dialog-frame`），是唯一允许的覆盖层，沿用全站半透明藏青＋模糊遮罩语言；打开时在 `html` 上加 `.support-open` 锁定背景滚动。
+
 ## 5. 页面级现行规则
 
 ### 5.1 Homepage 与 Premium Member
@@ -174,7 +191,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 ### 5.3 Article Section
 
 - 栏目标题为金色斜体；标题上方 padding 保持紧凑，不显示标题右侧分割线。
-- 主题栏为 `All + 六项主题`，可横向滚动；标题／主题栏下方分割线为金色。
+- 主题栏为 `All + 六项主题`，可横向滚动；标题／主题栏不画分割线。
 - 顶部 `.section-topics` 选择主题后在本页用左右滑动过渡展示同主题看板；卡片中的 `.theme-tag` 则进入 Tag Archive，不触发本地筛选。主题子页不显示 Editor’s Picks。
 - 卡片统一使用 `16:9` 图片、主题、灰色日期、标题和 lede。普通区单行最多 4 张，按 4／3／2／1 列切换。
 - 每行必须由后续内容前移填满；不足满行的最后一行不放大卡片，且每张实际卡片自己绘制完整右／下边界。
@@ -185,7 +202,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 ### 5.4 Video Section 与 Premium Talks
 
 - Video Archive 的分类栏为 `All + 各 Video channel`；每个 channel 内提供 Latest / Popular。
-- Video 看板复用 Article Section 卡片尺寸与末行闭合规则，但没有 Editor’s Picks，内容分割线使用普通 `--line`，不得使用金线。
+- Video 看板复用 Article Section 卡片尺寸与末行闭合规则，但没有 Editor’s Picks；内容与栏目标题/通道轨道都不使用金色分割线。
 - Premium 视频封面始终带金底白字 Premium 标签。
 - Premium Talks 列表没有栏目栏，使用长条卡片：左侧 `16:9` 封面，右侧主题、标题、`作者：lede` 和时长。
 
@@ -234,12 +251,30 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 
 ### 5.8 About：Courses、Contributors、Contributor Details 与 Column
 
-- Courses 使用金色斜体 `.section-title`、内容型 `.section-topics` 和源站桌面／移动专用课程封面；不显示价格或会员 Banner，只在 `.section-title-row` 内右对齐保留一个 `.member-cta`，并在该项下方加金色分割线。`.course-cover-position` 与 `.course-cover-name` 共用 `--course-cover-copy-size`。源站封面自带的白色渐变底纹经 `.course-cover-picture img{mix-blend-mode:multiply}` 与 `.course-cover-link{background:var(--paper-2)}` 消解为 `#ebe4d7`，移动端 `.course-cover-details` 背景同为此色。每张 Premium 课程封面继续显示金底白字 Premium 标识。
+- Courses 使用金色斜体 `.section-title`、内容型 `.section-topics` 和源站桌面／移动专用课程封面；不显示价格或会员 Banner，只在 `.section-title-row` 内右对齐保留一个 `.member-cta`，标题行不画金色分割线。`.course-cover-position` 与 `.course-cover-name` 共用 `--course-cover-copy-size`。源站封面自带的白色渐变底纹经 `.course-cover-picture img{mix-blend-mode:multiply}` 与 `.course-cover-link{background:var(--paper-2)}` 消解为 `#ebe4d7`，移动端 `.course-cover-details` 背景同为此色。每张 Premium 课程封面继续显示金底白字 Premium 标识。
 - 桌面课程封面保留源站左右人物构图，默认显示分类、标题、讲者和职务，hover／focus 时源站简介从右侧滑入（`transform:translateX`）并显示拍摄时间；`820px` 以下切换源站移动封面并把简介置于封面下方，不依赖 hover。
 - Contributors 使用现有 `.author-avatar`／`.author-chip` 语言组成可收缩的圆形人物看板。桌面端头像大小和明度由鼠标距离决定，当前人物姓名与源站职务同步显示在下方信息带；键盘 focus 与移动端保留明确金色状态，移动端不依赖指针距离。
 - Contributor Details 依次显示源站人物身份、简介、Featured Works、Experiences 与 Recent Events。`Contact the Author` 复用全站 `.author-dialog`，但此处不显示 Learn More。
 - Contributor Details 的 Recent Events 与 Column 必须读取 `js/about.js` 中同一份作者作品数据，并共用 `.section-topics`、`.section-card-grid`、`.section-card` 与 `.section-load-more`；Column 只保留紧凑人物头部和 All／Article／Video 作品目录。
 - 文章作者弹窗只在作者具有真实 Column 链接时显示 Learn More，并进入对应 Column；没有 Column 链接时不生成该入口。
+
+### 5.9 机构服务页：About、Certified Courses、Cooperation
+
+- About（`About/about.html`）不使用 `About us` 页标题，改以源站 `China Content Syndicate / In Search of New Global Narratives` 作为 h1；右侧数据块按 `Trusted by / 150 M / Subscribers from / 86 / Countries` 上下排列。hero 内全部文字不填纯色，而用源站图片底纹加半透明颜色遮罩（`background-clip:text` + `--hero-tint`），底纹取自 `assets/about-hero-texture.png`。
+- About hero 桌面端标题固定 `90px`，并以 `align-items:stretch` 与 `justify-content:space-between`／`align-content:space-between` 与右侧数据块上下两端对齐；`820px` 以下标题与数据块上下堆叠，且由 `js/about-org.js` 把每个数字各自缩放到父容器约 `2/3` 宽。
+- About hero 数字进入视口时由 `js/about-org.js` 从 `0` 累加到目标值（尊重 `prefers-reduced-motion`），鼠标悬浮时数字字形边缘发光（`filter:drop-shadow`）。
+- About 的 `What we offer` 为 `.service-grid--rows`（每项独占一行）；`Original Production` 为 `.service-grid` 4／2／1 看板（8 项始终整行填满）；`Follow Us` 为账号行 + `.about-platform` 品牌徽标；不显示 Advisors。
+- Certified Courses（`About/hsk.html`）在金色标题行右侧放源站 HSK 标识（`.hsk-logo`），不显示 `HSK Introduction` 节标题，正文直接开始；四张课程卡用 `.service-grid`，`Buy`／`Trial` 暂链源站，缺失真实目标时不得臆造 URL。HSK 正文首节与课程卡之间为整行金色分割线；课程卡与下方标签分组之间不另画线，改由 `.hsk-switch:after` 在标签选项右侧延伸金色线。
+- Certified Courses 的两组引导用 `.hsk-switch` 可点击标签切换：第一组 `Introduction to Certified Courses`（Requirements／Certificate／Benefits／What you learn），第二组 `Introduction to the Learning Experience`（How it works／Along the way／At the top）。源站重点词保留为 `<strong>`，不新增文字。
+- Cooperation（`About/cooperation.html`，由原 `support.html` 更名）页标题为 `Cooperation`，内文不显示 `Way to Support` 小标题；支持路径为 `.service-list`，每条 CTA 位于 `.service-item` 最右侧并与 `.service-item-title` 上边对齐（`600px` 以下回到标题下方左对齐），依次为 SIGN UP（打开注册登录弹窗）、SUPPORT US（打开 Give 弹窗）、CONTACT US（`mailto:`）与 COMING SOON（禁用态）。
+- 三页内容与措辞逐字取自源站；不得新增、缩写或改写任何文案（含拼写、`&` 转义与源站既有笔误）。
+
+### 5.10 Policy 文档
+
+- 三页（`Policies/terms-of-use.html`、`privacy-policy.html`、`cookies-policy.html`）使用 `.policy-page` 母版：金色斜体页标题与标题下金色分割线保持不变（不居中）。`.policy-body` 相对页面居中且宽度自动调节（`width:min(100%,92ch);margin-inline:auto`，正文仍左对齐）。
+- `.policy-layout` 默认单列，正文因此相对整页居中。当存在 `.policy-toc`（仅 Terms）时使用对称三列 `[目录｜正文｜等宽空列]`，使正文仍相对页面居中且不与目录重叠；目录继续使用二级标签组件原样，不改写其样式。`900px` 以下回到单列。
+- Terms of Use 的目录复用二级标签样式 `.utility-secondary-nav`（该页加载 `css/utilities.css`）；仅保留源站有对应正文小节的锚点链接，源站目录中无正文小节的两项（Gift Subscriptions、Previous versions of our Terms）不渲染，不得为凑链接而新增内容。Privacy Policy 与 Cookies Policy 的源站正文层级按 `h2`（大节）／`h3`（子节）归一化。
+- 正文逐字取自源站；三页互引的 Terms／Privacy／Cookie 链接指向本地 `Policies/` 页面，联系邮箱沿用源站 `hello@thechinaacademy.org`。
 
 ## 6. 不用浏览器模拟的非重叠检查
 
@@ -268,5 +303,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 - `js/tag.js`：Tag Archive 查询状态、文章／视频混合数据、排序与 Load More。
 - `js/about.js`：Courses 分类、Contributors 距离响应、Contributor 资料折叠，以及 Contributor Details／Column 共用的作者作品数据与筛选。
 - `js/premium-access.js`：Premium 门控（会员判定、Cloudflare Stream SDK 60s 视频限制、文章 20% 截断）与 lesson 真实播放进度。
+- `js/hsk.js`：Certified Courses 两组的可点击标签切换（`aria-selected`、面板显隐与方向键）。
+- `js/about-org.js`：About hero 数字的滚动累加、悬浮发光与移动端按 `2/3` 父宽自适配字号。
 - 页面 HTML 只承载内容与语义结构；已有共享 selector 能表达需求时，不新增同义 selector。
 - 全局规则只在共享层修改；页面例外必须以页面根 class 限定作用域，并在本文件记录原因。

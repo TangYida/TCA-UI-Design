@@ -40,12 +40,13 @@ Design/
 ├── Beta Demo/            # 不影响正式版的首页比例实验与跨平台讨论模块 demo
 ├── Video Sections/       # Video 列表 + Premium Talks 列表
 ├── Videos/               # 视频文章、Premium Talk 详情、课程详情
-├── About/                # Courses、HSK、About、Support、贡献者与作者
+├── About/                # Courses、HSK、About、Cooperation、贡献者与作者
+├── Policies/             # Terms of Use、Privacy Policy、Cookies Policy
 ├── Utility/              # Tag Archive、Search、Settings、Saved 与 History
-├── css/                  # tokens、全站、母版、Video Detail 与两类 Utility 共享样式
-├── js/                   # 全站交互及 Video Detail、Settings、Saved/History、Search、Tag Archive、About 的隔离逻辑
+├── css/                  # tokens、全站、母版、Video Detail、Service/Policy 与两类 Utility 共享样式
+├── js/                   # 全站交互及 Video Detail、Settings、Saved/History、Search、Tag Archive、About、HSK 的隔离逻辑
 ├── assets/fonts/         # 可本地部署的 EB Garamond / Libre Baskerville / Roboto
 └── references/           # 早期衬线、导航与文章排版研究
 ```
 
-当前仍有 **21 个原始关键网址对应的 HTML 页面**；另有通用主题归档 `Utility/tag.html`、`Utility/settings-saved.html` 与 `Utility/settings-history.html` 两个账户子页面。此外有 `Articles/article-news.html` 新闻模板、`Beta Demo/homepage.html` 首页实验和 `Beta Demo/discussions-across-platforms-demo.html` 跨平台讨论实验，均不计入原始关键网址数量。
+当前仍有 **21 个原始关键网址对应的 HTML 页面**，并新增 `Policies/` 三个政策文档页；另有通用主题归档 `Utility/tag.html`、`Utility/settings-saved.html` 与 `Utility/settings-history.html` 两个账户子页面。此外有 `Articles/article-news.html` 新闻模板、`Beta Demo/homepage.html` 首页实验和 `Beta Demo/discussions-across-platforms-demo.html` 跨平台讨论实验，均不计入原始关键网址数量。

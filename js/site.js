@@ -72,7 +72,7 @@ if (!d.querySelector('#auth-dialog')) d.body.insertAdjacentHTML('beforeend', `
           <div class="auth-or"><span>Or</span></div>
           <p class="auth-connect">To connect a sign in method, make sure the email matches the one registered to your account for <em>The China Academy</em></p>
           <a class="auth-google" href="https://thechinaacademy.org/wp-login.php?loginSocial=google&amp;redirect=https%3A%2F%2Fthechinaacademy.org%2F">Continue with <strong>Google</strong></a>
-          <p class="auth-legal">By continuing, you agree to our <a href="https://thechinaacademy.org/terms-of-use/">Terms &amp; Conditions</a> and acknowledge our <a href="https://thechinaacademy.org/privacy-policy-2/">Privacy Policy</a>.</p>
+          <p class="auth-legal">By continuing, you agree to our <a href="../Policies/terms-of-use.html">Terms &amp; Conditions</a> and acknowledge our <a href="../Policies/privacy-policy.html">Privacy Policy</a>.</p>
         </div>
       </form>
     </section>
@@ -138,7 +138,7 @@ if (header) {
     <div class="progress" data-progress></div>
     <div class="utility" data-utility>
       <div class="shell utility-inner">
-        <nav class="utility-links">${nav('Support Us', '../About/support.html', 'support')}${nav('About Us', '../About/about.html', 'about')}</nav>
+        <nav class="utility-links"><button type="button" data-support-dialog>Support Us</button>${nav('About Us', '../About/about.html', 'about')}</nav>
         <div class="utility-actions">
           <form class="header-search" action="../Utility/search.html">
             <label><span class="search-icon" aria-hidden="true">⌕</span><span class="sr-only">Search</span><input name="q" type="search" placeholder="Search" aria-label="Search"></label>
@@ -158,7 +158,7 @@ if (header) {
         <nav class="mobile-primary">${nav('Home', '../Homepage/index.html', 'home')}${nav('Trending', '../Article%20Sections/trending.html', 'trending')}${nav('Opinion', '../Article%20Sections/thinkers-forum.html', 'thinkers')}<a href="https://chinanotjusttravel.com/">Not Just Travel</a></nav>
         <div class="mobile-group"><div class="mobile-group-head"><a href="../Video%20Sections/video.html">Video</a><button type="button" data-mobile-submenu aria-expanded="false" aria-label="Show Video channels"><span>＋</span></button></div><div class="mobile-submenu">${videoLinks.map(x => `<a href="${x[1]}">${x[0]}</a>`).join('')}</div></div>
         <div class="mobile-group"><div class="mobile-group-head"><a href="../Homepage/premium-member.html">Premium</a><button type="button" data-mobile-submenu aria-expanded="false" aria-label="Show Premium pages"><span>＋</span></button></div><div class="mobile-submenu">${premiumLinks.map(x => `<a href="${x[1]}">${x[0]}</a>`).join('')}</div></div>
-        <nav class="mobile-utility"><a href="../About/support.html">Support Us</a><a href="../About/about.html">About Us</a><a href="../Utility/search.html">Search</a><button type="button" data-signin>SIGN IN</button></nav>
+        <nav class="mobile-utility"><button type="button" data-support-dialog>Support Us</button><a href="../About/about.html">About Us</a><a href="../Utility/search.html">Search</a><button type="button" data-signin>SIGN IN</button></nav>
       </div>
     </div>`;
 
@@ -287,7 +287,7 @@ if (header) {
 const footer = d.querySelector('[data-site-footer]');
 if (footer) {
   footer.className = 'site-footer';
-  footer.innerHTML = `<div class="shell"><div class="footer-mast"><a class="footer-brand" href="../Homepage/index.html"><img class="footer-logo" src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span class="brand-name">The China Academy</span></a></div><div class="footer-grid"><section class="footer-column"><div class="footer-title">About</div><div class="footer-links"><a href="https://thechinaacademy.org/about-us/">About Us</a><a href="mailto:hello@thechinaacademy.org">Contact Us</a><a href="https://thechinaacademy.org/contributors-2/">Contributors</a><a href="https://thechinaacademy.org/support-us/">Cooperation</a><details class="footer-partners"><summary>Partners</summary><div class="footer-partner-reveal"><div><a href="https://thechinaacademy.org/hsk-certified-courses/">HSK</a></div></div></details></div></section><section class="footer-column footer-follow"><div class="footer-title">Follow Us</div><div class="footer-socials"><div class="footer-social-group"><div class="footer-platform">YouTube</div><div class="footer-social-links"><a href="https://www.youtube.com/@guanvideo" target="_blank" rel="noreferrer">观视频工作室 Guan Video</a><a href="https://www.youtube.com/@wavemedia4433" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.youtube.com/@thinkersforum4149" target="_blank" rel="noreferrer">ThinkersForum</a><a href="https://www.youtube.com/@TechSignal2023" target="_blank" rel="noreferrer">TechSignal</a></div></div><div class="footer-social-group"><div class="footer-platform">Twitter</div><div class="footer-social-links"><a href="https://x.com/ChinaAcademyORG" target="_blank" rel="noreferrer">The China Academy</a></div></div><div class="footer-social-group"><div class="footer-platform">TikTok</div><div class="footer-social-links"><a href="https://www.tiktok.com/@chinacontentcenter" target="_blank" rel="noreferrer">ChinaContentCenter</a><a href="https://www.tiktok.com/@wavemedia2022" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.tiktok.com/@thinkersforumcn" target="_blank" rel="noreferrer">ThinkersForum</a></div></div></div></section><nav class="footer-column footer-legal" aria-label="More"><div class="footer-title">More</div><div class="footer-links"><a href="https://thechinaacademy.org/terms-of-use/">Terms of Use</a><a href="https://thechinaacademy.org/privacy-policy-2/">Privacy Policy</a><a href="https://thechinaacademy.org/cookies-policy/">Cookie Policy</a></div></nav></div><div class="copyright">© 2026 <span class="brand-name">The China Academy</span> · Redesign prototype · Images remain hosted by the source website.</div></div>`;
+  footer.innerHTML = `<div class="shell"><div class="footer-mast"><a class="footer-brand" href="../Homepage/index.html"><img class="footer-logo" src="https://thechinaacademy.org/wp-content/uploads/2024/11/logo-2.webp" alt=""><span class="brand-name">The China Academy</span></a></div><div class="footer-grid"><section class="footer-column"><div class="footer-title">About</div><div class="footer-links"><a href="../About/about.html">About Us</a><a href="mailto:hello@thechinaacademy.org">Contact Us</a><a href="https://thechinaacademy.org/contributors-2/">Contributors</a><a href="../About/cooperation.html">Cooperation</a><button type="button" data-support-dialog>Support Us</button><details class="footer-partners"><summary>Partners</summary><div class="footer-partner-reveal"><div><a href="../About/hsk.html">HSK</a></div></div></details></div></section><section class="footer-column footer-follow"><div class="footer-title">Follow Us</div><div class="footer-socials"><div class="footer-social-group"><div class="footer-platform">YouTube</div><div class="footer-social-links"><a href="https://www.youtube.com/@guanvideo" target="_blank" rel="noreferrer">观视频工作室 Guan Video</a><a href="https://www.youtube.com/@wavemedia4433" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.youtube.com/@thinkersforum4149" target="_blank" rel="noreferrer">ThinkersForum</a><a href="https://www.youtube.com/@TechSignal2023" target="_blank" rel="noreferrer">TechSignal</a></div></div><div class="footer-social-group"><div class="footer-platform">Twitter</div><div class="footer-social-links"><a href="https://x.com/ChinaAcademyORG" target="_blank" rel="noreferrer">The China Academy</a></div></div><div class="footer-social-group"><div class="footer-platform">TikTok</div><div class="footer-social-links"><a href="https://www.tiktok.com/@chinacontentcenter" target="_blank" rel="noreferrer">ChinaContentCenter</a><a href="https://www.tiktok.com/@wavemedia2022" target="_blank" rel="noreferrer">WaveMedia</a><a href="https://www.tiktok.com/@thinkersforumcn" target="_blank" rel="noreferrer">ThinkersForum</a></div></div></div></section><nav class="footer-column footer-legal" aria-label="More"><div class="footer-title">More</div><div class="footer-links"><a href="../Policies/terms-of-use.html">Terms of Use</a><a href="../Policies/privacy-policy.html">Privacy Policy</a><a href="../Policies/cookies-policy.html">Cookie Policy</a></div></nav></div><div class="copyright">© 2026 <span class="brand-name">The China Academy</span> · Redesign prototype · Images remain hosted by the source website.</div></div>`;
 
   // Add hover effect and auto-open to footer partners
   const footerPartners = d.querySelector('.footer-partners');
@@ -1425,3 +1425,34 @@ const onScroll = () => {
 };
 addEventListener('scroll', onScroll, { passive: true });
 onScroll();
+
+if (!d.querySelector('#support-dialog')) {
+  d.body.insertAdjacentHTML('beforeend', `<aside class="support-dialog" id="support-dialog" role="dialog" aria-modal="true" aria-label="Support Us" hidden><div class="support-dialog-card"><button class="support-dialog-close" type="button" data-support-close aria-label="Close">&times;</button><iframe class="support-dialog-frame" data-support-frame title="Support Us" loading="lazy"></iframe></div></aside>`);
+}
+const supportDialog = d.querySelector('#support-dialog');
+if (supportDialog) {
+  const supportFrame = supportDialog.querySelector('[data-support-frame]');
+  const supportFormSrc = 'https://thechinaacademy.org/support-us/';
+  let supportReturnFocus = null;
+  const openSupport = () => {
+    const menuButton = header?.querySelector('.menu-button');
+    if (menuButton && d.documentElement.classList.contains('mobile-menu-open')) menuButton.click();
+    if (supportFrame && !supportFrame.getAttribute('src')) supportFrame.setAttribute('src', supportFormSrc);
+    supportReturnFocus = d.activeElement;
+    supportDialog.hidden = false;
+    d.documentElement.classList.add('support-open');
+    supportDialog.querySelector('[data-support-close]')?.focus();
+  };
+  const closeSupport = () => {
+    supportDialog.hidden = true;
+    d.documentElement.classList.remove('support-open');
+    if (supportReturnFocus?.focus) supportReturnFocus.focus();
+  };
+  d.addEventListener('click', event => {
+    if (event.target.closest('[data-support-dialog]')) { event.preventDefault(); openSupport(); return; }
+    if (event.target.closest('[data-support-close]') || event.target === supportDialog) closeSupport();
+  });
+  d.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !supportDialog.hidden) closeSupport();
+  });
+}
