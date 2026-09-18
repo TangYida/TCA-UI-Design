@@ -223,3 +223,16 @@ $$ 最终敲定
 - [ ] Videos: 下周二
 - [ ] About: 下周三、下周四
 - [ ] Utility: 下周五
+
+surgical edits on contributor page.
+
+重新定义author-avatar：
+1. 不再是圆形图标+名称
+2. 而是做成名片样式：矩形细线方框，里面是圆形照片+名称+职称；文字内容过多，可以用...省略。所有细线方框大小要一致，并且要保证除了最后一行之外其他行都能排满。职称来源：https://thechinaacademy.org/contributors-2/
+3. 去除原来的悬浮+蒙版效果。现在的悬浮/聚焦效果是：边框变成金色。
+
+去除/html/body/main/section/p，在section-title右边加入一个文本框，文本框使用全局样式，在未激活的时候文本框内显示: Search for the contributor. 用户回车之后，根据用户渐入内容进行模糊搜索，聚焦+定位到到第一个搜索结；如果没有搜到，文本框左右震动
+
+文本框的位置要做移动端适配。
+
+radius: page
