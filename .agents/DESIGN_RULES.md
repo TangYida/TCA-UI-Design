@@ -30,7 +30,7 @@
 - `--gold`：栏目标题、Premium 状态和关键操作。
 - `--red`：主题 taxonomy 与视频主题播放符号。
 - `--muted`：日期、辅助说明和非主导元数据。
-- `--line`：普通内容与分节分割线。三页 service 页的页标题下划线、以及 HSK 指定的章节线使用金色；其余分节线与主题栏使用 `--line`。金色还保留给 Editor’s Picks 外框、组件强调与交互态。
+- `--line`：普通内容分割线。金色用于：机构服务页（About hero、HSK、Cooperation）与 Policies 的页标题下划线／HSK 指定章节线、栏目页标题／主题栏分割线（Article Section、Video Section、Tag Archive、Premium Talks 标题与逐行长卡）、Courses 标题行、文章 Editor 区顶线、Contributor 详情与 Column 的分节线、Search 结果工具栏与 Account 二级入口分割线，以及 Editor’s Picks 外框、组件强调与交互态。
 - 全站文字型 `input` 与 `textarea` 从父组件继承 `--text-field-background`：浅色父组件固定为 `#EBE4D7`，深色 `.utility`、`.auth-dialog-card` 与 `.author-dialog-card` 固定为 `#0D192B`；不得使用纯白、透明或第三种文本框背景。focus 前后背景与文字颜色不变，只把底部线条切换为金色。checkbox、radio、file、button 与 select 不属于本规则。
 
 ### 2.3 内容 taxonomy
@@ -191,7 +191,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 ### 5.3 Article Section
 
 - 栏目标题为金色斜体；标题上方 padding 保持紧凑，不显示标题右侧分割线。
-- 主题栏为 `All + 六项主题`，可横向滚动；标题／主题栏不画分割线。
+- 主题栏为 `All + 六项主题`，可横向滚动；标题／主题栏下方分割线为金色。
 - 顶部 `.section-topics` 选择主题后在本页用左右滑动过渡展示同主题看板；卡片中的 `.theme-tag` 则进入 Tag Archive，不触发本地筛选。主题子页不显示 Editor’s Picks。
 - 卡片统一使用 `16:9` 图片、主题、灰色日期、标题和 lede。普通区单行最多 4 张，按 4／3／2／1 列切换。
 - 每行必须由后续内容前移填满；不足满行的最后一行不放大卡片，且每张实际卡片自己绘制完整右／下边界。
@@ -202,7 +202,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 ### 5.4 Video Section 与 Premium Talks
 
 - Video Archive 的分类栏为 `All + 各 Video channel`；每个 channel 内提供 Latest / Popular。
-- Video 看板复用 Article Section 卡片尺寸与末行闭合规则，但没有 Editor’s Picks；内容与栏目标题/通道轨道都不使用金色分割线。
+- Video 看板复用 Article Section 卡片尺寸与末行闭合规则，但没有 Editor’s Picks；内容分割线使用普通 `--line`，栏目标题/通道轨道使用金色分割线。
 - Premium 视频封面始终带金底白字 Premium 标签。
 - Premium Talks 列表没有栏目栏，使用长条卡片：左侧 `16:9` 封面，右侧主题、标题、`作者：lede` 和时长。
 
@@ -251,7 +251,7 @@ Video Archive 的 channel 是独立分类系统，不得被六项文章 taxonomy
 
 ### 5.8 About：Courses、Contributors、Contributor Details 与 Column
 
-- Courses 使用金色斜体 `.section-title`、内容型 `.section-topics` 和源站桌面／移动专用课程封面；不显示价格或会员 Banner，只在 `.section-title-row` 内右对齐保留一个 `.member-cta`，标题行不画金色分割线。`.course-cover-position` 与 `.course-cover-name` 共用 `--course-cover-copy-size`。源站封面自带的白色渐变底纹经 `.course-cover-picture img{mix-blend-mode:multiply}` 与 `.course-cover-link{background:var(--paper-2)}` 消解为 `#ebe4d7`，移动端 `.course-cover-details` 背景同为此色。每张 Premium 课程封面继续显示金底白字 Premium 标识。
+- Courses 使用金色斜体 `.section-title`、内容型 `.section-topics` 和源站桌面／移动专用课程封面；不显示价格或会员 Banner，只在 `.section-title-row` 内右对齐保留一个 `.member-cta`，并在标题行下方加金色分割线。`.course-cover-position` 与 `.course-cover-name` 共用 `--course-cover-copy-size`。源站封面自带的白色渐变底纹经 `.course-cover-picture img{mix-blend-mode:multiply}` 与 `.course-cover-link{background:var(--paper-2)}` 消解为 `#ebe4d7`，移动端 `.course-cover-details` 背景同为此色。每张 Premium 课程封面继续显示金底白字 Premium 标识。
 - 桌面课程封面保留源站左右人物构图，默认显示分类、标题、讲者和职务，hover／focus 时源站简介从右侧滑入（`transform:translateX`）并显示拍摄时间；`820px` 以下切换源站移动封面并把简介置于封面下方，不依赖 hover。
 - Contributors 使用现有 `.author-avatar`／`.author-chip` 语言组成可收缩的圆形人物看板。桌面端头像大小和明度由鼠标距离决定，当前人物姓名与源站职务同步显示在下方信息带；键盘 focus 与移动端保留明确金色状态，移动端不依赖指针距离。
 - Contributor Details 依次显示源站人物身份、简介、Featured Works、Experiences 与 Recent Events。`Contact the Author` 复用全站 `.author-dialog`，但此处不显示 Learn More。

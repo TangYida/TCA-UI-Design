@@ -144,3 +144,19 @@
 - 不得只凭 HTTP 200、语法通过或静态检查宣称视觉已正确；静态检查只能证明结构风险受到控制。
 - 不得在 Surgical Edit 中顺手清理、重构、格式化或更新无关文档。
 - 不得在未获得 Structural Change 的设计意图确认前开始改代码。
+
+## 11. 金色分割线禁区
+
+- 不得在整理某个页面族（如机构服务页）时，顺手把其它页面的金色分割线降级为 `--line` 或删除；金色分割线是已确认的既有设计，只允许在用户点名的页面上“只增不减”。
+- 以下位置必须保留金色分割线：
+  - 栏目页（Trending、Opinion、Premium Intelligence）标题／主题栏 `.section-topics`；
+  - Video Archive `.master-video-section .section-topics`；
+  - Tag Archive `.tag-archive-mast`；
+  - Premium Talks `.talks-mast` 与逐行长卡 `.talk-card`；
+  - Courses `.about-courses-page .courses-mast .section-title-row`；
+  - 文章 Editor 区 `.article-editor` 顶线；
+  - Search `.search-results-toolbar`；
+  - Account `.account-destinations`；
+  - Contributor 详情 `.contributor-profile-hero`／`.contributor-record-section` 与 Column `.column-profile`；
+  - 机构服务页与 Policies 的页标题下划线、HSK 指定章节线、Editor’s Picks 外框。
+- 例外：`About/contributors.html` 不再使用旧的金色分割线（人物看板已改为名片式），恢复时须跳过该页。
