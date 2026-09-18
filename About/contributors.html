@@ -14,12 +14,17 @@
   <header class="section-mast contributors-mast">
     <div class="section-title-row">
       <h1 class="section-title">Contributors</h1>
+      <div class="contributors-search">
+        <input type="search" data-contributor-search placeholder="Search for the contributor." aria-label="Search for the contributor">
+      </div>
     </div>
   </header>
   <section class="contributors-stage" aria-label="Contributors">
-    <p class="contributors-hint">Locate contributors by first letter.</p>
     <div class="contributors-orbit" data-contributor-orbit></div>
   </section>
+  <button class="contributors-search-nav" type="button" data-contributor-search-nav aria-label="Next contributor result" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 </main>
 <footer data-site-footer></footer>
 <script src="../js/site.js"></script>

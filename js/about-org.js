@@ -12,29 +12,16 @@
     if (!title || !stats) return;
     const spans = [...title.children];
     if (!spans.length) return;
+    const gap = parseFloat(getComputedStyle(title).rowGap) || 0;
+    const contentHeight = () => spans.reduce((sum, span) => sum + span.getBoundingClientRect().height, 0) + gap * (spans.length - 1);
+    const setSize = size => { title.style.fontSize = `${size}px`; };
     title.style.height = '';
     title.style.transform = '';
     title.style.width = '';
     title.style.whiteSpace = '';
     title.style.lineHeight = '';
-    title.style.justifyContent = 'flex-start';
-    title.style.fontSize = '1px';
-
-    const cs = getComputedStyle(title);
-    const lhRatio = (parseFloat(cs.lineHeight) || 0) / (parseFloat(cs.fontSize) || 1) || 1.2;
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const metrics = (fs, text) => {
-      ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${fs}px ${cs.fontFamily}`;
-      const m = ctx.measureText(text);
-      return {
-        fontAscent: m.fontBoundingBoxAscent ?? m.emHeightAscent ?? fs * 0.88,
-        fontDescent: m.fontBoundingBoxDescent ?? m.emHeightDescent ?? fs * 0.12,
-        inkAscent: m.actualBoundingBoxAscent ?? fs * 0.7,
-        inkDescent: m.actualBoundingBoxDescent ?? fs * 0.2,
-      };
-    };
-
+    title.style.justifyContent = 'center';
+    setSize(1);
     const heroWidth = hero.getBoundingClientRect().width;
     const statsWidth = stats.getBoundingClientRect().width;
     const zone = Math.max(1, heroWidth - statsWidth * 1.5);
@@ -42,40 +29,20 @@
     if (!target) { title.style.fontSize = ''; title.style.width = ''; title.style.justifyContent = ''; return; }
     title.style.width = `${zone}px`;
     title.style.height = `${target}px`;
-
-    const measure = fs => {
-      title.style.fontSize = `${fs}px`;
-      const lh = lhRatio * fs;
-      const gap = parseFloat(getComputedStyle(title).rowGap) || 0;
-      let contentHeight = 0;
-      spans.forEach((span, index) => {
-        contentHeight += span.getBoundingClientRect().height;
-        if (index) contentHeight += gap;
-      });
-      const first = metrics(fs, spans[0].textContent);
-      const last = metrics(fs, spans[spans.length - 1].textContent);
-      const halfLeading = (lh - (first.fontAscent + first.fontDescent)) / 2;
-      const topInset = halfLeading + first.fontAscent - first.inkAscent;
-      return { topInset, glyphHeight: contentHeight - lh + first.inkAscent + last.inkDescent };
-    };
-
     let lo = 1;
     let hi = 16;
-    let gm = measure(hi);
-    for (let i = 0; i < 14 && gm.glyphHeight < target; i += 1) {
+    setSize(hi);
+    for (let i = 0; i < 14 && contentHeight() < target; i += 1) {
       lo = hi;
       hi *= 2;
-      gm = measure(hi);
+      setSize(hi);
     }
     for (let i = 0; i < 20; i += 1) {
       const mid = (lo + hi) / 2;
-      const g = measure(mid);
-      if (g.glyphHeight > target) hi = mid; else lo = mid;
+      setSize(mid);
+      if (contentHeight() > target) hi = mid; else lo = mid;
     }
-    const final = measure(lo);
-    title.style.fontSize = `${lo}px`;
-    title.style.height = `${target}px`;
-    title.style.transform = `translateY(${-final.topInset}px)`;
+    setSize(lo);
   };
 
   const setTitleSize = size => {

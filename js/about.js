@@ -298,13 +298,15 @@
       link.href = `contributor-detail.html?name=${encodeURIComponent(slug)}`;
       link.dataset.name = contributor.name;
       link.dataset.position = contributor.position;
-      link.style.setProperty('--node-scale', '.82');
       link.append(makeAvatar(contributor.name));
       const copy = d.createElement('span');
       copy.className = 'contributor-node-copy';
       const name = d.createElement('strong');
       name.textContent = contributor.name;
-      copy.append(name);
+      const position = d.createElement('span');
+      position.className = 'contributor-node-position';
+      position.textContent = contributor.position;
+      copy.append(name, position);
       link.append(copy);
       orbit.append(link);
     });
@@ -312,37 +314,82 @@
     const nodes = [...orbit.querySelectorAll('.contributor-node')];
     const selectNode = node => {
       nodes.forEach(item => item.classList.toggle('is-active', item === node));
-      node.style.setProperty('--node-opacity', '1');
     };
-    const scaleFromPoint = (clientX, clientY) => {
-      let nearest = nodes[0];
-      let nearestDistance = Infinity;
-      nodes.forEach(node => {
-        const box = node.getBoundingClientRect();
-        const distance = Math.hypot(clientX - (box.left + box.width / 2), clientY - (box.top + box.height / 2));
-        const proximity = Math.max(0, 1 - distance / 260);
-        node.style.setProperty('--node-scale', String(.82 + proximity * .34));
-        node.style.setProperty('--node-opacity', String(.68 + proximity * .32));
-        if (distance < nearestDistance) { nearest = node; nearestDistance = distance; }
-      });
-      selectNode(nearest);
-    };
-    const resetOrbit = () => {
-      const box = orbit.getBoundingClientRect();
-      scaleFromPoint(box.left + box.width / 2, box.top + box.height / 2);
-    };
-    let orbitFrame = 0;
-    orbit.addEventListener('pointermove', event => {
-      if (matchMedia('(max-width:600px)').matches) return;
-      cancelAnimationFrame(orbitFrame);
-      orbitFrame = requestAnimationFrame(() => scaleFromPoint(event.clientX, event.clientY));
-    }, { passive: true });
-    orbit.addEventListener('pointerleave', resetOrbit);
     nodes.forEach(node => {
       node.addEventListener('focus', () => selectNode(node));
       node.addEventListener('pointerenter', () => selectNode(node));
     });
-    const normalizePrefix = value => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    const normalize = value => (value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const scoreNode = (query, node) => {
+      if (!query) return -1;
+      const name = normalize(node.dataset.name);
+      const position = normalize(node.dataset.position);
+      if (name === query) return 0;
+      if (name.startsWith(query)) return 1;
+      const words = (node.dataset.name || '').toLowerCase().split(/[^a-z0-9]+/).map(normalize).filter(Boolean);
+      if (words.some(word => word.startsWith(query))) return 2;
+      if (name.includes(query)) return 3;
+      if (position.includes(query)) return 4;
+      let index = 0;
+      for (const char of name) {
+        if (char === query[index]) index += 1;
+        if (index === query.length) return 5;
+      }
+      return -1;
+    };
+    const findMatches = query => nodes
+      .map(node => ({ node, score: scoreNode(query, node) }))
+      .filter(entry => entry.score >= 0)
+      .sort((a, b) => a.score - b.score)
+      .map(entry => entry.node);
+    const focusNode = (node, smooth) => {
+      selectNode(node);
+      node.focus({ preventScroll: true });
+      node.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+    };
+    const nav = d.querySelector('[data-contributor-search-nav]');
+    let matchNodes = [];
+    let matchIndex = -1;
+    let lastQuery = '';
+    const syncNav = () => {
+      if (!nav) return;
+      nav.hidden = matchNodes.length < 2;
+      nav.classList.toggle('is-up', matchNodes.length > 0 && matchIndex === matchNodes.length - 1);
+    };
+    const goToMatch = (index, smooth) => {
+      matchIndex = index;
+      const node = matchNodes[index];
+      selectNode(node);
+      node.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+      syncNav();
+    };
+    const search = d.querySelector('[data-contributor-search]');
+    if (search) {
+      const searchBox = search.closest('.contributors-search') || search;
+      search.addEventListener('keydown', event => {
+        if (event.key !== 'Enter') return;
+        const query = normalize(search.value);
+        if (!query) { matchNodes = []; matchIndex = -1; lastQuery = ''; syncNav(); return; }
+        const found = findMatches(query);
+        if (!found.length) {
+          matchNodes = []; matchIndex = -1; lastQuery = query; syncNav();
+          searchBox.classList.remove('is-shaking');
+          void searchBox.offsetWidth;
+          searchBox.classList.add('is-shaking');
+          return;
+        }
+        if (query !== lastQuery) { matchIndex = -1; lastQuery = query; }
+        matchNodes = found;
+        goToMatch((matchIndex + 1) % matchNodes.length, true);
+      });
+      searchBox.addEventListener('animationend', () => searchBox.classList.remove('is-shaking'));
+    }
+    nav?.addEventListener('click', () => {
+      if (!matchNodes.length) return;
+      goToMatch(matchIndex >= matchNodes.length - 1 ? 0 : matchIndex + 1, true);
+    });
+
     let typeBuffer = '';
     let typeTimer = 0;
     addEventListener('keydown', event => {
@@ -353,15 +400,11 @@
       typeBuffer += event.key;
       clearTimeout(typeTimer);
       typeTimer = setTimeout(() => { typeBuffer = ''; }, 1000);
-      const prefix = normalizePrefix(typeBuffer);
-      const match = nodes.find(node => normalizePrefix(node.dataset.name).startsWith(prefix));
+      const prefix = normalize(typeBuffer);
+      const match = nodes.find(node => normalize(node.dataset.name).startsWith(prefix));
       if (!match) return;
-      cancelAnimationFrame(orbitFrame);
-      selectNode(match);
-      match.style.setProperty('--node-scale', '1.16');
+      focusNode(match, false);
     });
-    addEventListener('resize', resetOrbit, { passive: true });
-    requestAnimationFrame(resetOrbit);
   }
 
   const filters = d.querySelector('[data-course-filters]');
